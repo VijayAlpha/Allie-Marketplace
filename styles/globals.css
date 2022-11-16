@@ -97,6 +97,18 @@ a:visited {
 .section-media {
   padding: 4rem;
 }
+.section-buy-nft {
+  height: 85vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
 body {
   font-family: "League Spartan", sans-serif;
   font-weight: 400;
@@ -142,7 +154,6 @@ li {
 .text--center {
   text-align: center;
 }
-
 .flex {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -375,9 +386,11 @@ li {
 }
 .media__box {
   width: 30rem;
-  height: 30rem;
   overflow: hidden;
   margin: 1rem;
+}
+.media__img {
+  width: 100%;
 }
 .nav {
   width: 100%;

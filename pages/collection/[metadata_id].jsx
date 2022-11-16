@@ -2,8 +2,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network } from "mintbase";
 import axios from "axios";
+import { Buy } from "../../components/Buy";
+import { MediaCollection } from "../../components/MediaCollection";
 export default function SingleCollection() {
+  const onBtnClick = () => {};
+
   const [dat, setDat] = useState();
+  const [err, setErr] = useState();
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
   console.log(`metadata: ${metadata_id}`);
@@ -28,6 +33,7 @@ export default function SingleCollection() {
         });
         setDat(res);
       } catch (error) {
+        setErr(error);
         console.log(error);
       }
     };
@@ -36,6 +42,13 @@ export default function SingleCollection() {
   // const data = dat && dat.collection[0] ? dat.collection[0] : "ds";
   // console.log(dat.data.collection.name);
 
+  const buy = err ? (
+    <Buy meta={metadata_id} />
+  ) : (
+    <section class="section section-buy-nft">
+      <h1 className="text--h1">Checking Access... Please wait</h1>
+    </section>
+  );
   const ele = dat ? (
     <>
       <header className="header">
@@ -45,6 +58,7 @@ export default function SingleCollection() {
             className="collection__nft"
             alt="NFT image"
           />
+          {console.log(dat.data.collection[0].files)}
         </div>
 
         <div className="header__right">
@@ -62,41 +76,19 @@ export default function SingleCollection() {
 
       <section className="section section-media">
         <div className="media">
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
-          <div className="media__box">
-            <img src="./img/sample-img.jpeg" alt="media images" />
-          </div>
+          {dat ? (
+            dat.data &&
+            dat.data.collection[0].files.map((img) => {
+              return <MediaCollection img={img} />;
+            })
+          ) : (
+            <h1>hi</h1>
+          )}
         </div>
       </section>
     </>
   ) : (
-    <h2>no</h2>
+    buy
   );
   return ele;
 }

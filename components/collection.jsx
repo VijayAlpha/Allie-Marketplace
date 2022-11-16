@@ -22,12 +22,12 @@ export const Collection = ({ post }) => {
           </p>
           <span className="collection__price text--h2 ma--bottom">
             {post.price}
+            <img
+              src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
+              alt="NEAR"
+              className="collection__price--img"
+            />
           </span>
-          <img
-            src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
-            alt="NEAR"
-            className="collection__price--img"
-          />
         </div>
         <div className="left">
           <Link href={`/collection/${post.metadata_id}`}>
