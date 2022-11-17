@@ -5,6 +5,8 @@ import { Wallet, Chain, Network } from "mintbase";
 import { useEffect, useState } from "react";
 import { Collection } from "../components/collection";
 import axios from "axios";
+import { MainSection } from "../components/MainSection";
+import { HowItWorks } from "../components/HowItWorks";
 
 export default function Home() {
   const [content, setContent] = useState();
@@ -19,63 +21,11 @@ export default function Home() {
 
   return (
     <>
-      <head>
+      <Head>
         <link rel="shortcut icon" href="/square.svg" type="image/x-icon" />
         <title>Allie eve knox</title>
-      </head>
-
-      <section className="hero">
-        <div className="hero__col-1">
-          <h1 className="hero__heading ma--bottom">This is Allie eve knox.</h1>
-          <h3 className="hero__sub-heading text--h2 ma--bottom">
-            This is my own marketplace where you can buy NFT to view my content
-            on go with NFT.
-          </h3>
-          <div className="ma--top-side">
-            <Link href="#collection">
-              <button className="btn btn--1x text-base--1 hero__btn">
-                Take a ride
-              </button>
-            </Link>
-          </div>
-        </div>
-        <div className="col">
-          <div className="collection">
-            <div className="collection__left">
-              <div className="right">
-                <img
-                  src="https://pbs.twimg.com/media/FhiBna1WQAE4Jah?format=jpg&name=small"
-                  alt="NFT image"
-                  className="collection__nft ma--bottom"
-                />
-                <h2 className="collection__name ma--bottom">
-                  My Birthday celebration
-                </h2>
-                <p className="collection__description ma--bottom text-base--1">
-                  This collection is full of me on my Birthday.
-                </p>
-                <span className="collection__price text--h2 ma--bottom">
-                  32
-                  <img
-                    src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
-                    alt="NEAR"
-                    className="collection__price--img"
-                  />
-                </span>
-              </div>
-              <div className="left">
-                <button
-                  className="btn collection__btn"
-                  id="btn-unlock-collection"
-                  data-nftid="loyalticket.mintspace2.testnet:8c81bb5b7c8fe197865be325f614770c"
-                >
-                  Unlock Collection
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      </Head>
+      <MainSection />
       <section className="section section-collection ma--bottom-lg ma--top-lg">
         <h2 className="section__title ma--bottom text--h1">Collections</h2>
         <h2 className="text--h2 ma--bottom-lg">
@@ -92,30 +42,7 @@ export default function Home() {
           )}
         </div>
       </section>
-      <section class="section-how-it-works section text--center">
-        <div class="container">
-          <h2 class="text--h2 ma--bottom">How it works</h2>
-          <h1 class="HIW text--h1">Mint, Watch and Sell.</h1>
-        </div>
-        <div class="container flex">
-          <div class="">
-            <img class="HIW__img" src="/master-card.svg" alt="" />
-            <h3 class="HIW__text">Buy NFT</h3>
-          </div>
-          <div class="">
-            <img class="HIW__img" src="/unlock-alt.svg" alt="" />
-            <h3 class="HIW__text">Unlock Content</h3>
-          </div>
-          <div class="">
-            <img class="HIW__img" src="/image-v.svg" alt="" />
-            <h3 class="HIW__text">Watch</h3>
-          </div>
-          <div class="">
-            <img class="HIW__img" src="/process.svg" alt="" />
-            <h3 class="HIW__text">Resell NFT</h3>
-          </div>
-        </div>
-      </section>
+      <HowItWorks />
     </>
   );
 }

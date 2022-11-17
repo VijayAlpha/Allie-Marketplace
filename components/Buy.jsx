@@ -67,49 +67,7 @@ export const Buy = ({ meta }) => {
     });
     console.log(`buynft: ${buyNFT}`);
   };
-  //   console.log(data.data.mb_views_active_listings[0].description);
-  //   const operations = (metadata_id_) => {
-  //     return `
-  //     query checkNFT {
-  //       mb_views_active_listings(
-  //         where: {metadata_id: {_eq: "${metadata_id_}"}}
-  //         limit: 1
-  //       ) {
-  //         token_id
-  //         nft_contract_id
-  //         title
-  //         price
-  //         description
-  //         media
-  //         market_id
-  //       }
-  //     }
-  //   `;
-  //   };
 
-  //   const metadata_id =
-  //     "unlockableteststore.mintspace2.testnet:035c116cc95b8a5f6eb1246aebd4bfa0";
-
-  //   function fetchCheckNFT() {
-  //     return fetchGraphQL(operations(metadata_id), "checkNFT", {});
-  //   }
-
-  //   const { errors, data } = await fetchCheckNFT();
-
-  //   console.log(data);
-
-  //   const tokenId = `${data.mb_views_active_listings[0].nft_contract_id}:${data.mb_views_active_listings[0].token_id}`;
-  //   const price = "5000000000000000000000000";
-  //   const marketAddress = data.mb_views_active_listings[0].market_id;
-  //   const buyn = async () => {
-  //     const buyNFT = await walletX.makeOffer(tokenId, price, {
-  //       marketAddress,
-  //     });
-  //   };
-
-  //   console.log(buyNFT);
-
-  //   const onBtnClick = () => {};
   const ele = nftdata ? (
     <section class="section section-buy-nft">
       <div class="collection">
