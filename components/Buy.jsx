@@ -109,7 +109,9 @@ export const Buy = ({ meta }) => {
       </div>
     </section>
   ) : (
-    <h1>hi</h1>
+    <section class="section section-buy-nft">
+    <h1 className="text--h1">Access Denied.</h1>
+  </section>
   );
 
   return ele;

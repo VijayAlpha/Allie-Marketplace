@@ -1,9 +1,5 @@
-import axios from "axios";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
 
-import { Wallet, Chain, Network } from "mintbase";
-import Router, { useRouter } from "next/router";
 
 export const Collection = ({ post }) => {
   console.log(post);

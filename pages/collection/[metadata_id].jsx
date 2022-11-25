@@ -58,7 +58,6 @@ export default function SingleCollection() {
             className="collection__nft"
             alt="NFT image"
           />
-          {console.log(dat.data.collection[0].files)}
         </div>
 
         <div className="header__right">
@@ -78,11 +77,13 @@ export default function SingleCollection() {
         <div className="media">
           {dat ? (
             dat.data &&
-            dat.data.collection[0].files.map((img) => {
-              return <MediaCollection img={img} />;
+            dat.data.collection[0].files.map((img, i) => {
+              return <MediaCollection img={img} key={i} />;
             })
           ) : (
-            <h1>hi</h1>
+            <section class="section section-buy-nft">
+              <h1 className="text--h1">Loading....</h1>
+            </section>
           )}
         </div>
       </section>
