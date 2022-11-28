@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import "../styles/globals.css";
-import { Wallet, Chain, Network } from "mintbase";
 import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 

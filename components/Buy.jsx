@@ -46,13 +46,14 @@ export const Buy = ({ meta }) => {
     };
     setbuydata();
   }, []);
+
   const onclkBtn = async () => {
-    console.log(nftdata);
     const { data, error } = await new Wallet().init({
       networkName: Network.testnet,
       chain: Chain.near,
       apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
     });
+
     const { wallet } = data;
     const tokenId = `${nftdata.data.mb_views_active_listings[0].nft_contract_id}:${nftdata.data.mb_views_active_listings[0].token_id}`;
     const price = `${nftdata.data.mb_views_active_listings[0].price.toLocaleString(
@@ -69,22 +70,22 @@ export const Buy = ({ meta }) => {
   };
 
   const ele = nftdata ? (
-    <section class="section section-buy-nft">
-      <div class="collection">
-        <div class="collection__left">
-          <div class="right">
+    <section className="section section-buy-nft">
+      <div className="collection">
+        <div className="collection__left">
+          <div className="right">
             <img
               src={nftdata.data.mb_views_active_listings[0].media}
               alt="NFT image"
-              class="collection__nft ma--bottom"
+              className="collection__nft ma--bottom"
             />
-            <h2 class="collection__name ma--bottom">
+            <h2 className="collection__name ma--bottom">
               {nftdata.data.mb_views_active_listings[0].title}
             </h2>
-            <p class="collection__description ma--bottom text-base--1">
+            <p className="collection__description ma--bottom text-base--1">
               {nftdata.data.mb_views_active_listings[0].description}
             </p>
-            <span class="collection__price text--h2 ma--bottom">
+            <span className="collection__price text--h2 ma--bottom">
               {nftdata.data.mb_views_active_listings[0].price.toLocaleString(
                 "fullwide",
                 { useGrouping: false }
@@ -92,13 +93,13 @@ export const Buy = ({ meta }) => {
               <img
                 src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
                 alt="NEAR"
-                class="collection__price--img"
+                className="collection__price--img"
               />
             </span>
           </div>
-          <div class="left">
+          <div className="left">
             <button
-              class="btn collection__btn"
+              className="btn collection__btn"
               id="btn-buy-nft"
               onClick={() => onclkBtn()}
             >
@@ -109,9 +110,9 @@ export const Buy = ({ meta }) => {
       </div>
     </section>
   ) : (
-    <section class="section section-buy-nft">
-    <h1 className="text--h1">Access Denied.</h1>
-  </section>
+    <section className="section section-buy-nft">
+      <h1 className="text--h1">Access Denied.</h1>
+    </section>
   );
 
   return ele;
