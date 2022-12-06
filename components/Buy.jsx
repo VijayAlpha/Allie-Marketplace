@@ -89,7 +89,7 @@ export const Buy = ({ meta }) => {
               {nftdata.data.mb_views_active_listings[0].price.toLocaleString(
                 "fullwide",
                 { useGrouping: false }
-              ) % 18}
+              )}
               <img
                 src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
                 alt="NEAR"
