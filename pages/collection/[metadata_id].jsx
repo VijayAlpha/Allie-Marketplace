@@ -31,7 +31,9 @@ export default function SingleCollection() {
             signerRes,
           },
         });
-        setDat(res);
+        console.log(`res not json: ${res}`);
+        console.log(`res: ${res.json()}`);
+        setDat(res.json());
       } catch (error) {
         setErr(error);
         console.log(error);
@@ -49,6 +51,7 @@ export default function SingleCollection() {
       <h1 className="text--h1">Checking Access... Please wait</h1>
     </section>
   );
+  console.log(`dat: ${dat}`);
   const ele = dat ? (
     <>
       <header className="header">
@@ -82,7 +85,9 @@ export default function SingleCollection() {
               return <MediaCollection img={img} />;
             })
           ) : (
-            <h1>hi</h1>
+            <section class="section section-buy-nft">
+              <h1 className="text--h1">Sorry, You have to buy the nft.</h1>
+            </section>
           )}
         </div>
       </section>

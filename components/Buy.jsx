@@ -88,7 +88,8 @@ export const Buy = ({ meta }) => {
               {nftdata.data.mb_views_active_listings[0].price.toLocaleString(
                 "fullwide",
                 { useGrouping: false }
-              ) % 18}
+              ) *
+                10 ** -24}
               <img
                 src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
                 alt="NEAR"
@@ -109,7 +110,9 @@ export const Buy = ({ meta }) => {
       </div>
     </section>
   ) : (
-    <h1>hi</h1>
+    <section class="section section-buy-nft">
+      <h1 className="text--h1">Sorry, You have to buy the nft.</h1>
+    </section>
   );
 
   return ele;
