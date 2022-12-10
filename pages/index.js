@@ -34,11 +34,11 @@ export default function Home() {
         <div className="flex">
           {content ? (
             content.collection &&
-            content.collection.map((post) => {
-              return <Collection post={post} />;
+            content.collection.map((post , id) => {
+              return <Collection post={post} key={id}/>;
             })
           ) : (
-            <h1></h1>
+            <h1>Loading..</h1>
           )}
         </div>
       </section>

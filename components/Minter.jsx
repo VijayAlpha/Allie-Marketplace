@@ -1,52 +1,11 @@
-import { useForm } from "react-hook-form";
 import { MetadataField } from "mintbase";
-import { useState, useEffect } from "react";
-import { useWallet } from "../services/providers/MintbaseWalletContext";
+import { useState } from "react";
 
 const Minter = () => {
   const [nftTitle, setNftTitle] = useState();
   const [nftDescription, setNftDescription] = useState();
   const [nftImage, setNftImage] = useState();
   const [nftAmount, setNftAmount] = useState();
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm()
-
-  // const handleCoverImage = (e) => {
-  //   const file = e.target.files[0]
-
-  //   setCoverImage(file)
-  // }
-
-  // const onSubmit = async (data) => {
-  //   if (!wallet || !wallet.minter) return
-  //   if (!coverImage) return
-
-  //   setIsMinting(true)
-
-  //   const { data: fileUploadResult, error: fileError } =
-  //     await wallet.minter.uploadField(MetadataField.Media, coverImage)
-
-  //   if (fileError) {
-  //     console.error(fileError)
-  //     return
-  //   }
-
-  //   await wallet.minter.setMetadata({
-  //     title: data.title,
-  //     description: data.description,
-  //   })
-
-  //   const metaDataId = await wallet.minter.getMetadataId();
-
-  //   setMetadataId(metaDataId);
-
-  //   await wallet.mint(1, data.store, undefined, undefined, undefined);
-
-  // }
 
   const mint = async () => {
     try {
@@ -59,36 +18,36 @@ const Minter = () => {
 
       console.log(formData);
 
-      // const { data , error} = await new Wallet().init({
-      //   networkName: Network.testnet,
-      //   chain: Chain.near,
-      //   apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
-      // });
-      // const { wallet } = data;
+      const { data , error} = await new Wallet().init({
+        networkName: Network.testnet,
+        chain: Chain.near,
+        apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+      });
+      const { wallet } = data;
 
-      // if(error){
-      //   console.log(error);
-      // }
+      if(error){
+        console.log(error);
+      }
 
-      // const { data: fileUploadResult, error: fileError } =
-      //   await wallet.minter.uploadField(MetadataField.Media, formData.image);
+      const { data: fileUploadResult, error: fileError } =
+        await wallet.minter.uploadField(MetadataField.Media, formData.image);
 
-      // if (fileError) {
-      //   console.error("ERROR : ", fileError);
-      // }
+      if (fileError) {
+        console.error("ERROR : ", fileError);
+      }
 
-      // await wallet.minter.setMetadata({
-      //   title: formData.title,
-      //   description: formData.description,
-      // });
+      await wallet.minter.setMetadata({
+        title: formData.title,
+        description: formData.description,
+      });
 
-      // const mintData = await wallet.mint(
-      //   formData.amount,
-      //   "beatfoitore.mintspace2.testnet",
-      //   undefined,
-      //   undefined,
-      //   undefined
-      // );
+      const mintData = await wallet.mint(
+        formData.amount,
+        "beatfoitore.mintspace2.testnet",
+        undefined,
+        undefined,
+        undefined
+      );
     } catch (error) {
       console.log(error);
     }
@@ -142,13 +101,13 @@ const Minter = () => {
               name="title"
               value={nftImage}
               onChange={(e) => {
-                setNftImage(e.currentTarget.value);
+                setNftImage(e.currentTarget.files[0]);
               }}
               id="form-nftImage"
             />
           </div>
 
-          <div className="">
+          <div className=""> 
             <label htmlFor="form-nft-amount"> Amount to mint </label>
             <input
               type="number"
@@ -167,8 +126,6 @@ const Minter = () => {
               mint();
             }}
           >
-
-            
             Mint NFT
           </button>
         </form>

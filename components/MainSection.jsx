@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export const MainSection = () => {
   return (
@@ -21,7 +22,7 @@ export const MainSection = () => {
         <div className="collection">
           <div className="collection__left">
             <div className="right">
-              <img
+              <Image
                 src="https://pbs.twimg.com/media/FhiBna1WQAE4Jah?format=jpg&name=small"
                 alt="NFT image"
                 className="collection__nft ma--bottom"
@@ -34,7 +35,7 @@ export const MainSection = () => {
               </p>
               <span className="collection__price text--h2 ma--bottom">
                 32
-                <img
+                <Image
                   src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
                   alt="NEAR"
                   className="collection__price--img"
@@ -45,7 +46,6 @@ export const MainSection = () => {
               <button
                 className="btn collection__btn"
                 id="btn-unlock-collection"
-                data-nftid="loyalticket.mintspace2.testnet:8c81bb5b7c8fe197865be325f614770c"
               >
                 Unlock Collection
               </button>

@@ -5,13 +5,12 @@ import axios from "axios";
 import { Buy } from "../../components/Buy";
 import { MediaCollection } from "../../components/MediaCollection";
 export default function SingleCollection() {
-  const onBtnClick = () => {};
 
   const [dat, setDat] = useState();
   const [err, setErr] = useState();
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
-  console.log(`metadata: ${metadata_id}`);
+
   useEffect(() => {
     const checkAccess = async () => {
       try {
@@ -39,8 +38,6 @@ export default function SingleCollection() {
     };
     checkAccess();
   }, [metadata_id]);
-  // const data = dat && dat.collection[0] ? dat.collection[0] : "ds";
-  // console.log(dat.data.collection.name);
 
   const buy = err ? (
     <Buy meta={metadata_id} />

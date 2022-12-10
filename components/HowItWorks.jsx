@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const HowItWorks = () => {
   return (
     <section class="section-how-it-works section text--center">
@@ -7,19 +9,19 @@ export const HowItWorks = () => {
       </div>
       <div class="container flex">
         <div class="">
-          <img class="HIW__img" src="/master-card.svg" alt="" />
+          <Image class="HIW__img" src="/master-card.svg" alt="" />
           <h3 class="HIW__text">Buy NFT</h3>
         </div>
         <div class="">
-          <img class="HIW__img" src="/unlock-alt.svg" alt="" />
+          <Image class="HIW__img" src="/unlock-alt.svg" alt="" />
           <h3 class="HIW__text">Unlock Content</h3>
         </div>
         <div class="">
-          <img class="HIW__img" src="/image-v.svg" alt="" />
+          <Image class="HIW__img" src="/image-v.svg" alt="" />
           <h3 class="HIW__text">Watch</h3>
         </div>
         <div class="">
-          <img class="HIW__img" src="/process.svg" alt="" />
+          <Image class="HIW__img" src="/process.svg" alt="" />
           <h3 class="HIW__text">Resell NFT</h3>
         </div>
       </div>
