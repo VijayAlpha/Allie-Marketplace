@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { Wallet, Chain, Network } from "mintbase";
 
 export const Buy = ({ meta }) => {
@@ -75,7 +74,7 @@ export const Buy = ({ meta }) => {
       <div className="collection">
         <div className="collection__left">
           <div className="right">
-            <Image
+            <img
               src={nftdata.data.mb_views_active_listings[0].media}
               alt="NFT image"
               className="collection__nft ma--bottom"
@@ -91,7 +90,7 @@ export const Buy = ({ meta }) => {
                 "fullwide",
                 { useGrouping: false }
               )}
-              <Image
+              <img
                 src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
                 alt="NEAR"
                 className="collection__price--img"
