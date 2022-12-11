@@ -2,7 +2,7 @@ import { Wallet, Network, Chain } from "mintbase";
 import { useState, useEffect, useRef } from "react";
 import { MintbaseNFT } from "./mintBaseNFT";
 
-const Me = () => {
+const List = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [nftList, setNftList] = useState();
   const dataFetchedRef = useRef(false);
@@ -12,19 +12,18 @@ const Me = () => {
       const { data: walletData, error } = await new Wallet().init({
         networkName: Network.testnet,
         chain: Chain.near,
-        apiKey: process.env.MINTBASE_API,
+        apiKey: process.env.REACT_APP_MINTBASE_API,
       });
 
-      const { wallet, isConnected } = walletData;
+      console.log(process.env.REACT_APP_MINTBASE_API);
+
+      const { wallet } = walletData;
 
       const { data: details } = await wallet.details();
 
       if (error) {
         console.log(error);
-        // alert(error);
       }
-
-      console.log(details.accountId);
 
       async function fetchGraphQL(operationsDoc, operationName, variables) {
         const result = await fetch(
@@ -40,12 +39,12 @@ const Me = () => {
         );
         return result.json();
       }
-      const operations = (accountId) => {
+      const operations = (accountId, contract_id) => {
         return `
         query ownedNFT {
           mb_views_nft_tokens(
             distinct_on: metadata_id
-            where: {owner: {_eq: "${accountId}"}, _and: {burned_timestamp: {_is_null: true}}, minter: {_eq: "${accountId}"}}
+            where: {owner: {_eq: "${accountId}"}, _and: {burned_timestamp: {_is_null: true}}, minter: {_eq: "${accountId}"}, nft_contract_id: {_eq: "${contract_id}"}}
             ) {
             nft_contract_id
             title
@@ -57,15 +56,16 @@ const Me = () => {
       `;
       };
 
+      const contract_id = "unlockableteststore.mintspace2.testnet"
+
       const returnedNftList = await fetchGraphQL(
-        operations(details.accountId),
+        operations(details.accountId , contract_id),
         "ownedNFT",
         {}
       );
 
-      console.log(returnedNftList.data.mb_views_nft_tokens);
       setNftList(returnedNftList.data.mb_views_nft_tokens);
-
+      console.log(returnedNftList);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -102,6 +102,7 @@ const Me = () => {
                 <MintbaseNFT
                   nft={nftData}
                   buttonName={"List for sale"}
+                  route={"list"}
                   key={id}
                 />
               );
@@ -113,4 +114,4 @@ const Me = () => {
   );
 };
 
-export default Me;
+export default List;
