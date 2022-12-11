@@ -65,7 +65,6 @@ const List = () => {
       );
 
       setNftList(returnedNftList.data.mb_views_nft_tokens);
-      console.log(returnedNftList);
       setIsLoading(false);
     } catch (error) {
       console.log(error);

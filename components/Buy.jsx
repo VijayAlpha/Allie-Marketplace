@@ -17,7 +17,6 @@ export const Buy = ({ meta }) => {
           }),
         }
       );
-      //   console.log(`hi: ${await result.json()}`);
       return await result;
     }
     const operations = (metadata_id_) => {
@@ -66,7 +65,6 @@ export const Buy = ({ meta }) => {
     const buyNFT = await wallet.makeOffer(tokenId, price, {
       marketAddress,
     });
-    console.log(`buynft: ${buyNFT}`);
   };
 
   const ele = nftdata ? (

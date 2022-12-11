@@ -2,7 +2,6 @@ import Link from "next/link";
 
 
 export const Collection = ({ post }) => {
-  console.log(post);
   return (
     <div className="collection">
       <div className="collection__left">

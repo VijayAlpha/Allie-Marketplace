@@ -26,8 +26,6 @@ const List = () => {
       return await result.json();
     }
 
-    console.log(metadataId);
-
     const operations = (metadata_id) => {
       return `
       query MyQuery {
@@ -52,8 +50,6 @@ const List = () => {
         "MyQuery",
         {}
       );
-
-      console.log("return : ", data);
 
       setNftData(data.mb_views_nft_tokens[0]);
     }

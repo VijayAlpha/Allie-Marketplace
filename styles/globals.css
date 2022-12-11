@@ -4,4 +4,14 @@
     justify-content: center;
     align-items: center;
 }
+.btn__disable{
+    background-color: #858585;
+    cursor: not-allowed;
+}
+.nav__list{
+    display: flex;
+}
+.nav__item{
+    margin: 1rem;
+}
 /*# sourceMappingURL=index.css.map */

@@ -1,4 +1,4 @@
-import Minter from "./../components/Minter";
+import Minter from "../components/Minter";
 
 const Mint = () => {
   return (

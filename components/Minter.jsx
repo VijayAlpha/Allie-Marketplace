@@ -16,8 +16,6 @@ const Minter = () => {
         amount: Number(nftAmount),
       };
 
-      console.log(formData);
-
       const { data , error} = await new Wallet().init({
         networkName: Network.testnet,
         chain: Chain.near,

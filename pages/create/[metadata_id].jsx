@@ -5,6 +5,10 @@ import axios from "axios";
 import { MintbaseNFT } from "../../components/mintBaseNFT";
 
 const UploadFiles = () => {
+  const [nftData, setNftData] = useState();
+  const [collectionImages, setCollectionImages] = useState();
+  const [isUploading, setIsUploading] = useState(false);
+
   const envVar = {
     mintBaseApi: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
     backendUrl: "http://localhost:8000",
@@ -12,9 +16,6 @@ const UploadFiles = () => {
 
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
-
-  const [nftData, setNftData] = useState({});
-  const [nftImages, setNftImages] = useState();
 
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
@@ -62,6 +63,7 @@ const UploadFiles = () => {
   });
 
   const onClickFilesBtn = async () => {
+    setIsUploading(true);
     const { data, error } = await new Wallet().init({
       networkName: Network.testnet,
       chain: Chain.near,
@@ -70,27 +72,29 @@ const UploadFiles = () => {
     const { wallet } = data;
 
     const signerRes = await wallet.signMessage("test-message");
+
     const res = await axios({
       method: "POST",
       url: `${envVar.backendUrl}/api/collection/addCollection`,
       data: {
         name: nftData.title,
         description: nftData.description,
-        files: nftImages,
-        price: 0,
+        files: collectionImages,
+        price: nftData.price,
         metadata_id,
         nftImage: nftData.media,
         signerRes,
       },
     });
-    console.log(res.json());
+    console.log(res);
+    setIsUploading(false);
   };
 
   const ele = nftData ? (
     <>
-      <section class="title text--center">
-        <div class="container">
-          <h1 class="HIW text--h1">Add Images To Create.</h1>
+      <section className="title text--center">
+        <div className="container">
+          <h1 className="HIW text--h1">Add Images To Create.</h1>
         </div>
       </section>
       <section className="section section-list ma--bottom-lg">
@@ -102,25 +106,31 @@ const UploadFiles = () => {
             name="title"
             //   value={nftImage}
             onChange={(e) => {
-              setNftImages(e.currentTarget.files);
+              setCollectionImages(e.currentTarget.files);
             }}
             multiple
             id="form-nftImage"
           />
-          <button
-            className="btn collection__btn"
-            id="btn-upload-file"
-            onClick={() => onClickFilesBtn()}
-          >
-            Create Collection
-          </button>
+          {isUploading ? (
+            <button className="btn collection__btn btn__disable">
+              Uploading...
+            </button>
+          ) : (
+            <button
+              className="btn collection__btn"
+              id="btn-upload-file"
+              onClick={() => onClickFilesBtn()}
+            >
+              Create Collection
+            </button>
+          )}
         </div>
       </section>
     </>
   ) : (
-    <>
-      <h1>hi</h1>
-    </>
+    <section className="section section-buy-nft">
+      <h2 className="text--h2 ma--bottom">Loading...</h2>
+    </section>
   );
   return ele;
 };
