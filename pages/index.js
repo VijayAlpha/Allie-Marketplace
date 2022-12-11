@@ -33,10 +33,14 @@ export default function Home() {
         </h2>
         <div className="flex">
           {content ? (
-            content.collection &&
-            content.collection.map((post , id) => {
-              return <Collection post={post} key={id}/>;
-            })
+            content.collection.length !== 0 ? (
+              content.collection &&
+              content.collection.map((post, id) => {
+                return <Collection post={post} key={id} />;
+              })
+            ) : (
+              <h1>Sorry!... There is No Collection Now.</h1>
+            )
           ) : (
             <h1>Loading..</h1>
           )}

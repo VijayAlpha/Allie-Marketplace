@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+// eslint-disable-next-line @next/next/no-img-element
 import Link from "next/link";
-
 
 export const Collection = ({ post }) => {
   return (
@@ -16,7 +17,12 @@ export const Collection = ({ post }) => {
             {post.description}
           </p>
           <span className="collection__price text--h2 ma--bottom">
-            {post.price}
+            {Math.round(
+              post.price.toLocaleString("fullwide", {
+                useGrouping: false,
+              }) *
+                10 ** -24
+            )}
             <img
               src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
               alt="NEAR"

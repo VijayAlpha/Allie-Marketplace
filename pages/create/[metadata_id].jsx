@@ -86,8 +86,10 @@ const UploadFiles = () => {
         signerRes,
       },
     });
-    console.log(res);
     setIsUploading(false);
+    if(res){
+      window.location.href = `/collection/${metadata_id}`
+    }
   };
 
   const ele = nftData ? (

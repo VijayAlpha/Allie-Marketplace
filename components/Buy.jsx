@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
+// eslint-disable-next-line @next/next/no-img-element
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network } from "mintbase";
 
 export const Buy = ({ meta }) => {
-  const [nftdata, setNFTData] = useState();
+  const [nftData, setNFTData] = useState();
 
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
@@ -17,7 +19,7 @@ export const Buy = ({ meta }) => {
           }),
         }
       );
-      return await result;
+      return result.json();
     }
     const operations = (metadata_id_) => {
       return `
@@ -39,12 +41,15 @@ export const Buy = ({ meta }) => {
     };
 
     const setbuydata = async () => {
-      setNFTData(
-        await (await fetchGraphQL(operations(meta), "checkNFT", {})).json()
+      const returnedNftData = await fetchGraphQL(
+        operations(meta),
+        "checkNFT",
+        {}
       );
+      setNFTData(returnedNftData.data.mb_views_active_listings[0]);
     };
     setbuydata();
-  }, []);
+  });
 
   const onclkBtn = async () => {
     const { data, error } = await new Wallet().init({
@@ -54,62 +59,71 @@ export const Buy = ({ meta }) => {
     });
 
     const { wallet } = data;
-    const tokenId = `${nftdata.data.mb_views_active_listings[0].nft_contract_id}:${nftdata.data.mb_views_active_listings[0].token_id}`;
-    const price = `${nftdata.data.mb_views_active_listings[0].price.toLocaleString(
-      "fullwide",
-      { useGrouping: false }
-    )}`;
+    const tokenId = `${nftData.nft_contract_id}:${nftData.token_id}`;
+    const price = `${nftData.price.toLocaleString("fullwide", {
+      useGrouping: false,
+    })}`;
 
-    const marketAddress = nftdata.data.mb_views_active_listings[0].market_id;
+    const marketAddress = nftData.market_id;
 
-    const buyNFT = await wallet.makeOffer(tokenId, price, {
+    await wallet.makeOffer(tokenId, price, {
       marketAddress,
     });
   };
 
-  const ele = nftdata ? (
-    <section className="section section-buy-nft">
-      <div className="collection">
-        <div className="collection__left">
-          <div className="right">
-            <img
-              src={nftdata.data.mb_views_active_listings[0].media}
-              alt="NFT image"
-              className="collection__nft ma--bottom"
-            />
-            <h2 className="collection__name ma--bottom">
-              {nftdata.data.mb_views_active_listings[0].title}
-            </h2>
-            <p className="collection__description ma--bottom text-base--1">
-              {nftdata.data.mb_views_active_listings[0].description}
-            </p>
-            <span className="collection__price text--h2 ma--bottom">
-              {nftdata.data.mb_views_active_listings[0].price.toLocaleString(
-                "fullwide",
-                { useGrouping: false }
-              )}
+  const ele = nftData ? (
+    <>
+      <section className="section section-buy-nft">
+        <h1 className="text--h1">
+          Buy This NFT To Unlock This Collection
+        </h1>
+      </section>
+      <section className="section section-buy-nft">
+        <div className="collection">
+          <div className="collection__left">
+            <div className="right">
               <img
-                src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
-                alt="NEAR"
-                className="collection__price--img"
+                src={nftData.media}
+                alt="NFT image"
+                className="collection__nft ma--bottom"
               />
-            </span>
-          </div>
-          <div className="left">
-            <button
-              className="btn collection__btn"
-              id="btn-buy-nft"
-              onClick={() => onclkBtn()}
-            >
-              Buy to Unlock
-            </button>
+              <h2 className="collection__name ma--bottom">{nftData.title}</h2>
+              <p className="collection__description ma--bottom text-base--1">
+                {nftData.description}
+              </p>
+              <span className="collection__price text--h2 ma--bottom">
+                {Math.round(
+                  nftData.price.toLocaleString("fullwide", {
+                    useGrouping: false,
+                  }) *
+                    10 ** -24
+                )}
+                <img
+                  src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
+                  alt="NEAR"
+                  className="collection__price--img"
+                />
+              </span>
+            </div>
+            <div className="left">
+              <button
+                className="btn collection__btn"
+                id="btn-buy-nft"
+                onClick={() => onclkBtn()}
+              >
+                Buy to Unlock
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   ) : (
     <section className="section section-buy-nft">
-      <h1 className="text--h1">Access Denied.</h1>
+      <h1 className="text--h1">
+        Sorry! This NFT is Sold Out. <br />
+        Please Check Other Collections.
+      </h1>
     </section>
   );
 

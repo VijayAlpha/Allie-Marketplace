@@ -5,7 +5,6 @@ import Link from "next/link";
 export const NavBar = () => {
   const [userName, setUsername] = useState();
   const [wallet, setWallet] = useState();
-  const [isConnected, setIsConnected] = useState();
 
   useEffect(() => {
     const connect = async () => {
@@ -17,7 +16,6 @@ export const NavBar = () => {
       const { wallet, isConnected } = data;
 
       setWallet(wallet);
-      setIsConnected(isConnected);
 
       if (isConnected) {
         const { data: details } = await wallet.details();
@@ -75,7 +73,7 @@ export const NavBar = () => {
               className="btn btn--primary text-base--1"
               onClick={() => wallet.disconnect()}
             >
-              {userName ? userName : "Connect Wallet"}
+              {userName}
             </button>
           ) : (
             <button

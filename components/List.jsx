@@ -81,7 +81,7 @@ const List = () => {
     <div className="main">
       <section className="title text--center">
         <div className="container">
-          <h1 className="HIW text--h1">Minted NFTs</h1>
+          <h1 className="HIW text--h1">List Your NFT</h1>
         </div>
       </section>
 

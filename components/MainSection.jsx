@@ -41,14 +41,7 @@ export const MainSection = () => {
                 />
               </span>
             </div>
-            <div className="left">
-              <button
-                className="btn collection__btn"
-                id="btn-unlock-collection"
-              >
-                Unlock Collection
-              </button>
-            </div>
+            <div className="left"></div>
           </div>
         </div>
       </div>
