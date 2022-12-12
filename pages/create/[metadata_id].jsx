@@ -63,7 +63,9 @@ const UploadFiles = () => {
   });
 
   const onClickFilesBtn = async () => {
+    
     setIsUploading(true);
+
     const { data, error } = await new Wallet().init({
       networkName: Network.testnet,
       chain: Chain.near,
@@ -73,22 +75,26 @@ const UploadFiles = () => {
 
     const signerRes = await wallet.signMessage("test-message");
 
+    const formData = new FormData();
+
+    formData.append("name", nftData.title);
+    formData.append("description", nftData.description);
+    formData.append("files", collectionImages);
+    formData.append("price", nftData.price);
+    formData.append("metadata_id", metadata_id);
+    formData.append("nftImage", nftData.media);
+    formData.append("signerRes", signerRes);
+
     const res = await axios({
       method: "POST",
       url: `${envVar.backendUrl}/api/collection/addCollection`,
-      data: {
-        name: nftData.title,
-        description: nftData.description,
-        files: collectionImages,
-        price: nftData.price,
-        metadata_id,
-        nftImage: nftData.media,
-        signerRes,
-      },
+      data: formData,
     });
+    
     setIsUploading(false);
-    if(res){
-      window.location.href = `/collection/${metadata_id}`
+
+    if (res) {
+      window.location.href = `/collection/${metadata_id}`;
     }
   };
 
