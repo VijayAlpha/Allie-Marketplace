@@ -15,8 +15,6 @@ const List = () => {
         apiKey: process.env.REACT_APP_MINTBASE_API,
       });
 
-      console.log(process.env.REACT_APP_MINTBASE_API);
-
       const { wallet } = walletData;
 
       const { data: details } = await wallet.details();

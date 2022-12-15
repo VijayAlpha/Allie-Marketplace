@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Wallet, Network, Chain } from "mintbase";
 import { MintbaseNFT } from "../../components/MintBaseNFT";
 
 const List = () => {
@@ -8,6 +9,27 @@ const List = () => {
   const metadataId = router.query.metadata_id;
 
   const [nftData, setNftData] = useState({});
+  const [listPrice, setListPrice] = useState();
+  const [listAmount, setListAmount] = useState();
+
+ 
+  const listNFT = async (e) => {
+    e.preventDefault();
+    
+    const { data, error } = await new Wallet().init({
+      networkName: Network.testnet,
+      chain: Chain.near,
+      apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+    });
+
+    const { wallet } = data;
+
+    let price = `${(listPrice ** 24 ).toLocaleString("fullwide", {
+      useGrouping: false,
+    })}`;
+
+    wallet.list(nftData.token_id, nftData.nft_contract_id, price);
+  };
 
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
@@ -39,6 +61,7 @@ const List = () => {
           title
           copies
           nft_contract_id
+          token_id
         }
       }
     `;
@@ -59,27 +82,30 @@ const List = () => {
 
   const element = nftData ? (
     <>
-      <section class="title text--center">
-        <div class="container">
-          <h1 class="HIW text--h1">List NFT for Sale</h1>
+      <section className="title text--center">
+        <div className="container">
+          <h1 className="HIW text--h1">List NFT for Sale</h1>
         </div>
       </section>
 
-      <section class="section section-list ma--bottom-lg">
+      <section className="section section-list ma--bottom-lg">
         <MintbaseNFT nft={nftData} buttonName={null} />
 
         <form id="form-list-nft">
-          <div class="">
-            <label for="form-nft-amount"> Price to List </label>
+          <div className="">
+            <label > Price to List </label>
             <input
               type="number"
               name="price"
               id="input-list-price"
               placeholder="NEAR"
+              onChange={(e) => {
+                setListPrice(e.currentTarget.value);
+              }}
             />
           </div>
-          <div class="">
-            <label for="form-nft-amount"> Amount to list </label>
+          <div className="">
+            <label > Amount to list </label>
             <input
               type="number"
               name="amount"
@@ -88,11 +114,9 @@ const List = () => {
             />
           </div>
           <button
-            class="btn btn--primary text-base--1 ma--top-side"
+            className="btn btn--primary text-base--1 ma--top-side"
             id="btn-list-nft"
-            onClick={() => {
-              router.push("/uploadFiles");
-            }}
+            onClick={(e) => listNFT(e)}
           >
             List NFT
           </button>

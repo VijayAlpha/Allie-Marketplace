@@ -1,54 +1,61 @@
-import { MetadataField } from "mintbase";
-import { useState } from "react";
+import { Wallet, Chain, Network, MetadataField } from "mintbase";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 const Minter = () => {
+
+  const envVar = {
+    mintBaseApi: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+    backendUrl: "http://localhost:8000",
+    contract_id : "unlockableteststore.mintspace2.testnet"
+  };
+
+  const router = useRouter();
   const [nftTitle, setNftTitle] = useState();
   const [nftDescription, setNftDescription] = useState();
   const [nftImage, setNftImage] = useState();
   const [nftAmount, setNftAmount] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const mint = async () => {
-    try {
-      const formData = {
-        title: nftTitle,
-        description: nftDescription,
-        image: nftImage,
-        amount: Number(nftAmount),
-      };
+  // console.log(nftImage);
+  const onClickMint = async (e) => {
+    setIsLoading(true);
 
-      const { data , error} = await new Wallet().init({
-        networkName: Network.testnet,
-        chain: Chain.near,
-        apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
-      });
-      const { wallet } = data;
+    const formData = {
+      title: nftTitle,
+      description: nftDescription,
+      image: nftImage,
+      amount: Number(nftAmount),
+    };
 
-      if(error){
-        console.log(error);
-      }
+    e.preventDefault();
+    const { data, error } = await new Wallet().init({
+      networkName: Network.testnet,
+      chain: Chain.near,
+      apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+    });
+    const { wallet } = data;
 
-      const { data: fileUploadResult, error: fileError } =
-        await wallet.minter.uploadField(MetadataField.Media, formData.image);
+    const { data: fileUploadResult, error: fileError } =
+      await wallet.minter.uploadField(MetadataField.Media, formData.image);
 
-      if (fileError) {
-        console.error("ERROR : ", fileError);
-      }
-
-      await wallet.minter.setMetadata({
-        title: formData.title,
-        description: formData.description,
-      });
-
-      const mintData = await wallet.mint(
-        formData.amount,
-        "beatfoitore.mintspace2.testnet",
-        undefined,
-        undefined,
-        undefined
-      );
-    } catch (error) {
-      console.log(error);
+    if (fileError) {
+      console.error("ERROR : ", fileError);
     }
+
+    await wallet.minter.setMetadata({
+      title: formData.title,
+      description: formData.description,
+    });
+
+    await wallet.mint(
+      formData.amount,
+      envVar.contract_id,
+      undefined,
+      undefined,
+      undefined
+    );
+    setIsLoading(false);
   };
 
   return (
@@ -70,7 +77,6 @@ const Minter = () => {
               type="text"
               name="title"
               id="form-title"
-              value={nftTitle}
               onChange={(e) => {
                 setNftTitle(e.currentTarget.value);
               }}
@@ -84,7 +90,6 @@ const Minter = () => {
               name="description"
               id="form-description"
               rows="8"
-              value={nftDescription}
               onChange={(e) => {
                 setNftDescription(e.currentTarget.value);
               }}
@@ -97,7 +102,6 @@ const Minter = () => {
               type="file"
               accept="image/*"
               name="title"
-              value={nftImage}
               onChange={(e) => {
                 setNftImage(e.currentTarget.files[0]);
               }}
@@ -105,27 +109,33 @@ const Minter = () => {
             />
           </div>
 
-          <div className=""> 
+          <div className="">
             <label htmlFor="form-nft-amount"> Amount to mint </label>
             <input
               type="number"
               name="amount"
               id="form-nft-amount"
-              value={nftAmount}
               onChange={(e) => {
                 setNftAmount(e.currentTarget.value);
               }}
             />
           </div>
-          <button
-            className="btn btn--primary text-base--1 ma--top-side"
-            id="btn-mint-nft"
-            onClick={() => {
-              mint();
-            }}
-          >
-            Mint NFT
-          </button>
+          {isLoading ? (
+            <button
+              className="btn btn--primary text-base--1 ma--top-side"
+              id="btn-mint-nft"
+            >
+              Loading...
+            </button>
+          ) : (
+            <button
+              className="btn btn--primary text-base--1 ma--top-side"
+              id="btn-mint-nft"
+              onClick={(e) => onClickMint(e)}
+            >
+              Mint NFT
+            </button>
+          )}
         </form>
       </section>
     </div>

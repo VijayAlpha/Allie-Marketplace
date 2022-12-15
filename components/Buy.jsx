@@ -74,11 +74,6 @@ export const Buy = ({ meta }) => {
   const ele = nftData ? (
     <>
       <section className="section section-buy-nft">
-        <h1 className="text--h1">
-          Buy This NFT To Unlock This Collection
-        </h1>
-      </section>
-      <section className="section section-buy-nft">
         <div className="collection">
           <div className="collection__left">
             <div className="right">

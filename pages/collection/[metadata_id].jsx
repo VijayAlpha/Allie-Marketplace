@@ -34,7 +34,7 @@ export default function SingleCollection() {
 
         const signerRes = await wallet.signMessage("test-message");
 
-        const res = await axios({ 
+        const res = await axios({
           method: "POST",
           url: `http://localhost:8000/api/collection/${metadata_id}`,
           data: {
@@ -126,7 +126,6 @@ export default function SingleCollection() {
       <section className="section section-media">
         <div className="media">
           {collectionData ? (
-            collectionData.data &&
             collectionData.files.map((img, i) => {
               return <MediaCollection img={img} key={i} />;
             })

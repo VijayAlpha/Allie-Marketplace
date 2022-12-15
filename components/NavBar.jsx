@@ -71,7 +71,7 @@ export const NavBar = () => {
           {userName ? (
             <button
               className="btn btn--primary text-base--1"
-              onClick={() => wallet.disconnect()}
+              onClick={() => {wallet.disconnect(); location.reload()}}
             >
               {userName}
             </button>
