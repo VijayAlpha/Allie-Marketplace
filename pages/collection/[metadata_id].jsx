@@ -36,7 +36,7 @@ export default function SingleCollection() {
 
         const res = await axios({
           method: "POST",
-          url: `http://localhost:8000/api/collection/${metadata_id}`,
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
           data: {
             metadata_id,
             signerRes,
@@ -58,7 +58,7 @@ export default function SingleCollection() {
 
       const res = await axios({
         method: "DELETE",
-        url: `http://localhost:8000/api/collection/${metadata_id}`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
         data: {
           signerRes,
         },

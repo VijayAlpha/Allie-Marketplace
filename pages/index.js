@@ -12,7 +12,9 @@ export default function Home() {
   const [content, setContent] = useState();
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:8000/api/collection");
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection`
+      );
 
       setContent(res.data);
     };
