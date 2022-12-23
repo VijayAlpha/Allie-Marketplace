@@ -1,3 +1,4 @@
+import FormData from 'form-data';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network, MetadataField } from "mintbase";
@@ -74,17 +75,23 @@ const UploadFiles = () => {
 
     formData.append("name", nftData.title);
     formData.append("description", nftData.description);
-    formData.append("files", collectionImages);
+    formData.append('files', collectionImages);
     formData.append("price", nftData.price);
     formData.append("metadata_id", metadata_id);
     formData.append("nftImage", nftData.media);
     formData.append("signerRes", signerRes);
 
-    const res = await axios({
+    axios({
       method: "POST",
       url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
-      data: formData,
-    });
+      data: formData
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.error(error)
+      });
 
     setIsUploading(false);
 
