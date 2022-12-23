@@ -3,11 +3,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Minter = () => {
-
   const envVar = {
-    mintBaseApi: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+    mintBaseApi: process.env.NEXT_PUBLIC_MINTBASE_API,
     backendUrl: "http://localhost:8000",
-    contract_id : "unlockableteststore.mintspace2.testnet"
+    contract_id: process.env.NEXT_PUBLIC_CONTRACT_ID,
   };
 
   const router = useRouter();
@@ -32,7 +31,7 @@ const Minter = () => {
     const { data, error } = await new Wallet().init({
       networkName: Network.testnet,
       chain: Chain.near,
-      apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+      apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
     });
     const { wallet } = data;
 

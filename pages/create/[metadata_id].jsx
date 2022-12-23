@@ -10,7 +10,7 @@ const UploadFiles = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const envVar = {
-    mintBaseApi: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+    mintBaseApi: process.env.NEXT_PUBLIC_MINTBASE_API,
     backendUrl: "http://localhost:8000",
   };
 
@@ -63,7 +63,6 @@ const UploadFiles = () => {
   });
 
   const onClickFilesBtn = async () => {
-    
     setIsUploading(true);
 
     const { data, error } = await new Wallet().init({
@@ -90,7 +89,7 @@ const UploadFiles = () => {
       url: `${envVar.backendUrl}/api/collection/addCollection`,
       data: formData,
     });
-    
+
     setIsUploading(false);
 
     if (res) {

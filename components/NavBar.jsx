@@ -11,7 +11,7 @@ export const NavBar = () => {
       const { data, error } = await new Wallet().init({
         networkName: Network.testnet,
         chain: Chain.near,
-        apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+        apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
       });
       const { wallet, isConnected } = data;
 
@@ -33,7 +33,7 @@ export const NavBar = () => {
         </Link>
       </div>
       <div className="nav__col">
-        {userName === "valpha.testnet" ? (
+        {userName === process.env.NEXT_PUBLIC_OWNER ? (
           <div className="nav__list">
             <div className="nav__item">
               <Link href="/collection" className="text-base--2">
@@ -71,7 +71,10 @@ export const NavBar = () => {
           {userName ? (
             <button
               className="btn btn--primary text-base--1"
-              onClick={() => {wallet.disconnect(); location.reload()}}
+              onClick={() => {
+                wallet.disconnect();
+                location.reload();
+              }}
             >
               {userName}
             </button>

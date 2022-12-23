@@ -12,19 +12,18 @@ const List = () => {
   const [listPrice, setListPrice] = useState();
   const [listAmount, setListAmount] = useState();
 
- 
   const listNFT = async (e) => {
     e.preventDefault();
-    
+
     const { data, error } = await new Wallet().init({
       networkName: Network.testnet,
       chain: Chain.near,
-      apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+      apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
     });
 
     const { wallet } = data;
 
-    let price = `${(listPrice ** 24 ).toLocaleString("fullwide", {
+    let price = `${(listPrice ** 24).toLocaleString("fullwide", {
       useGrouping: false,
     })}`;
 
@@ -93,7 +92,7 @@ const List = () => {
 
         <form id="form-list-nft">
           <div className="">
-            <label > Price to List </label>
+            <label> Price to List </label>
             <input
               type="number"
               name="price"
@@ -105,7 +104,7 @@ const List = () => {
             />
           </div>
           <div className="">
-            <label > Amount to list </label>
+            <label> Amount to list </label>
             <input
               type="number"
               name="amount"

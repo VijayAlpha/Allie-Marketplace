@@ -24,7 +24,7 @@ const CreateCollection = () => {
       return await result.json();
     }
 
-    let nft_contract_id = "unlockableteststore.mintspace2.testnet";
+    let nft_contract_id = process.env.NEXT_PUBLIC_CONTRACT_ID;
 
     const operations = (nft_contract_id) => {
       return `
@@ -78,7 +78,12 @@ const CreateCollection = () => {
           ) : (
             nftData.map((data, id) => {
               return (
-                <MintbaseNFT nft={data} buttonName={"Create Collection"} route={"create"} key={id} />
+                <MintbaseNFT
+                  nft={data}
+                  buttonName={"Create Collection"}
+                  route={"create"}
+                  key={id}
+                />
               );
             })
           )}

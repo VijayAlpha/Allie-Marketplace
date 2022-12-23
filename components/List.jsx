@@ -54,10 +54,10 @@ const List = () => {
       `;
       };
 
-      const contract_id = "unlockableteststore.mintspace2.testnet"
+      const contract_id = process.env.NEXT_PUBLIC_CONTRACT_ID;
 
       const returnedNftList = await fetchGraphQL(
-        operations(details.accountId , contract_id),
+        operations(details.accountId, contract_id),
         "ownedNFT",
         {}
       );

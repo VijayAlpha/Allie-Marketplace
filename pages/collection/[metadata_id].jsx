@@ -21,7 +21,7 @@ export default function SingleCollection() {
         const { data, error } = await new Wallet().init({
           networkName: Network.testnet,
           chain: Chain.near,
-          apiKey: "511a3b51-2ed5-4a27-b165-a27a01eebe0a",
+          apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
         });
         const { wallet, isConnected } = data;
 
@@ -104,7 +104,7 @@ export default function SingleCollection() {
             )}{" "}
             NEAR
           </span>
-          {userName === "valpha.testnet" ? (
+          {userName === process.env.NEXT_PUBLIC_OWNER ? (
             <>
               <button className="btn btn--primary text-base--1 ma--lg btn__disable">
                 Edit Collection
