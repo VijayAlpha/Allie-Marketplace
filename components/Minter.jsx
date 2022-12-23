@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const Minter = () => {
   const envVar = {
     mintBaseApi: process.env.NEXT_PUBLIC_MINTBASE_API,
-    backendUrl: "http://localhost:8000",
+    backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
     contract_id: process.env.NEXT_PUBLIC_CONTRACT_ID,
   };
 
