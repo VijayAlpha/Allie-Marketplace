@@ -1,4 +1,3 @@
-import FormData from 'form-data';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network, MetadataField } from "mintbase";
@@ -66,38 +65,43 @@ const UploadFiles = () => {
       chain: Chain.near,
       apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
     });
-    
+
     const { wallet } = data;
 
     const signerRes = await wallet.signMessage("test-message");
 
-    const formData = new FormData();
+    var formdata = new FormData();
 
-    formData.append("name", nftData.title);
-    formData.append("description", nftData.description);
-    formData.append('files', collectionImages);
-    formData.append("price", nftData.price);
-    formData.append("metadata_id", metadata_id);
-    formData.append("nftImage", nftData.media);
-    formData.append("signerRes", signerRes);
+    formdata.append("name", nftData.title);
+    formdata.append("description", nftData.description);
+    formdata.append("price", nftData.price);
+    formdata.append("metadata_id", metadata_id);
+    formdata.append("nftImage", nftData.media);
+    formdata.append("signerRes", JSON.stringify(signerRes));
 
-    axios({
-      method: "POST",
-      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
-      data: formData
-    })
-      .then(response => {
-        console.log(response);
+    Object.values(collectionImages).forEach((el) => {
+      formdata.append("files", el, el.name);
+    });
+
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
+        formdata,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((response) => {
+        alert("Collection Created")
+        window.location.href = `/collection/${metadata_id}`;
       })
-      .catch(error => {
-        console.error(error)
+      .catch((error) => {
+        console.error(error);
       });
 
     setIsUploading(false);
-
-    if (res) {
-      window.location.href = `/collection/${metadata_id}`;
-    }
   };
 
   const ele = nftData ? (

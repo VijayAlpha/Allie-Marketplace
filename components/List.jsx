@@ -12,7 +12,7 @@ const List = () => {
       const { data: walletData, error } = await new Wallet().init({
         networkName: Network.testnet,
         chain: Chain.near,
-        apiKey: process.env.REACT_APP_MINTBASE_API,
+        apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
       });
 
       const { wallet } = walletData;
