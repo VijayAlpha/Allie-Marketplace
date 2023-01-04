@@ -10,6 +10,7 @@ export const Header = () => {
       <link rel="stylesheet" href="assets/css/lightcase.css" />
       <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
       <link rel="stylesheet" href="assets/css/style.min.css" />
+      <title>Allie Marketplace</title>
     </Head>
   );
 };

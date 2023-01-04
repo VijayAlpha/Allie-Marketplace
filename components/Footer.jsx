@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const Footer = () => {
   return (
     <footer class="footer-section style-4">

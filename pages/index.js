@@ -23,10 +23,6 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <link rel="shortcut icon" href="/square.svg" type="image/x-icon" />
-        <title>Allie eve knox</title>
-      </Head>
       <MainSection />
       <section className="section section-collection ma--bottom-lg ma--top-lg">
         <h2 className="section__title ma--bottom text--h1">Collections</h2>

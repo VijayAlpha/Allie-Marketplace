@@ -30,7 +30,7 @@ export const NavBar = () => {
       <div class="container-fluid">
         <div class="header__content">
           <div class="header__logo">
-            <a href="index.html">
+            <a href="./">
               <img src="assets/images/logo/logo.png" class="logo" alt="logo" />
             </a>
           </div>

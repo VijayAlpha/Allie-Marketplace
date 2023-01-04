@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Header/>
       <NavBar />
-      {/* <Component {...pageProps} /> */}
+      <Component {...pageProps} />
       <Footer />
     </>
   );
