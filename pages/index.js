@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <>
       <MainSection />
-      <WalletSection />
+      <WalletSection collection={content}/>
 
       <section class="ex-drop-section padding-bottom">
         <div class="container">

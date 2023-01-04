@@ -5,6 +5,7 @@ import Link from "next/link";
 
 export const NavBar = () => {
   const [userName, setUsername] = useState();
+  const [walletBalance, setWalletBalance] = useState();
   const [wallet, setWallet] = useState();
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export const NavBar = () => {
       if (isConnected) {
         const { data: details } = await wallet.details();
         setUsername(details.accountId);
+        setWalletBalance(details.balance);
       }
     };
     connect();
@@ -85,65 +87,31 @@ export const NavBar = () => {
                   <span data-blast="bgColor">
                     <i class="icofont-user"></i>
                   </span>{" "}
-                  <span class="d-none d-md-inline">Alex Joe</span>
+                  <span class="d-none d-md-inline">{userName}</span>
                 </a>
-
-                <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item" href="author.html">
-                      <span class="me-1">
-                        <i class="icofont-options"></i>
-                      </span>
-                      Profile
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="activity.html">
-                      <span class="me-1">
-                        <i class="icofont-lightning-ray"></i>
-                      </span>
-                      Activity
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="signup.html">
-                      <span class="me-1">
-                        <i class="icofont-space-shuttle"></i>
-                      </span>
-                      Sign Up
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="signin.html">
-                      <span class="me-1">
-                        <i class="icofont-login"></i>
-                      </span>{" "}
-                      Sign In
-                    </a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      {" "}
-                      Sign Out{" "}
-                      <span class="ms-1">
-                        <i class="icofont-logout"></i>
-                      </span>
-                    </a>
-                  </li>
-                </ul>
               </div>
             </div>
-            <div class="wallet-btn">
-              <a href="wallet.html">
-                <span>
-                  <i class="icofont-wallet" data-blast="color"></i>
-                </span>{" "}
-                <span class="d-none d-md-inline">234.98ETH</span>{" "}
-              </a>
+            <div class="wallet-btn pointer">
+              {userName ? (
+                <a
+                  onClick={() => {
+                    wallet.disconnect();
+                    location.reload();
+                  }}
+                >
+                  <span>
+                    <i class="icofont-wallet" data-blast="color"></i>
+                  </span>{" "}
+                  <span class="d-none d-md-inline">{walletBalance} NEAR</span>{" "}
+                </a>
+              ) : (
+                <a onClick={() => wallet.connect({ requestSignIn: true })}>
+                  <span>
+                    <i class="icofont-wallet" data-blast="color"></i>
+                  </span>{" "}
+                  <span class="d-none d-md-inline">Connect Wallet</span>{" "}
+                </a>
+              )}
             </div>
           </div>
 
