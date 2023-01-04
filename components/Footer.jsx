@@ -9,7 +9,7 @@ export const Footer = () => {
         <div className="">
           <ul>
             <li className="footer__list">
-              <a href="#">Privacy Policy</a>
+              <a href="#">Privacy Policyy</a>
             </li>
             <li className="footer__list">
               <a href="#">Terms of Service</a>
