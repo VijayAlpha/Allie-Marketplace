@@ -1,0 +1,125 @@
+//---------------------------------
+// This file contains banner css
+//---------------------------------
+.banner-section {
+    background-color: $royal-blue;
+    @extend %of-hidden;
+    background-size: cover;
+    background-position: center;
+
+    &.style-2 {
+        .banner-wrapper {
+            padding-top: 183px;
+            padding-bottom: 120px;
+
+            @include breakpoint(lg) {
+                padding-top: 208px;
+                padding-bottom: 150px;
+            }
+
+            .banner-content {
+                p {
+                    margin: 0 auto;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+    }
+
+    &.home-light {
+        background-color: $white-color;
+        background-blend-mode: multiply;
+
+        h1 {
+            color: $black-color;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .default-btn {
+            box-shadow: 0 3px 5px rgba($black-color, $alpha: .10);
+
+            &.move-right {
+                border: 1px solid $theme-color;
+                color: $theme-color;
+            }
+        }
+    }
+
+    &.home-4 {
+        .default-btn {
+            background-color: $theme-color-4;
+            color: $black-color;
+        }
+    }
+}
+
+.banner-wrapper {
+    padding-top: 152px;
+    padding-bottom: 90px;
+
+    @include breakpoint(lg) {
+        padding-top: 175px;
+        padding-bottom: 115px;
+    }
+
+}
+
+.banner-content {
+    h1 {
+        @extend %mb-20;
+    }
+
+    p {
+        @include font-size(18px);
+        font-weight: 500;
+        margin-bottom: 30px;
+        max-width: 500px;
+        font-family: $barlow;
+
+    }
+
+    .banner-btns {
+        gap: 15px;
+
+        a {
+            &:last-child {
+                background: transparent;
+                border: 2px solid $white-color;
+                color: $white-color;
+                line-height: 36px;
+
+                @include breakpoint(md) {
+                    line-height: 46px;
+                }
+
+                &:hover {
+                    color: $body-color;
+                }
+            }
+        }
+
+    }
+}
+
+.banner-image {
+    animation: floating 5s linear infinite;
+}
+
+
+//floating keyframes
+@keyframes floating {
+    from {
+        transform: translate(0, 0px);
+    }
+
+    50% {
+        transform: translate(0, 15px);
+    }
+
+    to {
+        transform: translate(0, -0px);
+    }
+}
