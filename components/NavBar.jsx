@@ -52,13 +52,13 @@ export const NavBar = () => {
           <div class="header__menu ms-auto">
             <ul class="header__nav mb-0">
               <li class="header__nav-item">
-                <a href="activity.html" class="header__nav-link">
+                <a href="/collection" class="header__nav-link">
                   Collection
                 </a>
               </li>
 
               <li class="header__nav-item">
-                <a href="activity.html" class="header__nav-link">
+                <a href="/donate" class="header__nav-link">
                   Donate
                 </a>
               </li>
