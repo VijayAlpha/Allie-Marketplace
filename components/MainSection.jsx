@@ -12,15 +12,15 @@ export const MainSection = ({ collection }) => {
             <div class="col-lg-7">
               <div class="banner-content">
                 <h1>
-                  <span class="theme-color-4"> Create</span>, Collect And
+                  <span class="theme-color-4"> Buy</span>, Unlock And
                   <span class="theme-color-4">
                     <br />
-                    Sell
+                    Enjoy.
                   </span>
-                  Digital Items.
+                  The NSFW Content
                 </h1>
                 <p>
-                  Digital Marketplace For Crypto Collectibles And Non-Fungible
+                  Digital Marketplace For NSFW Content And Non-Fungible
                   Tokens. Buy, Sell, And Discover Exclusive Digital Assets.
                 </p>
                 <div class="banner-btns d-flex flex-wrap">
