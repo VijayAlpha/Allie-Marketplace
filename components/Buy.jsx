@@ -73,7 +73,168 @@ export const Buy = ({ meta }) => {
 
   const ele = nftData ? (
     <>
-      <section className="section section-buy-nft">
+      <section className="page-header-section style-1">
+        <div className="container">
+          <div className="page-header-content">
+            <div className="page-header-inner">
+              <div className="page-title">
+                <h2> NFT Details</h2>
+              </div>
+              <ol className="breadcrumb">
+                <li>Buy this NFT to unloack the collection</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="item-details-section padding-top padding-bottom">
+        <div class="container">
+          <div class="item-details-wrapper">
+            <div class="row g-5">
+              <div class="col-lg-6">
+                <div class="item-desc-part">
+                  <div class="item-desc-inner">
+                    <div class="item-desc-thumb">
+                      <img src={nftData.media} alt="item-img" />
+                    </div>
+                    <div class="item-desc-content">
+                      <div class="tab-content" id="nav-tabContent">
+                        <div
+                          class="details-tab tab-pane fade show active"
+                          id="nav-details"
+                          role="tabpanel"
+                          aria-labelledby="nav-details-tab"
+                        >
+                          <p>
+                          {nftData.description}
+                          </p>
+                          <ul class="other-info-list">
+                            <li class="item-other-info">
+                              <div class="item-info-title">
+                                <h6>Contact Address</h6>
+                              </div>
+                              <div class="item-info-details">
+                                <div id="cryptoCode" class="crypto-page">
+                                  <input
+                                    id="cryptoLink"
+                                    value={nftData.nft_contract_id}
+                                    readonly
+                                  />
+                                  <div
+                                    id="cryptoCopy"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Copy Address"
+                                  >
+                                    <span class="copy-icon">
+                                      <i
+                                        class="icofont-ui-copy"
+                                        aria-hidden="true"
+                                        data-copytarget="#cryptoLink"
+                                      ></i>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <li class="item-other-info">
+                              <div class="item-info-title">
+                                <h6>Token ID</h6>
+                              </div>
+                              <div class="item-info-details">
+                                <p>{nftData.token_id}</p>
+                              </div>
+                            </li>
+                            <li class="item-other-info">
+                              <div class="item-info-title">
+                                <h6>Market</h6>
+                              </div>
+                              <div class="item-info-details">
+                                <p>{nftData.market_id}</p>
+                              </div>
+                            </li>
+
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="item-buy-part">
+                  <div class="nft-item-title">
+                    <h3>Name: {nftData.title}</h3>
+                    <div class="share-btn">
+                      <div class=" dropstart">
+                        <a
+                          class=" dropdown-toggle"
+                          href="#"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          data-bs-offset="25,0"
+                        >
+                          <i class="icofont-share-alt"></i>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a class="dropdown-item" href="#">
+                              <span>
+                                <i class="icofont-twitter"></i>
+                              </span>{" "}
+                              Twitter{" "}
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="#">
+                              <span>
+                                <i class="icofont-telegram"></i>
+                              </span>{" "}
+                              Telegram
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="#">
+                              <span>
+                                <i class="icofont-envelope"></i>
+                              </span>{" "}
+                              Email
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="item-price">
+                    <h4>Price</h4>
+                    <p>
+                      <span>
+                        <i class="icofont-coins"></i>
+                        {Math.round(
+                          nftData.price.toLocaleString("fullwide", {
+                            useGrouping: false,
+                          }) *
+                            10 ** -24
+                        )}{" "}
+                        NEAR
+                      </span>
+                    </p>
+                  </div>
+                  <div class="buying-btns d-flex flex-wrap pointer" onClick={() => onclkBtn()}>
+                    <div  class="default-btn move-right">
+                      <span>Buy Now</span>{" "}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <section className="section section-buy-nft">
         <div className="collection">
           <div className="collection__left">
             <div className="right">
@@ -111,14 +272,24 @@ export const Buy = ({ meta }) => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   ) : (
-    <section className="section section-buy-nft">
-      <h1 className="text--h1">
-        Sorry! This NFT is Sold Out. <br />
-        Please Check Other Collections.
-      </h1>
+    <section className="page-header-section style-1 vh-100">
+      <div className="container">
+        <div className="page-header-content">
+          <div className="page-header-inner">
+            <div className="page-title">
+              <h2> Sorry! This NFT is Sold Out.</h2>
+            </div>
+            <ol className="breadcrumb">
+              <li>
+                <a href="index.html">Please Check Other Collections.</a>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
     </section>
   );
 

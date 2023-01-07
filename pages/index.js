@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Collection } from "../components/collection";
 import { WalletSection } from "../components/WalletSection";
-import axios from "axios";
 import { MainSection } from "../components/MainSection";
 import { HowItWorks } from "../components/HowItWorks";
+import axios from "axios";
+
 
 export default function Home() {
   const [content, setContent] = useState();

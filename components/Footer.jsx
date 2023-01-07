@@ -6,7 +6,7 @@ export const Footer = () => {
       <div
         className="footer-top"
         style={{
-          backgroundImage: "url(assets/images/footer/bg-4.jpg)",
+          backgroundImage: "url(/assets/images/footer/bg-4.jpg)",
         }}
       >
         <div className="footer-newsletter">
@@ -219,6 +219,17 @@ export const Footer = () => {
           </div>
         </div>
       </div>
+
+      {/* <Script src="assets/js/jquery-3.6.0.min.js" async></Script>
+      <Script src="assets/js/bootstrap.bundle.min.js"></Script>
+      <Script src="assets/js/waypoints.min.js"></Script>
+      <Script src="assets/js/lightcase.js"></Script>
+      <Script src="assets/js/swiper-bundle.min.js"></Script>
+      <Script src="assets/js/countdown.min.js"></Script>
+      <Script src="assets/js/jquery.counterup.min.js"></Script>
+      <Script src="assets/js/wow.min.js"></Script>
+      <Script src="assets/js/isotope.pkgd.min.js"></Script>
+      <Script src="assets/js/functions.js"></Script> */}
     </footer>
   );
 };

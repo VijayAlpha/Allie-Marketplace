@@ -7,7 +7,7 @@ import { Buy } from "../../components/Buy";
 
 export default function SingleCollection() {
   const [collectionData, setColllectionData] = useState();
-  const [err, setErr] = useState();
+  const [accessError, setError] = useState();
   const [userName, setUsername] = useState();
   const [wallet, setWallet] = useState();
 
@@ -44,7 +44,7 @@ export default function SingleCollection() {
         console.log(res.data);
         setColllectionData(res.data.collection);
       } catch (error) {
-        setErr(error);
+        setError(error);
         console.log(error);
       }
     };
@@ -71,7 +71,7 @@ export default function SingleCollection() {
     }
   };
 
-  const buy = err ? (
+  const accessPage = accessError ? (
     <Buy meta={metadata_id} />
   ) : (
     <section className="page-header-section style-1 vh-100">
@@ -355,7 +355,7 @@ export default function SingleCollection() {
       </section> */}
     </>
   ) : (
-    buy
+    accessPage
   );
   return element;
 }

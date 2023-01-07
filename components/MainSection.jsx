@@ -24,15 +24,15 @@ export const MainSection = ({ collection }) => {
                   Buy, Sell, And Discover Exclusive Digital Assets.
                 </p>
                 <div className="banner-btns d-flex flex-wrap">
-                  <a
+                  <Link
                     data-blast="bgColor"
-                    href="explore.html"
+                    href="/collection"
                     className="default-btn move-top"
                   >
                     <span>Explore</span>
-                  </a>
-                  <a href="signin.html" className="default-btn move-right">
-                    <span>Create</span>
+                  </Link>
+                  <a href="/message" className="default-btn move-right">
+                    <span>Message</span>
                   </a>
                 </div>
               </div>
@@ -104,22 +104,6 @@ export const MainSection = ({ collection }) => {
                                 src="https://i.seadn.io/gae/Ib421ZfJUEpn0B0QSbwUEw1MhEQtzyUVb1mQOKcXS7Mh8cuR5w3pu9X7LNDiS7fCylBWY48Kt91ew9D3xDxwXeeDe7WPG_zFef-xPA?auto=format&w=1000"
                                 alt="nft-img"
                               />
-
-                              {/* <!-- nft countdwon --> */}
-                              {/* <!-- <ul className="nft-countdown count-down" data-date="July 05, 2022 21:14:01">
-                                                                                                                <li>
-                                                                                                                    <span className="days">34</span><span className="count-txt">D</span>
-                                                                                                                </li>
-                                                                                                                <li>
-                                                                                                                    <span className="hours">09</span><span className="count-txt">H</span>
-                                                                                                                </li>
-                                                                                                                <li>
-                                                                                                                    <span className="minutes">32</span><span className="count-txt">M</span>
-                                                                                                                </li>
-                                                                                                                <li>
-                                                                                                                    <span className="seconds">32</span><span className="count-txt">S</span>
-                                                                                                                </li>
-                                                                                                            </ul> --> */}
                             </div>
                             <div className="nft-content">
                               <h4>
@@ -130,9 +114,6 @@ export const MainSection = ({ collection }) => {
                                   Price:
                                   <span className="yellow-color">34 MEAR</span>
                                 </p>
-                                {/* <a href="#" className="nft-like">
-                                  <i className="icofont-heart"></i> 230
-                                </a> */}
                               </div>
                             </div>
                           </div>

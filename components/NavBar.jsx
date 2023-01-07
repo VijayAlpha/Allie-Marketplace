@@ -32,9 +32,9 @@ export const NavBar = () => {
       <div className="container-fluid">
         <div className="header__content">
           <div className="header__logo">
-            <a href="./">
+            <Link href="/">
               <img src="/assets/images/logo/logo.png" className="logo" alt="logo" />
-            </a>
+            </Link>
           </div>
 
           <form action="#" className="header__search">
@@ -54,15 +54,15 @@ export const NavBar = () => {
           <div className="header__menu ms-auto">
             <ul className="header__nav mb-0">
               <li className="header__nav-item">
-                <a href="/collection" className="header__nav-link">
+                <Link href="/collection" className="header__nav-link">
                   Collection
-                </a>
+                </Link>
               </li>
 
               <li className="header__nav-item">
-                <a href="/message" className="header__nav-link">
+                <Link href="/message" className="header__nav-link">
                   Message
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -76,9 +76,9 @@ export const NavBar = () => {
 
             <div className="header__action header__action--profile">
               <div className="dropdown">
-                <a
+                <Link
                   className="dropdown-toggle"
-                  href="#"
+                  href="/profile"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
@@ -88,7 +88,7 @@ export const NavBar = () => {
                     <i className="icofont-user"></i>
                   </span>{" "}
                   <span className="d-none d-md-inline">{userName}</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="wallet-btn pointer">

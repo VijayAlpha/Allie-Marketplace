@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 
 export const Collection = ({ post }) => {
@@ -13,61 +14,28 @@ export const Collection = ({ post }) => {
             <div className="author-part">
               <ul className="author-list d-flex">
                 <li className="single-author d-flex align-items-center">
-                  <a href="author.html" className="veryfied">
+                  <Link href="author.html" className="veryfied">
                     <img
                       loading="lazy"
-                      src="assets/images/seller/author.jpg"
+                      src="/assets/images/seller/author.jpg"
                       alt="author-img"
                     />
-                  </a>
+                  </Link>
                   <h6>
                     <a href="author.html">Allie eve knox</a>
                   </h6>
                 </li>
               </ul>
             </div>
-            {/* <div className="more-part">
-                <div className="dropstart">
-                  <a
-                    className="dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    data-bs-offset="25,0"
-                  >
-                    <i className="icofont-flikr"></i>
-                  </a>
-
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        <span>
-                          <i className="icofont-warning"></i>
-                        </span>
-                        Report
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        <span>
-                          <i className="icofont-reply"></i>
-                        </span>
-                        Share
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div> */}
           </div>
           {/* <!-- nft-bottom part --> */}
           <div className="nft-item-bottom">
             <div className="nft-thumb">
-              <img loading="lazy" src={post.nftImage} alt="nft-img" style={{width: "260px" , height: "280px"}}/>
+              <img loading="lazy" src={post.nftImage} alt="nft-img" style={{width: "270px" , height: "260px"}}/>
             </div>
             <div className="nft-content">
               <h4>
-                <a href="item-details.html">{post.name}</a>
+                <Link href="item-details.html">{post.name}</Link>
               </h4>
               <div className="price-like d-flex justify-content-between align-items-center">
                 <p className="nft-price">
