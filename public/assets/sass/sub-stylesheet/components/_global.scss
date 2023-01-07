@@ -377,38 +377,6 @@
     transition: $transition;
 
 
-    &:before {
-        @extend %p-abs;
-        width: 90%;
-        height: 90%;
-        border: 1px solid rgba($white-color, $alpha: .04);
-        box-shadow: $d-box-shadow;
-        bottom: -12px;
-        left: 50%;
-        z-index: -1;
-        transform: translateX(-50%);
-        transition: $transition;
-        border-radius: 3px;
-        background: darken($secondary-color, $amount: 2);
-    }
-
-    &:after {
-        @extend %p-abs;
-        width: 80%;
-        height: 80%;
-        border: 1px solid rgba($white-color, $alpha: .04);
-        box-shadow: $d-box-shadow;
-        bottom: -22px;
-        left: 50%;
-        z-index: -2;
-        transform: translateX(-50%);
-        transition: $transition;
-        border-radius: 3px;
-        background: darken($secondary-color, $amount: 3);
-
-    }
-
-
 
     .nft-inner {
         padding: 20px;

@@ -22,19 +22,19 @@ export default function Home() {
   return (
     <>
       <MainSection />
-      <WalletSection collection={content}/>
+      <WalletSection collection={content} />
 
-      <section class="ex-drop-section padding-bottom">
-        <div class="container">
-          <div class="section-header style-4">
-            <div class="header-shape">
+      <section className="ex-drop-section padding-bottom">
+        <div className="container">
+          <div className="section-header style-4">
+            <div className="header-shape">
               <span></span>
             </div>
             <h3>NSFW Collections</h3>
           </div>
-          <div class="section-wrapper">
-            <div class="ex-drop-wrapper">
-              <div class="row justify-content-center gx-4 gy-3">
+          <div className="section-wrapper">
+            <div className="ex-drop-wrapper">
+              <div className="row justify-content-center gx-4 gy-3">
                 {content ? (
                   content.collection.length !== 0 ? (
                     content.collection &&

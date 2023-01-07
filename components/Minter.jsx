@@ -59,21 +59,23 @@ const Minter = () => {
 
   return (
     <div className="main">
-     <section class="page-header-section style-1">
-        <div class="container">
-            <div class="page-header-content">
-                <div class="page-header-inner">
-                    <div class="page-title">
-                        <h2>Mint Page</h2>
-                    </div>
-                    <ol class="breadcrumb">
-                        <li><a href="index.html">Mint</a></li>
-                        <li class="active">NFT</li>
-                    </ol>
-                </div>
+      <section className="page-header-section style-1">
+        <div className="container">
+          <div className="page-header-content">
+            <div className="page-header-inner">
+              <div className="page-title">
+                <h2>Mint Page</h2>
+              </div>
+              <ol className="breadcrumb">
+                <li>
+                  <a href="index.html">Mint</a>
+                </li>
+                <li className="active">NFT</li>
+              </ol>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
       <section className="section section-collection ma--bottom-lg">
         <form>
@@ -127,15 +129,12 @@ const Minter = () => {
             />
           </div>
           {isLoading ? (
-            <button
-            className="default-btn move-right"
-              id="btn-mint-nft"
-            >
+            <button className="default-btn move-right" id="btn-mint-nft">
               <span>Loading...</span>
             </button>
           ) : (
             <button
-            className="default-btn move-right"
+              className="default-btn move-right"
               id="btn-mint-nft"
               onClick={(e) => onClickMint(e)}
             >
