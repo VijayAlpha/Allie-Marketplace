@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network } from "mintbase";
 
@@ -93,7 +95,7 @@ export const Buy = ({ meta }) => {
                 <div className="item-desc-part">
                   <div className="item-desc-inner">
                     <div className="item-desc-thumb">
-                      <img src={nftData.media} alt="item-img" />
+                      <img src={nftData.media} alt="item-img"/>
                     </div>
                     <div className="item-desc-content">
                       <div className="tab-content" id="nav-tabContent">

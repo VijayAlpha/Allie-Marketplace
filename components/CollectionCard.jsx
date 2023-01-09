@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export const CollectionCard = ({ post }) => {
   return (
@@ -13,11 +14,13 @@ export const CollectionCard = ({ post }) => {
             <div className="author-part">
               <ul className="author-list d-flex">
                 <li className="single-author d-flex align-items-center">
-                  <Link href="author.html" className="veryfied">
-                    <img
+                  <Link href="/author" className="veryfied">
+                    <Image
                       loading="lazy"
                       src="/assets/images/seller/author.jpg"
                       alt="author-img"
+                      width={100}
+                      height={100}
                     />
                   </Link>
                   <h6>
@@ -29,8 +32,13 @@ export const CollectionCard = ({ post }) => {
           </div>
           {/* <!-- nft-bottom part --> */}
           <div className="nft-item-bottom">
-            <div className="nft-thumb">
-              <img loading="lazy" src={post.nftImage} alt="nft-img" style={{width: "100%" , height: "260px"}}/>
+            <div className="nft-thumb" style={{ width: "100%", height: "260px" }}>
+              <Image
+                loading="lazy"
+                src={post.nftImage}
+                alt="nft-img"
+                fill
+              />
             </div>
             <div className="nft-content">
               <h4>

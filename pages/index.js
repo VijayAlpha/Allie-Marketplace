@@ -22,8 +22,8 @@ export default function Home() {
 
   return (
     <>
-      <MainSection />
-      <WalletSection collection={content} />
+      <MainSection collection={content?.collection[0]}/>
+      <WalletSection />
 
       <section className="ex-drop-section padding-bottom">
         <div className="container">

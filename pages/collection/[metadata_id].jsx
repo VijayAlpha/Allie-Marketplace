@@ -40,7 +40,6 @@ export default function SingleCollection() {
             signerRes,
           },
         });
-        console.log(res.data);
         setColllectionData(res.data.collection);
       } catch (error) {
         setError(error);

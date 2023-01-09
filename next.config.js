@@ -14,7 +14,10 @@ const nextConfig = {
         ]
       }
     ]
-  }
+  },
+  images: {
+    domains: ['arweave.net'],
+  },
 }
 
 module.exports = nextConfig

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export const MainSection = ({ collection }) => {
   return (
@@ -50,10 +51,12 @@ export const MainSection = ({ collection }) => {
                               <ul className="author-list d-flex">
                                 <li className="single-author d-flex align-items-center">
                                   <a href="author.html" className="veryfied">
-                                    <img
+                                    <Image
                                       loading="lazy"
-                                      src="assets/images/seller/author.jpg"
+                                      src="/assets/images/seller/author.jpg"
                                       alt="author-img"
+                                      width={100}
+                                      height={100}
                                     />
                                   </a>
                                   <h6>
@@ -98,21 +101,31 @@ export const MainSection = ({ collection }) => {
                           </div>
                           {/* <!-- nft-bottom part --> */}
                           <div className="nft-item-bottom">
-                            <div className="nft-thumb">
-                              <img
-                                loading="lazy"
-                                src="https://i.seadn.io/gae/Ib421ZfJUEpn0B0QSbwUEw1MhEQtzyUVb1mQOKcXS7Mh8cuR5w3pu9X7LNDiS7fCylBWY48Kt91ew9D3xDxwXeeDe7WPG_zFef-xPA?auto=format&w=1000"
+                            <div className="nft-thumb" style={{ width: "100%", height: "360px" }}>
+                              <Image
+                                src={collection?.nftImage ? collection?.nftImage : "/no-image.png"}
                                 alt="nft-img"
+                                fill
                               />
                             </div>
                             <div className="nft-content">
                               <h4>
-                                <a href="item-details.html">Black Cat </a>
+                                <Link href="/collection/${}">
+                                  {collection?.name}{" "}
+                                </Link>
                               </h4>
                               <div className="price-like d-flex justify-content-between align-items-center">
                                 <p className="nft-price">
                                   Price:
-                                  <span className="yellow-color">34 MEAR</span>
+                                  <span className="yellow-color">
+                                    {Math.round(
+                                      collection?.price.toLocaleString("fullwide", {
+                                        useGrouping: false,
+                                      }) *
+                                        10 ** -24
+                                    )}{" "}
+                                    NEAR
+                                  </span>
                                 </p>
                               </div>
                             </div>
