@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network, MetadataField } from "mintbase";
 import axios from "axios";
-import { MintbaseNFT } from "../../components/MintBaseNFT";
 
 const UploadFiles = () => {
   const [nftData, setNftData] = useState();
@@ -60,10 +59,9 @@ const UploadFiles = () => {
   const onClickFilesBtn = async (e) => {
     e.preventDefault();
 
-    console.log("0");
 
     setIsUploading(true);
-    console.log("1");
+
     const { data, error } = await new Wallet().init({
       networkName: Network.testnet,
       chain: Chain.near,
@@ -73,7 +71,6 @@ const UploadFiles = () => {
     const { wallet } = data;
 
     const signerRes = await wallet.signMessage("test-message");
-    console.log("2");
 
     var formdata = new FormData();
 
@@ -87,7 +84,6 @@ const UploadFiles = () => {
     Object.values(collectionImages).forEach((el) => {
       formdata.append("files", el, el.name);
     });
-    console.log("3");
 
     axios
       .post(
