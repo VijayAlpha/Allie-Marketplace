@@ -71,7 +71,7 @@ export default function SingleCollection() {
     }
   };
 
-  const accessPage = accessError ? (
+  const accessPage = !accessError ? (
     <Buy meta={metadata_id} />
   ) : (
     <section className="page-header-section style-1 vh-100">

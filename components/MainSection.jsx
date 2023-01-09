@@ -31,9 +31,9 @@ export const MainSection = ({ collection }) => {
                   >
                     <span>Explore</span>
                   </Link>
-                  <a href="/message" className="default-btn move-right">
-                    <span>Message</span>
-                  </a>
+                  <Link href="/tipme" className="default-btn move-right">
+                    <span>Tip Me</span>
+                  </Link>
                 </div>
               </div>
             </div>

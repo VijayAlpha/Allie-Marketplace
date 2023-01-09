@@ -1,4 +1,4 @@
-const MessagePage = () => {
+const TipMePage = () => {
   return (
     <section className="page-header-section style-1 vh-100">
     <div className="container">
@@ -20,5 +20,5 @@ const MessagePage = () => {
   );
 };
 
-export default MessagePage;
+export default TipMePage;
     

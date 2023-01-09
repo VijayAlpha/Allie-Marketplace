@@ -33,7 +33,11 @@ export const NavBar = () => {
         <div className="header__content">
           <div className="header__logo">
             <Link href="/">
-              <img src="/assets/images/logo/logo.png" className="logo" alt="logo" />
+              <img
+                src="/assets/images/logo/logo.png"
+                className="logo"
+                alt="logo"
+              />
             </Link>
           </div>
 
@@ -52,19 +56,45 @@ export const NavBar = () => {
             </button>
           </form>
           <div className="header__menu ms-auto">
-            <ul className="header__nav mb-0">
-              <li className="header__nav-item">
-                <Link href="/collection" className="header__nav-link">
-                  Collection
-                </Link>
-              </li>
+            {userName !== process.env.NEXT_PUBLIC_OWNER ? (
+              <ul className="header__nav mb-0">
+                <li className="header__nav-item">
+                  <Link href="/collection" className="header__nav-link">
+                    Collection
+                  </Link>
+                </li>
 
-              <li className="header__nav-item">
-                <Link href="/message" className="header__nav-link">
-                  Message
-                </Link>
-              </li>
-            </ul>
+                <li className="header__nav-item">
+                  <Link href="/tipme" className="header__nav-link">
+                    Tip me
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="header__nav mb-0">
+                <li className="header__nav-item">
+                  <Link href="/collection" className="header__nav-link">
+                    Collection
+                  </Link>
+                </li>
+
+                <li className="header__nav-item">
+                  <Link href="/mint" className="header__nav-link">
+                    Mint NFT
+                  </Link>
+                </li>
+                <li className="header__nav-item">
+                  <Link href="/list" className="header__nav-link">
+                    List NFT
+                  </Link>
+                </li>
+                <li className="header__nav-item">
+                  <Link href="/create" className="header__nav-link">
+                    Create
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
 
           <div className="header__actions">
@@ -102,7 +132,9 @@ export const NavBar = () => {
                   <span>
                     <i className="icofont-wallet" data-blast="color"></i>
                   </span>{" "}
-                  <span className="d-none d-md-inline">{walletBalance} NEAR</span>{" "}
+                  <span className="d-none d-md-inline">
+                    {walletBalance} NEAR
+                  </span>{" "}
                 </a>
               ) : (
                 <a onClick={() => wallet.connect({ requestSignIn: true })}>
