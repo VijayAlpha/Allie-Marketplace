@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network } from "mintbase";
 import Link from "next/link";
