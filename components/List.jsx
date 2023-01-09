@@ -95,30 +95,37 @@ const List = () => {
         </div>
       </section>
 
-      {isLoading === true ? (
-        <section className="section section-buy-nft">
-          <h2 className="text--h2 ma--bottom">Loading...</h2>
-        </section>
-      ) : (
-        <section className="flex">
-          {nftList.length === 0 ? (
-            <section className="section section-buy-nft">
-              <h2 className="text--h2 ma--bottom">No NFT</h2>
-            </section>
-          ) : (
-            nftList.map((nftData, id) => {
-              return (
-                <MintbaseNFT
-                  nft={nftData}
-                  buttonName={"List for sale"}
-                  route={"list"}
-                  key={id}
-                />
-              );
-            })
-          )}
-        </section>
-      )}
+      <section className="explore-section padding-top padding-bottom">
+        <div className="container">
+          <div className="section-wrapper">
+            <div className="explore-wrapper">
+              <div className="row justify-content-center gx-4 gy-3">
+                {isLoading === true ? (
+                  <h1>Loading...</h1>
+                ) : nftList.length === 0 ? (
+                  <h3>Sorry!... There is No NFT Now.</h3>
+                ) : (
+                  nftList.map((nftData, id) => {
+                    return (
+                      <MintbaseNFT
+                        post={nftData}
+                        // buttonName={"List for sale"}
+                        // route={"list"}
+                        key={id}
+                      />
+                    );
+                  })
+                )}
+              </div>
+              <div className="load-btn mt-5">
+                <a href="#" className="default-btn move-bottom">
+                  <span>Load More</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 };
