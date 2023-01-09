@@ -92,7 +92,7 @@ export const Buy = ({ meta }) => {
   );
 
   const NftDetails =
-    Object.keys(nftData).length !== 0 ? (
+    nftData ? (
       <>
         {console.log(nftData)}
         <section className="page-header-section style-1">
