@@ -58,7 +58,139 @@ const Minter = () => {
   };
 
   return (
-    <div className="main">
+    <>
+      <section className="page-header-section style-1">
+        <div className="container">
+          <div className="page-header-content">
+            <div className="page-header-inner">
+              <div className="page-title">
+                <h2>Mint Page</h2>
+              </div>
+              <ol className="breadcrumb">
+                <li>
+                  <a href="index.html">Mint</a>
+                </li>
+                <li className="active">NFT</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div
+        class="tab-pane fade mentions-section show active"
+        id="pills-personal"
+        role="tabpanel"
+        aria-labelledby="pills-personal-tab"
+      >
+        <div class="row">
+          <div class="col">
+            <div class="create-nft py-5 px-4 d-flex justify-content-center">
+              <form class="create-nft-form col-8">
+                <div class="upload-item mb-30">
+                  <p>PNG,JPG,JPEG,SVG,WEBP</p>
+                  <div class="custom-upload">
+                    <div class="file-btn">
+                      <i class="icofont-upload-alt"></i>
+                      Upload a Image
+                    </div>
+                    <input type="file" />
+                  </div>
+                </div>
+                <div class="form-floating item-name-field mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="itemNameInput"
+                    placeholder="Item Name"
+                  />
+                  <label for="itemNameInput">NFT Name</label>
+                </div>
+                <div class="form-floating item-desc-field mb-30">
+                  <textarea
+                    class="form-control"
+                    placeholder="Item Description"
+                    id="itemDesc"
+                  ></textarea>
+                  <label for="itemDesc">NFT Description</label>
+                </div>
+                {/* <div class="item-price-field mb-3">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <select
+                          class="form-select"
+                          id="selectCrypto"
+                          aria-label="Floating label select"
+                        >
+                          <option selected>Ethereum</option>
+                          <option value="1">BitCoin</option>
+                          <option value="2">Dollar</option>
+                          <option value="3">Pound</option>
+                        </select>
+                        <label for="selectCrypto">Select Currency</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="itemPriceInput"
+                          placeholder="Item Price"
+                        />
+                        <label for="itemPriceInput">Item Price</label>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+
+                <div class="item-price-field mb-5">
+                  <div class="row g-3 justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-floating">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="royalityInput"
+                          placeholder="Royalities"
+                        />
+                        <label for="royalityInput">Royalities</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-floating">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="sizeInput"
+                          placeholder="Size"
+                        />
+                        <label for="sizeInput">Price</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                      <div class="form-floating">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="itemNumbersInput"
+                          placeholder="Number of Copies"
+                        />
+                        <label for="itemNumbersInput">Number of Copies</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="submit-btn-field text-center">
+                  <button type="submit">Mint NFT</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div className="main">
       <section className="page-header-section style-1">
         <div className="container">
           <div className="page-header-content">
@@ -143,7 +275,8 @@ const Minter = () => {
           )}
         </form>
       </section>
-    </div>
+    </div> */}
+    </>
   );
 };
 

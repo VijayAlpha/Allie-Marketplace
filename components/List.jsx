@@ -76,10 +76,22 @@ const List = () => {
   });
 
   return (
-    <div className="main">
-      <section className="title text--center">
+    <>
+      <section className="page-header-section style-1">
         <div className="container">
-          <h1 className="HIW text--h1">List Your NFT</h1>
+          <div className="page-header-content">
+            <div className="page-header-inner">
+              <div className="page-title">
+                <h2>List Page</h2>
+              </div>
+              <ol className="breadcrumb">
+                <li>
+                  <a href="index.html">List</a>
+                </li>
+                <li className="active">NFT</li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -107,7 +119,7 @@ const List = () => {
           )}
         </section>
       )}
-    </div>
+    </>
   );
 };
 
