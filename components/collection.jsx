@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const  Collection = ({ post }) => {
+export const Collection = ({ post }) => {
   return (
     <Link
       href={`/collection/${post.metadata_id}`}
