@@ -57,9 +57,13 @@ const UploadFiles = () => {
     fetchCheckNFT();
   });
 
-  const onClickFilesBtn = async () => {
-    setIsUploading(true);
+  const onClickFilesBtn = async (e) => {
+    e.preventDefault();
 
+    console.log("0");
+
+    setIsUploading(true);
+    console.log("1");
     const { data, error } = await new Wallet().init({
       networkName: Network.testnet,
       chain: Chain.near,
@@ -69,6 +73,7 @@ const UploadFiles = () => {
     const { wallet } = data;
 
     const signerRes = await wallet.signMessage("test-message");
+    console.log("2");
 
     var formdata = new FormData();
 
@@ -82,6 +87,7 @@ const UploadFiles = () => {
     Object.values(collectionImages).forEach((el) => {
       formdata.append("files", el, el.name);
     });
+    console.log("3");
 
     axios
       .post(
@@ -94,14 +100,13 @@ const UploadFiles = () => {
         }
       )
       .then((response) => {
-        alert("Collection Created");
         window.location.href = `/collection/${metadata_id}`;
+        setIsUploading(false);
       })
       .catch((error) => {
         console.error(error);
       });
 
-    setIsUploading(false);
   };
 
   const ele = nftData ? (
@@ -153,10 +158,17 @@ const UploadFiles = () => {
                   )}
 
                   <div className="custom-upload">
+                  {collectionImages ? (
                     <div className="file-btn">
-                      <i className="icofont-upload-alt"></i>
-                      Upload a Images
-                    </div>
+                      <i className="icofont-check"></i>
+                      Added
+                    </div>                  ) : (
+                    <div className="file-btn">
+                    <i className="icofont-upload-alt"></i>
+                    Upload a Images
+                  </div>
+                  )}
+                    
                     <input
                       type="file"
                       accept="image/*"
@@ -176,7 +188,7 @@ const UploadFiles = () => {
                     <button
                       type="submit"
                       id="btn-upload-file"
-                      onClick={() => onClickFilesBtn()}
+                      onClick={(e) => onClickFilesBtn(e)}
                     >
                       Create Collection
                     </button>
