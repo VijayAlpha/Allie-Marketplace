@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network } from "mintbase";
 import axios from "axios";
-import { Buy } from "../../components/Buy";
+import { Buy } from "./../../components/Buy";
 
 export default function SingleCollection() {
   const [collectionData, setColllectionData] = useState();

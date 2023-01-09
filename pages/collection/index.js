@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Collection } from "../../components/Collection";
+import { CollectionCard } from "./../../components/CollectionCard";
 import axios from "axios";
 
 const CollectionPage = () => {
@@ -85,7 +85,7 @@ const CollectionPage = () => {
                   content.collection.length !== 0 ? (
                     content.collection &&
                     content.collection.map((post, id) => {
-                      return <Collection post={post} key={id} />;
+                      return <CollectionCard post={post} key={id} />;
                     })
                   ) : (
                     <h3>Sorry!... There is No Collection Now.</h3>

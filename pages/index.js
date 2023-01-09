@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Collection } from "../components/collection";
+import { CollectionCard } from "../components/CollectionCard";
 import { WalletSection } from "../components/WalletSection";
 import { MainSection } from "../components/MainSection";
 import { HowItWorks } from "../components/HowItWorks";
@@ -40,7 +40,7 @@ export default function Home() {
                   content.collection.length !== 0 ? (
                     content.collection &&
                     content.collection.map((post, id) => {
-                      return <Collection post={post} key={id} />;
+                      return <CollectionCard post={post} key={id} />;
                     })
                   ) : (
                     <h3>Sorry!... There is No Collection Now.</h3>

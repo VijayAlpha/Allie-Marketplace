@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MintbaseNFT } from "../../components/MintBaseNFT";
+import { MintbaseNFT } from "./../../components/MintBaseNFT";
 
 const CreateCollection = () => {
   const [nftData, setNftData] = useState();
