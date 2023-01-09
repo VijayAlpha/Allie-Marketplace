@@ -1,8 +1,8 @@
 import { Wallet, Network, Chain } from "mintbase";
 import { useState, useEffect, useRef } from "react";
-import { MintbaseNFT } from "./mintBaseNFT";
+import { MintbaseNFT } from  "../../components/mintBaseNFT";
 
-const List = () => {
+const ListPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [nftList, setNftList] = useState();
   const dataFetchedRef = useRef(false);
@@ -130,4 +130,5 @@ const List = () => {
   );
 };
 
-export default List;
+export default ListPage;
+    

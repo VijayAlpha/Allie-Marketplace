@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { Wallet, Chain, Network, MetadataField } from "mintbase";
-import axios from "axios";
-import { MintbaseNFT } from "../components/mintBaseNFT";
+import { MintbaseNFT } from "../../components/mintBaseNFT";
 
 const CreateCollection = () => {
   const [nftData, setNftData] = useState();
