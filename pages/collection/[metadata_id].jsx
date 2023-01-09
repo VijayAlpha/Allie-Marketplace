@@ -69,28 +69,7 @@ export default function SingleCollection() {
     }
   };
 
-  const accessPage = accessError ? (
-    <Buy meta={metadata_id} />
-  ) : (
-    <section className="page-header-section style-1 vh-100">
-      <div className="container">
-        <div className="page-header-content">
-          <div className="page-header-inner">
-            <div className="page-title">
-              <h2>Checking Access </h2>
-            </div>
-            <ol className="breadcrumb">
-              <li>
-                <a href="index.html">Please</a>
-              </li>
-              <li className="active">wait</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-  const element = collectionData ? (
+  const Element = collectionData ? (
     <>
       <section className="profile-section padding-top padding-bottom">
         <div className="container">
@@ -353,7 +332,24 @@ export default function SingleCollection() {
       </section> */}
     </>
   ) : (
-    accessPage
+    <section className="page-header-section style-1 vh-100">
+      <div className="container">
+        <div className="page-header-content">
+          <div className="page-header-inner">
+            <div className="page-title">
+              <h2>Checking Access </h2>
+            </div>
+            <ol className="breadcrumb">
+              <li>
+                <a href="index.html">Please</a>
+              </li>
+              <li className="active">wait</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
   );
-  return element;
+
+  return accessError ? <Buy meta={metadata_id} /> : Element;
 }
