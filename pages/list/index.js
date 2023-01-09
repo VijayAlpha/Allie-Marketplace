@@ -1,6 +1,6 @@
 import { Wallet, Network, Chain } from "mintbase";
 import { useState, useEffect, useRef } from "react";
-import { MintbaseNFT } from "./../../components/MintBaseNFT";
+import { NFTCard } from "./../../components/MintBaseNFT";
 
 const ListPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -106,7 +106,7 @@ const ListPage = () => {
                 ) : (
                   nftList.map((nftData, id) => {
                     return (
-                      <MintbaseNFT post={nftData} page={"list"} key={id} />
+                      <NFTCard post={nftData} page={"list"} key={id} />
                     );
                   })
                 )}

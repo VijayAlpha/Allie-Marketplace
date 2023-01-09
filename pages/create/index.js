@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MintbaseNFT } from "./../../components/MintBaseNFT";
+import { NFTCard } from "../../components/NFTCard";
 
 const CreateCollection = () => {
   const [nftData, setNftData] = useState();
@@ -85,7 +85,7 @@ const CreateCollection = () => {
                   <h2>Sorry!... No NFTs Listed Now</h2>
                 ) : (
                   nftData.map((data, id) => {
-                    return <MintbaseNFT post={data} page={"create"} key={id} />;
+                    return <NFTCard post={data} page={"create"} key={id} />;
                   })
                 )}
               </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const MintbaseNFT = ({ post  , page}) => {
+export const NFTCard = ({ post  , page}) => {
   return (
     <>
       <Link
