@@ -1,6 +1,6 @@
 import { Wallet, Network, Chain } from "mintbase";
 import { useState, useEffect, useRef } from "react";
-import { NFTCard } from "./../../components/MintBaseNFT";
+import { NFTCard } from "./../../components/NFTCard";
 
 const ListPage = () => {
   const [isLoading, setIsLoading] = useState(true);
