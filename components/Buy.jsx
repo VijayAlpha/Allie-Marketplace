@@ -116,7 +116,7 @@ export const Buy = ({ meta }) => {
                                   <input
                                     id="cryptoLink"
                                     value={nftData.nft_contract_id}
-                                    readonly
+                                    readOnly
                                   />
                                   <div
                                     id="cryptoCopy"

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 
-export const Collection = ({ post }) => {
+export const  Collection = ({ post }) => {
   return (
     <Link
       href={`/collection/${post.metadata_id}`}
@@ -22,7 +22,7 @@ export const Collection = ({ post }) => {
                     />
                   </Link>
                   <h6>
-                    <a href="author.html">Allie eve knox</a>
+                    <Link href="#">Allie eve knox</Link>
                   </h6>
                 </li>
               </ul>
@@ -31,7 +31,7 @@ export const Collection = ({ post }) => {
           {/* <!-- nft-bottom part --> */}
           <div className="nft-item-bottom">
             <div className="nft-thumb">
-              <img loading="lazy" src={post.nftImage} alt="nft-img" style={{width: "270px" , height: "260px"}}/>
+              <img loading="lazy" src={post.nftImage} alt="nft-img" style={{width: "100%" , height: "260px"}}/>
             </div>
             <div className="nft-content">
               <h4>
