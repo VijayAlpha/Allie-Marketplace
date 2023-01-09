@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Wallet, Network, Chain } from "mintbase";
-import { MintbaseNFT } from "../../components/MintBaseNFT";
 
 const List = () => {
   const router = useRouter();
