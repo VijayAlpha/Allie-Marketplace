@@ -1,6 +1,6 @@
 import { Wallet, Network, Chain } from "mintbase";
 import { useState, useEffect, useRef } from "react";
-import { MintbaseNFT } from  "../../components/mintBaseNFT";
+import { MintbaseNFT } from "../../components/MintBaseNFT";
 
 const ListPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -82,13 +82,12 @@ const ListPage = () => {
           <div className="page-header-content">
             <div className="page-header-inner">
               <div className="page-title">
-                <h2>List Page</h2>
+                <h2>List NFT For Sale</h2>
               </div>
               <ol className="breadcrumb">
-                <li>
-                  <a href="index.html">List</a>
+                <li className="active">
+                  This all minted NFTs, List them for sale
                 </li>
-                <li className="active">NFT</li>
               </ol>
             </div>
           </div>
@@ -107,12 +106,7 @@ const ListPage = () => {
                 ) : (
                   nftList.map((nftData, id) => {
                     return (
-                      <MintbaseNFT
-                        post={nftData}
-                        // buttonName={"List for sale"}
-                        // route={"list"}
-                        key={id}
-                      />
+                      <MintbaseNFT post={nftData} page={"list"} key={id} />
                     );
                   })
                 )}
@@ -131,4 +125,3 @@ const ListPage = () => {
 };
 
 export default ListPage;
-    

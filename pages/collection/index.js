@@ -18,28 +18,28 @@ const CollectionPage = () => {
 
   return (
     <>
-      <section class="page-header-section style-1">
-        <div class="container">
-          <div class="page-header-content">
-            <div class="page-header-inner">
-              <div class="page-title">
+      <section className="page-header-section style-1">
+        <div className="container">
+          <div className="page-header-content">
+            <div className="page-header-inner">
+              <div className="page-title">
                 <h2>Explore All Collections </h2>
               </div>
-              <ol class="breadcrumb">
-                <li class="active">Explore</li>
+              <ol className="breadcrumb">
+                <li className="active">Explore</li>
               </ol>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="explore-section padding-top padding-bottom">
-        <div class="container">
-          <div class="section-header">
-            <div class="nft-filter d-flex flex-wrap justify-content-center">
-              <div class="form-floating">
+      <section className="explore-section padding-top padding-bottom">
+        <div className="container">
+          <div className="section-header">
+            <div className="nft-filter d-flex flex-wrap justify-content-center">
+              <div className="form-floating">
                 <select
-                  class="form-select"
+                  className="form-select"
                   id="catSelect"
                   aria-label="Floating label select example"
                 >
@@ -51,9 +51,9 @@ const CollectionPage = () => {
                 </select>
                 <label for="catSelect">Select a Category</label>
               </div>
-              <div class="form-floating">
+              <div className="form-floating">
                 <select
-                  class="form-select"
+                  className="form-select"
                   id="sortSelect"
                   aria-label="Floating label select example"
                 >
@@ -70,17 +70,17 @@ const CollectionPage = () => {
                 <label for="sortSelect">Sort By</label>
               </div>
             </div>
-            {/* <div class="nft-search">
-                    <div class="form-floating nft-search-input">
-                        <input type="text" class="form-control" id="nftSearch" placeholder="Search NFT" />
+            {/* <div className="nft-search">
+                    <div className="form-floating nft-search-input">
+                        <input type="text" className="form-control" id="nftSearch" placeholder="Search NFT" />
                         <label for="nftSearch">Search NFT</label>
-                        <button type="button"> <i class="icofont-search-1"></i></button>
+                        <button type="button"> <i className="icofont-search-1"></i></button>
                     </div>
                 </div> */}
           </div>
-          <div class="section-wrapper">
-            <div class="explore-wrapper">
-              <div class="row justify-content-center gx-4 gy-3">
+          <div className="section-wrapper">
+            <div className="explore-wrapper">
+              <div className="row justify-content-center gx-4 gy-3">
                 {content ? (
                   content.collection.length !== 0 ? (
                     content.collection &&
@@ -94,8 +94,8 @@ const CollectionPage = () => {
                   <h1>Loading..</h1>
                 )}
               </div>
-              <div class="load-btn mt-5">
-                <a href="#" class="default-btn move-bottom">
+              <div className="load-btn mt-5">
+                <a href="#" className="default-btn move-bottom">
                   <span>Load More</span>
                 </a>
               </div>

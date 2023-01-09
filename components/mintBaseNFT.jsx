@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-export const MintbaseNFT = ({ post }) => {
+export const MintbaseNFT = ({ post  , page}) => {
   return (
     <>
       <Link
-        href={`/list/${post.metadata_id}`}
-        className="col-xl-3 col-lg-4 col-sm-6"
+        href={`/${page}/${post.metadata_id}`}
+        className="col-xl-4 col-lg-4 col-sm-6"
       >
         <div className="nft-item home-4">
           <div className="nft-inner">
@@ -35,7 +35,7 @@ export const MintbaseNFT = ({ post }) => {
                   loading="lazy"
                   src={post.media ? post.media : "/no-image.png"}
                   alt="nft-img"
-                  style={{ width: "270px", height: "260px" }}
+                  style={{ width: "100%", height: "260px" }}
                 />
               </div>
               <div className="nft-content">

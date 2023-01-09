@@ -81,7 +81,7 @@ const List = () => {
 
   const element = nftData ? (
     <>
-     <section className="page-header-section style-1">
+      <section className="page-header-section style-1">
         <div className="container">
           <div className="page-header-content">
             <div className="page-header-inner">
@@ -92,25 +92,24 @@ const List = () => {
           </div>
         </div>
       </section>
-      <div class="login-section padding-top padding-bottom">
-        <div class=" container">
-          <div class="row g-5 align-items-center flex-md-row-reverse">
-            <div class="col-lg-5">
-              <div class="account-wrapper">
-                <div class="account-bottom">
-                  <h5 class="subtitle">Title: {nftData.title}</h5>
+      <div className="login-section padding-top padding-bottom">
+        <div className=" container">
+          <div className="row g-5 align-items-center flex-md-row-reverse">
+            <div className="col-lg-5">
+              <div className="account-wrapper">
+                <div className="account-bottom">
+                  <h5 className="subtitle">Title: {nftData.title}</h5>
 
-                  <span class="d-block cate pt-10 mb-5">
+                  <span className="d-block cate pt-10 mb-5">
                     {" "}
-                    <a href="#"> Description:</a>{" "}
-                    {nftData.description}{" "}
+                    <a href="#"> Description:</a> {nftData.description}{" "}
                   </span>
                 </div>
-                <form class="account-form">
-                  <div class="form-floating mb-3">
+                <form className="account-form">
+                  <div className="form-floating mb-3">
                     <input
                       type="number"
-                      class="form-control"
+                      className="form-control"
                       id="floatingInput"
                       placeholder="10 NEAR"
                       onChange={(e) => {
@@ -119,36 +118,37 @@ const List = () => {
                     />
                     <label for="floatingInput">Price</label>
                   </div>
-                  <div class="form-floating mb-3">
+                  <div className="form-floating mb-3">
                     <input
                       type="number"
-                      class="form-control"
+                      className="form-control"
                       id="floatingPassword"
                       placeholder="50"
-
                     />
                     <label for="floatingPassword">Amount</label>
                   </div>
-                  {/* <div class="form-group">
-                                <div class="d-flex justify-content-between flex-wrap pt-sm-2">
-                                    <div class="checkgroup">
+                  {/* <div className="form-group">
+                                <div className="d-flex justify-content-between flex-wrap pt-sm-2">
+                                    <div className="checkgroup">
                                         <input type="checkbox" name="remember" id="remember" />
                                         <label for="remember">Remember Me</label>
                                     </div>
                                     <a href="forgot-pass.html">Forgot Password?</a>
                                 </div>
                             </div> */}
-                  <div class="form-group">
-                    <button class="d-block default-btn move-top" onClick={(e) => listNFT(e)}>
+                  <div className="form-group">
+                    <button
+                      className="d-block default-btn move-top"
+                      onClick={(e) => listNFT(e)}
+                    >
                       <span>List For Sale</span>
                     </button>
                   </div>
                 </form>
-               
               </div>
             </div>
-            <div class="col-lg-7">
-              <div class="account-img">
+            <div className="col-lg-7">
+              <div className="account-img">
                 <img
                   src={nftData.media ? nftData.media : "/no-image.png"}
                   alt="nft-image"

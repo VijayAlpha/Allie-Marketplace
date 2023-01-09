@@ -87,34 +87,32 @@ export const Buy = ({ meta }) => {
           </div>
         </div>
       </section>
-      <div class="item-details-section padding-top padding-bottom">
-        <div class="container">
-          <div class="item-details-wrapper">
-            <div class="row g-5">
-              <div class="col-lg-6">
-                <div class="item-desc-part">
-                  <div class="item-desc-inner">
-                    <div class="item-desc-thumb">
+      <div className="item-details-section padding-top padding-bottom">
+        <div className="container">
+          <div className="item-details-wrapper">
+            <div className="row g-5">
+              <div className="col-lg-6">
+                <div className="item-desc-part">
+                  <div className="item-desc-inner">
+                    <div className="item-desc-thumb">
                       <img src={nftData.media} alt="item-img" />
                     </div>
-                    <div class="item-desc-content">
-                      <div class="tab-content" id="nav-tabContent">
+                    <div className="item-desc-content">
+                      <div className="tab-content" id="nav-tabContent">
                         <div
-                          class="details-tab tab-pane fade show active"
+                          className="details-tab tab-pane fade show active"
                           id="nav-details"
                           role="tabpanel"
                           aria-labelledby="nav-details-tab"
                         >
-                          <p>
-                          {nftData.description}
-                          </p>
-                          <ul class="other-info-list">
-                            <li class="item-other-info">
-                              <div class="item-info-title">
+                          <p>{nftData.description}</p>
+                          <ul className="other-info-list">
+                            <li className="item-other-info">
+                              <div className="item-info-title">
                                 <h6>Contact Address</h6>
                               </div>
-                              <div class="item-info-details">
-                                <div id="cryptoCode" class="crypto-page">
+                              <div className="item-info-details">
+                                <div id="cryptoCode" className="crypto-page">
                                   <input
                                     id="cryptoLink"
                                     value={nftData.nft_contract_id}
@@ -126,9 +124,9 @@ export const Buy = ({ meta }) => {
                                     data-bs-placement="top"
                                     title="Copy Address"
                                   >
-                                    <span class="copy-icon">
+                                    <span className="copy-icon">
                                       <i
-                                        class="icofont-ui-copy"
+                                        className="icofont-ui-copy"
                                         aria-hidden="true"
                                         data-copytarget="#cryptoLink"
                                       ></i>
@@ -137,23 +135,22 @@ export const Buy = ({ meta }) => {
                                 </div>
                               </div>
                             </li>
-                            <li class="item-other-info">
-                              <div class="item-info-title">
+                            <li className="item-other-info">
+                              <div className="item-info-title">
                                 <h6>Token ID</h6>
                               </div>
-                              <div class="item-info-details">
+                              <div className="item-info-details">
                                 <p>{nftData.token_id}</p>
                               </div>
                             </li>
-                            <li class="item-other-info">
-                              <div class="item-info-title">
+                            <li className="item-other-info">
+                              <div className="item-info-title">
                                 <h6>Market</h6>
                               </div>
-                              <div class="item-info-details">
+                              <div className="item-info-details">
                                 <p>{nftData.market_id}</p>
                               </div>
                             </li>
-
                           </ul>
                         </div>
                       </div>
@@ -161,44 +158,44 @@ export const Buy = ({ meta }) => {
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6">
-                <div class="item-buy-part">
-                  <div class="nft-item-title">
+              <div className="col-lg-6">
+                <div className="item-buy-part">
+                  <div className="nft-item-title">
                     <h3>Name: {nftData.title}</h3>
-                    <div class="share-btn">
-                      <div class=" dropstart">
+                    <div className="share-btn">
+                      <div className=" dropstart">
                         <a
-                          class=" dropdown-toggle"
+                          className=" dropdown-toggle"
                           href="#"
                           role="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                           data-bs-offset="25,0"
                         >
-                          <i class="icofont-share-alt"></i>
+                          <i className="icofont-share-alt"></i>
                         </a>
 
-                        <ul class="dropdown-menu">
+                        <ul className="dropdown-menu">
                           <li>
-                            <a class="dropdown-item" href="#">
+                            <a className="dropdown-item" href="#">
                               <span>
-                                <i class="icofont-twitter"></i>
+                                <i className="icofont-twitter"></i>
                               </span>{" "}
                               Twitter{" "}
                             </a>
                           </li>
                           <li>
-                            <a class="dropdown-item" href="#">
+                            <a className="dropdown-item" href="#">
                               <span>
-                                <i class="icofont-telegram"></i>
+                                <i className="icofont-telegram"></i>
                               </span>{" "}
                               Telegram
                             </a>
                           </li>
                           <li>
-                            <a class="dropdown-item" href="#">
+                            <a className="dropdown-item" href="#">
                               <span>
-                                <i class="icofont-envelope"></i>
+                                <i className="icofont-envelope"></i>
                               </span>{" "}
                               Email
                             </a>
@@ -208,11 +205,11 @@ export const Buy = ({ meta }) => {
                     </div>
                   </div>
 
-                  <div class="item-price">
+                  <div className="item-price">
                     <h4>Price</h4>
                     <p>
                       <span>
-                        <i class="icofont-coins"></i>
+                        <i className="icofont-coins"></i>
                         {Math.round(
                           nftData.price.toLocaleString("fullwide", {
                             useGrouping: false,
@@ -223,8 +220,11 @@ export const Buy = ({ meta }) => {
                       </span>
                     </p>
                   </div>
-                  <div class="buying-btns d-flex flex-wrap pointer" onClick={() => onclkBtn()}>
-                    <div  class="default-btn move-right">
+                  <div
+                    className="buying-btns d-flex flex-wrap pointer"
+                    onClick={() => onclkBtn()}
+                  >
+                    <div className="default-btn move-right">
                       <span>Buy Now</span>{" "}
                     </div>
                   </div>

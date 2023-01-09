@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MintbaseNFT } from "../../components/mintBaseNFT";
+import { MintbaseNFT } from "../../components/MintBaseNFT";
 
 const CreateCollection = () => {
   const [nftData, setNftData] = useState();
@@ -56,38 +56,49 @@ const CreateCollection = () => {
   }, []);
 
   return (
-    <div className="main">
-      <section className="title text--center">
+    <>
+      <section className="page-header-section style-1">
         <div className="container">
-          <h1 className="HIW text--h1">Create Collections</h1>
+          <div className="page-header-content">
+            <div className="page-header-inner">
+              <div className="page-title">
+                <h2>Create Collections</h2>
+              </div>
+              <ol className="breadcrumb">
+                <li className="active">
+                  Select Listed NFTs to Create Collection
+                </li>
+              </ol>
+            </div>
+          </div>
         </div>
       </section>
 
-      {isLoading === true ? (
-        <section className="section section-buy-nft">
-          <h2 className="text--h2 ma--bottom">Loading...</h2>
-        </section>
-      ) : (
-        <section className="flex">
-          {nftData.length === 0 ? (
-            <section className="section section-buy-nft">
-              <h2 className="text--h2 ma--bottom">No NFTs Listed</h2>
-            </section>
-          ) : (
-            nftData.map((data, id) => {
-              return (
-                <MintbaseNFT
-                  nft={data}
-                  buttonName={"Create Collection"}
-                  route={"create"}
-                  key={id}
-                />
-              );
-            })
-          )}
-        </section>
-      )}
-    </div>
+      <section className="explore-section padding-top padding-bottom">
+        <div className="container">
+          <div className="section-wrapper">
+            <div className="explore-wrapper">
+              <div className="row justify-content-center gx-4 gy-3">
+                {isLoading === true ? (
+                  <h2>Loading...</h2>
+                ) : nftData.length === 0 ? (
+                  <h2>Sorry!... No NFTs Listed Now</h2>
+                ) : (
+                  nftData.map((data, id) => {
+                    return <MintbaseNFT post={data} page={"create"} key={id} />;
+                  })
+                )}
+              </div>
+              <div className="load-btn mt-5">
+                <a href="#" className="default-btn move-bottom">
+                  <span>Load More</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 
