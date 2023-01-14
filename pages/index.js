@@ -35,7 +35,7 @@ export default function Home() {
           </div>
           <div className="section-wrapper">
             <div className="ex-drop-wrapper">
-              <div className="row justify-content-center gx-4 gy-3">
+              <div className="row gx-4 gy-3 d-flex justify-content-start">
                 {content ? (
                   content.collection.length !== 0 ? (
                     content.collection &&

@@ -5,7 +5,7 @@ export const CollectionCard = ({ post }) => {
   return (
     <Link
       href={`/collection/${post.metadata_id}`}
-      className="col-xl-3 col-lg-4 col-sm-6"
+      className="col-xl-4 col-lg-4 col-sm-6"
     >
       <div className="nft-item home-4">
         <div className="nft-inner">

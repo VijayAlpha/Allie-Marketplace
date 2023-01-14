@@ -6,7 +6,6 @@ const Mint = () => {
   const envVar = {
     mintBaseApi: process.env.NEXT_PUBLIC_MINTBASE_API,
     backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
-    contract_id: process.env.NEXT_PUBLIC_CONTRACT_ID,
   };
 
   const router = useRouter();
@@ -49,7 +48,7 @@ const Mint = () => {
 
     await wallet.mint(
       formData.amount,
-      envVar.contract_id,
+      process.env.NEXT_PUBLIC_CONTRACT_ID,
       undefined,
       undefined,
       undefined
