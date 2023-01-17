@@ -24,7 +24,7 @@ export const CollectionCard = ({ post }) => {
                     />
                   </span>
                   <h6>
-                    <span href="#">Allie eve knox</span>
+                    <span href="#">Allie eve knox </span>
                   </h6>
                 </li>
               </ul>
