@@ -1,0 +1,38 @@
+//--------------------------------------------
+//--This file contains all the utility classes
+//---------------------------------------------
+.theme-color {
+    color: $theme-color;
+}
+
+.theme-color-4 {
+    color: $theme-color-4;
+}
+
+.yellow-color {
+    color: $royal-yellow;
+}
+
+.mb-30 {
+    @extend %mb-30;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-15 {
+    gap: 15px;
+}
+
+.fs-36 {
+    @include font-size(36px);
+}
+
+.logo{
+    width: 100px;
+}
+
+.pointer{
+    cursor: pointer;
+}

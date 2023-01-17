@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Wallet, Chain, Network, MetadataField } from "mintbase";
 import axios from "axios";
-import { MintbaseNFT } from "../../components/mintBaseNFT";
 
 const UploadFiles = () => {
   const [nftData, setNftData] = useState();
@@ -57,7 +56,10 @@ const UploadFiles = () => {
     fetchCheckNFT();
   });
 
-  const onClickFilesBtn = async () => {
+  const onClickFilesBtn = async (e) => {
+    e.preventDefault();
+
+
     setIsUploading(true);
 
     const { data, error } = await new Wallet().init({
@@ -94,57 +96,118 @@ const UploadFiles = () => {
         }
       )
       .then((response) => {
-        alert("Collection Created")
         window.location.href = `/collection/${metadata_id}`;
+        setIsUploading(false);
       })
       .catch((error) => {
         console.error(error);
       });
 
-    setIsUploading(false);
   };
 
   const ele = nftData ? (
     <>
-      <section className="title text--center">
+      <section
+        className="profile-section padding-top padding-bottom"
+        style={{ backgroundColor: "#1a203c" }}
+      >
         <div className="container">
-          <h1 className="HIW text--h1">Add Images To Create.</h1>
+          <div className="section-wrapper">
+            <div className="member-profile">
+              <div className="profile-item">
+                <div className="profile-cover">
+                  <img
+                    src="../assets/images/profile/cover.jpg"
+                    alt="cover-pic"
+                  />
+                </div>
+                <div className="profile-information">
+                  <div className="profile-pic">
+                    <img src={nftData.media} alt="DP" />
+                  </div>
+                  <div className="profile-name">
+                    <h4 style={{ textAlign: "left" }}>{nftData.title}</h4>
+                    <p>{nftData.description}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-      <section className="section section-list ma--bottom-lg">
-        <MintbaseNFT nft={nftData} buttonName={null} />
-        <div className="create-collection__file-preview">
-          <input
-            type="file"
-            accept="image/*"
-            name="title"
-            //   value={nftImage}
-            onChange={(e) => {
-              setCollectionImages(e.currentTarget.files);
-            }}
-            multiple
-            id="form-nftImage"
-          />
-          {isUploading ? (
-            <button className="btn collection__btn btn__disable">
-              Uploading...
-            </button>
-          ) : (
-            <button
-              className="btn collection__btn"
-              id="btn-upload-file"
-              onClick={() => onClickFilesBtn()}
-            >
-              Create Collection
-            </button>
-          )}
+
+      <div
+        className="tab-pane fade mentions-section show active"
+        id="pills-personal"
+        role="tabpanel"
+        aria-labelledby="pills-personal-tab"
+      >
+        <div className="row">
+          <div className="col">
+            <div className="create-nft py-5 px-4 d-flex justify-content-center">
+              <form className="create-nft-form col-8">
+                <div className="upload-item mb-30">
+                  {collectionImages ? (
+                    <p>Images Added, Ready to Create Collection...</p>
+                  ) : (
+                    <p>PNG,JPG,JPEG,SVG,WEBP</p>
+                  )}
+
+                  <div className="custom-upload">
+                  {collectionImages ? (
+                    <div className="file-btn">
+                      <i className="icofont-check"></i>
+                      Added
+                    </div>                  ) : (
+                    <div className="file-btn">
+                    <i className="icofont-upload-alt"></i>
+                    Upload a Images
+                  </div>
+                  )}
+                    
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="title"
+                      onChange={(e) => {
+                        setCollectionImages(e.currentTarget.files);
+                      }}
+                      multiple
+                      id="form-nftImage"
+                    />
+                  </div>
+                </div>
+                <div className="submit-btn-field text-center">
+                  {isUploading ? (
+                    <button type="submit">Uploading...</button>
+                  ) : (
+                    <button
+                      type="submit"
+                      id="btn-upload-file"
+                      onClick={(e) => onClickFilesBtn(e)}
+                    >
+                      Create Collection
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
     </>
   ) : (
-    <section className="section section-buy-nft">
-      <h2 className="text--h2 ma--bottom">Loading...</h2>
-    </section>
+    <section className="page-header-section style-1 vh-100">
+    <div className="container">
+      <div className="page-header-content">
+        <div className="page-header-inner">
+          <div className="page-title">
+            <h2>Loading... </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   );
   return ele;
 };

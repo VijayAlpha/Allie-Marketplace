@@ -1,15 +1,14 @@
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import { Wallet, Chain, Network } from "mintbase";
 import { useEffect, useState } from "react";
-import { Collection } from "../components/collection";
-import axios from "axios";
+import { CollectionCard } from "../components/CollectionCard";
+import { WalletSection } from "../components/WalletSection";
 import { MainSection } from "../components/MainSection";
 import { HowItWorks } from "../components/HowItWorks";
+import axios from "axios";
+
 
 export default function Home() {
   const [content, setContent] = useState();
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
@@ -23,32 +22,37 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <link rel="shortcut icon" href="/square.svg" type="image/x-icon" />
-        <title>Allie eve knox</title>
-      </Head>
-      <MainSection />
-      <section className="section section-collection ma--bottom-lg ma--top-lg">
-        <h2 className="section__title ma--bottom text--h1">Collections</h2>
-        <h2 className="text--h2 ma--bottom-lg">
-          Buy NFT To Unlock Each Of My Content
-        </h2>
-        <div className="flex">
-          {content ? (
-            content.collection.length !== 0 ? (
-              content.collection &&
-              content.collection.map((post, id) => {
-                return <Collection post={post} key={id} />;
-              })
-            ) : (
-              <h1>Sorry!... There is No Collection Now.</h1>
-            )
-          ) : (
-            <h1>Loading..</h1>
-          )}
+      <MainSection collection={content?.collection[0]}/>
+      <WalletSection />
+
+      <section className="ex-drop-section padding-bottom">
+        <div className="container">
+          <div className="section-header style-4">
+            <div className="header-shape">
+              <span></span>
+            </div>
+            <h3>NSFW Collections</h3>
+          </div>
+          <div className="section-wrapper">
+            <div className="ex-drop-wrapper">
+              <div className="row gx-4 gy-3 d-flex justify-content-start">
+                {content ? (
+                  content.collection.length !== 0 ? (
+                    content.collection?.map((post, id) => {
+                      return <CollectionCard post={post} key={id} />;
+                    })
+                  ) : (
+                    <h3>Sorry!... There is No Collection Now.</h3>
+                  )
+                ) : (
+                  <h1>Loading..</h1>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-      <HowItWorks />
+      {/* /* <HowItWorks /> */}
     </>
   );
 }
