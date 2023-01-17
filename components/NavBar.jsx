@@ -107,7 +107,7 @@ export const NavBar = () => {
               <div className="dropdown">
                 <Link
                   className="dropdown-toggle"
-                  href="/profile"
+                  href="#"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
