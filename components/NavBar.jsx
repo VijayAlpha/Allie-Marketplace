@@ -132,7 +132,7 @@ export const NavBar = () => {
                     <i className="icofont-wallet" data-blast="color"></i>
                   </span>{" "}
                   <span className="d-none d-md-inline">
-                    {walletBalance} NEAR
+                    Disconnect
                   </span>{" "}
                 </a>
               ) : (
