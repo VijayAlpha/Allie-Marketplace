@@ -78,7 +78,7 @@ const CreateCollection = () => {
         <div className="container">
           <div className="section-wrapper">
             <div className="explore-wrapper">
-              <div className="row justify-content-center gx-4 gy-3">
+              <div className="row justify-content-start gx-4 gy-3">
                 {isLoading === true ? (
                   <h2>Loading...</h2>
                 ) : nftData.length === 0 ? (

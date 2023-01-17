@@ -98,7 +98,7 @@ const ListPage = () => {
         <div className="container">
           <div className="section-wrapper">
             <div className="explore-wrapper">
-              <div className="row justify-content-center gx-4 gy-3">
+              <div className="row justify-content-start gx-4 gy-3">
                 {isLoading === true ? (
                   <h1>Loading...</h1>
                 ) : nftList.length === 0 ? (

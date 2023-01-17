@@ -340,10 +340,7 @@ export default function SingleCollection() {
               <h2>Checking Access </h2>
             </div>
             <ol className="breadcrumb">
-              <li>
-                <a href="index.html">Please</a>
-              </li>
-              <li className="active">wait</li>
+              <li className="active">Please Wait...</li>
             </ol>
           </div>
         </div>

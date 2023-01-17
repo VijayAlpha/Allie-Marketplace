@@ -32,18 +32,14 @@ export const CollectionCard = ({ post }) => {
           </div>
           {/* <!-- nft-bottom part --> */}
           <div className="nft-item-bottom">
-            <div className="nft-thumb" style={{ width: "100%", height: "260px" }}>
-              <Image
-                loading="lazy"
-                src={post.nftImage}
-                alt="nft-img"
-                fill
-              />
+            <div
+              className="nft-thumb"
+              style={{ width: "100%", height: "260px" }}
+            >
+              <Image loading="lazy" src={post.nftImage} alt="nft-img" fill />
             </div>
             <div className="nft-content">
-              <h4>
-                <Link href="item-details.html">{post.name}</Link>
-              </h4>
+              <h4>{post.name}</h4>
               <div className="price-like d-flex justify-content-between align-items-center">
                 <p className="nft-price">
                   Price:{" "}

@@ -38,8 +38,7 @@ export default function Home() {
               <div className="row gx-4 gy-3 d-flex justify-content-start">
                 {content ? (
                   content.collection.length !== 0 ? (
-                    content.collection &&
-                    content.collection.map((post, id) => {
+                    content.collection?.map((post, id) => {
                       return <CollectionCard post={post} key={id} />;
                     })
                   ) : (

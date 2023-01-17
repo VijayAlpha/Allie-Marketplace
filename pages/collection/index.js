@@ -80,7 +80,7 @@ const CollectionPage = () => {
           </div>
           <div className="section-wrapper">
             <div className="explore-wrapper">
-              <div className="row justify-content-center gx-4 gy-3">
+              <div className="row justify-content-start gx-4 gy-3">
                 {content ? (
                   content.collection.length !== 0 ? (
                     content.collection &&

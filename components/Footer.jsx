@@ -1,6 +1,12 @@
 import Script from "next/script";
+import { useEffect } from "react";
+import jQuery from "jquery";
 
 export const Footer = () => {
+  useEffect(() => {
+    window.jQuery = jQuery;
+  });
+
   return (
     <footer className="footer-section style-4">
       <div
@@ -219,17 +225,16 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-
-      {/* <Script src="assets/js/jquery-3.6.0.min.js" async></Script>
-      <Script src="assets/js/bootstrap.bundle.min.js"></Script>
-      <Script src="assets/js/waypoints.min.js"></Script>
-      <Script src="assets/js/lightcase.js"></Script>
-      <Script src="assets/js/swiper-bundle.min.js"></Script>
-      <Script src="assets/js/countdown.min.js"></Script>
-      <Script src="assets/js/jquery.counterup.min.js"></Script>
-      <Script src="assets/js/wow.min.js"></Script>
-      <Script src="assets/js/isotope.pkgd.min.js"></Script>
-      <Script src="assets/js/functions.js"></Script> */}
+{/* 
+      <Script src="./assets/js/bootstrap.bundle.min.js" async></Script>
+      <Script src="./assets/js/waypoints.min.js" async></Script>
+      <Script src="./assets/js/lightcase.js" async></Script>
+      <Script src="./assets/js/swiper-bundle.min.js" async></Script>
+      <Script src="./assets/js/countdown.min.js" async></Script>
+      <Script src="./assets/js/jquery.counterup.min.js" async></Script>
+      <Script src="./assets/js/wow.min.js" async></Script>
+      <Script src="./assets/js/isotope.pkgd.min.js" async></Script>
+      <Script src="./assets/js/functions.js" async></Script> */}
     </footer>
   );
 };
