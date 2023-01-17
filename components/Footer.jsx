@@ -225,8 +225,8 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-{/* 
-      <Script src="./assets/js/bootstrap.bundle.min.js" async></Script>
+
+      {/* <Script src="./assets/js/bootstrap.bundle.min.js" async></Script>
       <Script src="./assets/js/waypoints.min.js" async></Script>
       <Script src="./assets/js/lightcase.js" async></Script>
       <Script src="./assets/js/swiper-bundle.min.js" async></Script>

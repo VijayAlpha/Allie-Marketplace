@@ -14,7 +14,7 @@ export const CollectionCard = ({ post }) => {
             <div className="author-part">
               <ul className="author-list d-flex">
                 <li className="single-author d-flex align-items-center">
-                  <Link href="/author" className="veryfied">
+                  <span href="/author" className="veryfied">
                     <Image
                       loading="lazy"
                       src="/assets/images/seller/author.jpg"
@@ -22,9 +22,9 @@ export const CollectionCard = ({ post }) => {
                       width={100}
                       height={100}
                     />
-                  </Link>
+                  </span>
                   <h6>
-                    <Link href="#">Allie eve knox</Link>
+                    <span href="#">Allie eve knox</span>
                   </h6>
                 </li>
               </ul>
