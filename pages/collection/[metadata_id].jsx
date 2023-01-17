@@ -124,7 +124,7 @@ export default function SingleCollection() {
                     >
                       Images
                     </button>
-                    <button
+                    {/* <button
                       className="nav-link"
                       id="nav-about-tab"
                       data-bs-toggle="tab"
@@ -135,7 +135,7 @@ export default function SingleCollection() {
                       aria-selected="false"
                     >
                       About
-                    </button>
+                    </button> */}
                   </div>
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
