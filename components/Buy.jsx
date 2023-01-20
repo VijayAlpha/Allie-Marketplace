@@ -95,7 +95,7 @@ export const Buy = ({ meta }) => {
                 <h2> NFT Details</h2>
               </div>
               <ol className="breadcrumb">
-                <li>Buy this NFT to unloack the collection</li>
+                <li>Buy this NFT to unlock the collection</li>
               </ol>
             </div>
           </div>
