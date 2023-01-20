@@ -21,7 +21,7 @@ export const Footer = () => {
               <div className="col-lg-6">
                 <div className="newsletter-part">
                   <div className="ft-header">
-                    <h4>Get The Latest Rarible Updates</h4>
+                    <h4>Get The Latest Updates</h4>
                   </div>
                   <form action="#">
                     <input type="email" placeholder="Your Mail Address" />
@@ -225,7 +225,6 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-
     </footer>
   );
 };
