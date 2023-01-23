@@ -1,10 +1,34 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Wallet, Chain, Network } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
+import { execute, buy } from "@mintbase-js/sdk";
 
 export const Buy = ({ meta }) => {
   const [nftData, setNFTData] = useState();
+  const { selector } = useWallet();
+
+  const onclkBtn = async () => {
+    const wallet = await selector.wallet();
+
+    const price = nftData.price;
+
+    const buyArgs = {
+      contractAddress: nftData.nft_contract_id,
+      tokenId: nftData.token_id,
+      referrerId: process.env.NEXT_PUBLIC_REFERRAL_ID,
+      marketId: "market-v2-beta.mintspace2.testnet",
+      price: price.toString(),
+    };
+
+    console.log(buyArgs);
+
+    await execute(
+      { wallet },
+      {
+        ...buy(buyArgs),
+      }
+    );
+  };
 
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
@@ -48,28 +72,9 @@ export const Buy = ({ meta }) => {
       );
       setNFTData(returnedNftData.data.mb_views_active_listings[0]);
     };
+
     setbuydata();
   });
-
-  const onclkBtn = async () => {
-    const { data, error } = await new Wallet().init({
-      networkName: Network.testnet,
-      chain: Chain.near,
-      apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-    });
-
-    const { wallet } = data;
-    const tokenId = `${nftData.nft_contract_id}:${nftData.token_id}`;
-    const price = `${nftData.price.toLocaleString("fullwide", {
-      useGrouping: false,
-    })}`;
-
-    const marketAddress = nftData.market_id;
-
-    await wallet.makeOffer(tokenId, price, {
-      marketAddress,
-    });
-  };
 
   const Loading = (
     <section className="page-header-section style-1 vh-100">
@@ -236,7 +241,7 @@ export const Buy = ({ meta }) => {
                   </div>
                   <div
                     className="buying-btns d-flex flex-wrap pointer"
-                    onClick={() => onclkBtn()}
+                    onClick={onclkBtn}
                   >
                     <div className="default-btn move-right">
                       <span>Buy Now</span>{" "}

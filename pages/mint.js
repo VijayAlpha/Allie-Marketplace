@@ -1,60 +1,78 @@
-import { Wallet, Chain, Network, MetadataField } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
+import { execute, mint, MintArgs } from "@mintbase-js/sdk";
+import { uploadFile } from "@mintbase-js/storage";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Mint = () => {
-  const envVar = {
-    mintBaseApi: process.env.NEXT_PUBLIC_MINTBASE_API,
-    backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
-  };
-
   const router = useRouter();
   const [nftTitle, setNftTitle] = useState();
   const [nftDescription, setNftDescription] = useState();
   const [nftImage, setNftImage] = useState();
   const [nftAmount, setNftAmount] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const { selector } = useWallet();
 
-  // console.log(nftImage);
   const onClickMint = async (e) => {
-    setIsLoading(true);
-
-    const formData = {
-      title: nftTitle,
-      description: nftDescription,
-      image: nftImage,
-      amount: Number(nftAmount),
-    };
-
+    const wallet = await selector.wallet();
     e.preventDefault();
-    const { data, error } = await new Wallet().init({
-      networkName: Network.testnet,
-      chain: Chain.near,
-      apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-    });
-    const { wallet } = data;
 
-    const { data: fileUploadResult, error: fileError } =
-      await wallet.minter.uploadField(MetadataField.Media, formData.image);
+    if (!nftImage) return;
+    //call storage method to upload file to arweave
+    const uploadResult = await uploadFile(nftImage);
 
-    if (fileError) {
-      console.error("ERROR : ", fileError);
-    }
+    const referenceLink = "https://arweave.net/" + uploadResult.id;
 
-    wallet.minter.setMetadata({
-      title: formData.title,
-      description: formData.description,
-    });
-
-    await wallet.mint(
-      formData.amount,
-      process.env.NEXT_PUBLIC_CONTRACT_ID,
-      undefined,
-      undefined,
-      undefined
+    await execute(
+      { wallet },
+      mint({
+        contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ID,
+        reference: uploadResult.id,
+        ownerId: process.env.NEXT_PUBLIC_OWNER,
+      })
     );
-    setIsLoading(false);
   };
+
+  // // console.log(nftImage);
+  // const onClickMint = async (e) => {
+  //   setIsLoading(true);
+
+  //   const formData = {
+  //     title: nftTitle,
+  //     description: nftDescription,
+  //     image: nftImage,
+  //     amount: Number(nftAmount),
+  //   };
+
+  //   e.preventDefault();
+  //   const { data, error } = await new Wallet().init({
+  //     networkName: Network.testnet,
+  //     chain: Chain.near,
+  //     apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
+  //   });
+  //   const { wallet } = data;
+
+  //   const { data: fileUploadResult, error: fileError } =
+  //     await wallet.minter.uploadField(MetadataField.Media, formData.image);
+
+  //   if (fileError) {
+  //     console.error("ERROR : ", fileError);
+  //   }
+
+  //   wallet.minter.setMetadata({
+  //     title: formData.title,
+  //     description: formData.description,
+  //   });
+
+  //   await wallet.mint(
+  //     formData.amount,
+  //     process.env.NEXT_PUBLIC_CONTRACT_ID,
+  //     undefined,
+  //     undefined,
+  //     undefined
+  //   );
+  //   setIsLoading(false);
+  // };
 
   return (
     <>
@@ -184,8 +202,8 @@ const Mint = () => {
 
                 {isLoading ? (
                   <div className="submit-btn-field text-center">
-                  <button type="disable" >Minting...</button>
-                </div>
+                    <button type="disable">Minting...</button>
+                  </div>
                 ) : (
                   <div className="submit-btn-field text-center">
                     <button type="submit" onClick={(e) => onClickMint(e)}>
