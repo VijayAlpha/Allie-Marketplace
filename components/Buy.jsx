@@ -94,7 +94,6 @@ export const Buy = ({ meta }) => {
   const NftDetails =
     nftData ? (
       <>
-        {console.log(nftData)}
         <section className="page-header-section style-1">
           <div className="container">
             <div className="page-header-content">
