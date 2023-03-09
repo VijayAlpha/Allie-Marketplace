@@ -42,7 +42,7 @@ const Mint = () => {
       mint({
         ownerId: activeAccountId,
         metadata: { reference: reference },
-        amount: nftAmount,
+        amount: 10,
         noMedia: true,
         contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ID,
       })
