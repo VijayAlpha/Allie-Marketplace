@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { CollectionCard } from "../components/CollectionCard";
 import { WalletSection } from "../components/WalletSection";
 import { MainSection } from "../components/MainSection";
-import { HowItWorks } from "../components/HowItWorks";
 import axios from "axios";
 
 

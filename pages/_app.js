@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { mbjs } from "@mintbase-js/sdk";
 import { WalletContextProvider } from "@mintbase-js/react";
 import "@near-wallet-selector/modal-ui/styles.css";
 import "../public/assets/css/bootstrap.min.css";
@@ -13,17 +11,6 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
 function MyApp({ Component, pageProps }) {
-  useEffect(() => {
-    const config = {
-      network: "testnet",
-      callbackUrl: "https://mintbase.xyz/success",
-      contractAddress: "unlockableteststore.mintspace2.testnet",
-    };
-
-    mbjs.config(config);
-    console.log(mbjs.keys, "global keys of all mintbase-js packages");
-  });
-
   return (
     <>
       <WalletContextProvider>

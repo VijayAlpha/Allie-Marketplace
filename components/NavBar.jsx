@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Wallet, Chain, Network } from "mintbase";
+import { useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import Link from "next/link";
 
@@ -8,32 +7,8 @@ export const NavBar = () => {
   const [walletBalance, setWalletBalance] = useState();
   const [wallet, setWallet] = useState();
 
-  const {
-    connect,
-    disconnect,
-    activeAccountId,
-    isConnected,
-  } = useWallet();
+  const { connect, disconnect, activeAccountId, isConnected } = useWallet();
 
-  // useEffect(() => {
-  //   const connect = async () => {
-  //     const { data, error } = await new Wallet().init({
-  //       networkName: Network.testnet,
-  //       chain: Chain.near,
-  //       apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-  //     });
-  //     const { wallet, isConnected } = data;
-
-  //     setWallet(wallet);
-
-  //     if (isConnected) {
-  //       const { data: details } = await wallet.details();
-  //       setUsername(details.accountId);
-  //       setWalletBalance(details.balance);
-  //     }
-  //   };
-  //   connect();
-  // }, []);
   return (
     <header className="header">
       <div className="container-fluid">
