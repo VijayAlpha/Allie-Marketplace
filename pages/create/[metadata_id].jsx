@@ -1,12 +1,14 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Wallet, Chain, Network, MetadataField } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
+
 import axios from "axios";
 
 const UploadFiles = () => {
   const [nftData, setNftData] = useState();
   const [collectionImages, setCollectionImages] = useState();
   const [isUploading, setIsUploading] = useState(false);
+  const { activeAccountId } = useWallet();
 
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
@@ -54,7 +56,7 @@ const UploadFiles = () => {
       setNftData(data.mb_views_active_listings[0]);
     }
     fetchCheckNFT();
-  });
+  }, [activeAccountId]);
 
   const onClickFilesBtn = async (e) => {
     e.preventDefault();
@@ -62,15 +64,7 @@ const UploadFiles = () => {
 
     setIsUploading(true);
 
-    const { data, error } = await new Wallet().init({
-      networkName: Network.testnet,
-      chain: Chain.near,
-      apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-    });
-
-    const { wallet } = data;
-
-    const signerRes = await wallet.signMessage("test-message");
+  
 
     var formdata = new FormData();
 
@@ -79,7 +73,7 @@ const UploadFiles = () => {
     formdata.append("price", nftData.price);
     formdata.append("metadata_id", metadata_id);
     formdata.append("nftImage", nftData.media);
-    formdata.append("signerRes", JSON.stringify(signerRes));
+    formdata.append("connectedAccount", activeAccountId);
 
     Object.values(collectionImages).forEach((el) => {
       formdata.append("files", el, el.name);

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Wallet, Chain, Network } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
 import axios from "axios";
 import { Buy } from "./../../components/Buy";
 
@@ -12,32 +12,18 @@ export default function SingleCollection() {
 
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
+  const { activeAccountId } = useWallet();
 
   useEffect(() => {
     const checkAccess = async () => {
       try {
-        const { data, error } = await new Wallet().init({
-          networkName: Network.testnet,
-          chain: Chain.near,
-          apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-        });
-        const { wallet, isConnected } = data;
-
-        setWallet(wallet);
-
-        if (isConnected) {
-          const { data: details } = await wallet.details();
-          setUsername(details.accountId);
-        }
-
-        const signerRes = await wallet.signMessage("test-message");
-
+        console.log(activeAccountId);
         const res = await axios({
           method: "POST",
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
           data: {
             metadata_id,
-            signerRes,
+            connectedAccount: activeAccountId,
           },
         });
         setColllectionData(res.data.collection);
@@ -46,8 +32,10 @@ export default function SingleCollection() {
         console.log(error);
       }
     };
-    checkAccess();
-  }, [metadata_id]);
+    if (activeAccountId) {
+      checkAccess();
+    }
+  }, [activeAccountId]);
 
   const deleteCollection = async () => {
     try {
