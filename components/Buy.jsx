@@ -2,10 +2,26 @@
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import { execute, buy } from "@mintbase-js/sdk";
+import { utils } from "near-api-js";
 
 export const Buy = ({ meta }) => {
   const [nftData, setNFTData] = useState();
   const { selector } = useWallet();
+
+  const priceYocto = nftData?.price.toLocaleString().replace(/,/g, "");
+
+  const handleBuyToken = async (nftContractId, tokenId, price) => {
+    const wallet = await selector.wallet();
+
+    await execute(
+      { wallet },
+      buy({
+        tokenId,
+        price,
+        contractAddress: nftContractId,
+      })
+    );
+  };
 
   const onclkBtn = async () => {
     const wallet = await selector.wallet();
@@ -19,8 +35,6 @@ export const Buy = ({ meta }) => {
       marketId: "market-v2-beta.mintspace2.testnet",
       price: price.toString(),
     };
-
-    console.log(buyArgs);
 
     await execute(
       { wallet },
@@ -229,19 +243,13 @@ export const Buy = ({ meta }) => {
                     <p>
                       <span>
                         <i className="icofont-coins"></i>
-                        {Math.round(
-                          nftData.price.toLocaleString("fullwide", {
-                            useGrouping: false,
-                          }) *
-                            10 ** -24
-                        )}{" "}
-                        NEAR
+                        {utils.format.formatNearAmount(priceYocto, 2)} NEAR
                       </span>
                     </p>
                   </div>
                   <div
                     className="buying-btns d-flex flex-wrap pointer"
-                    onClick={onclkBtn}
+                    onClick={handleBuyToken}
                   >
                     <div className="default-btn move-right">
                       <span>Buy Now</span>{" "}
