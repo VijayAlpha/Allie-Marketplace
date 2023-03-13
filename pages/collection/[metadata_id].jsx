@@ -41,7 +41,7 @@ export default function SingleCollection() {
       const res = await axios({
         method: "DELETE",
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
-        data:  {
+        data: {
           connectedAccount: activeAccountId,
         },
       });
@@ -61,10 +61,11 @@ export default function SingleCollection() {
           <div className="section-wrapper">
             <div className="member-profile">
               <div className="profile-item">
-                <div className="profile-cover">
+                <div className="profile-cover" style={{ height: "300px" }}>
                   <img
-                    src="../assets/images/profile/cover.jpg"
+                    src={collectionData.nftImage}
                     alt="cover-pic"
+                    style={{ filter: "blur(10px)" }}
                   />
 
                   {userName === process.env.NEXT_PUBLIC_OWNER ? (
@@ -89,15 +90,15 @@ export default function SingleCollection() {
                     <img src={collectionData.nftImage} alt="DP" />
                   </div>
                   <div className="profile-name">
-                    <h4 style={{ textAlign: "left" }}>{collectionData.name}</h4>
-                    <p>{collectionData.description}</p>
+                    <h2 style={{ textAlign: "left" ,textShadow: "1px 1px 3px #1e1f21"}}>{collectionData.name}</h2>
+                    {/* <p>{collectionData.description}</p> */}
                   </div>
                 </div>
               </div>
               <div className="profile-details">
                 <nav className="profile-nav">
                   <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button
+                    {/* <button
                       className="nav-link active"
                       id="nav-allNft-tab"
                       data-bs-toggle="tab"
@@ -120,7 +121,7 @@ export default function SingleCollection() {
                       aria-selected="false"
                     >
                       About
-                    </button>
+                    </button> */}
                   </div>
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
@@ -155,13 +156,16 @@ export default function SingleCollection() {
                                             <div className="nft-item">
                                               <div className="nft-inner">
                                                 <div className="nft-item-bottom">
-                                                  <div className="nft-thumb">
+                                                  <div
+                                                    className="nft-thumb"
+                                                    style={{
+                                                      height: "400px",
+                                                      overflow: "hidden",
+                                                    }}
+                                                  >
                                                     <img
                                                       src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${img}`}
                                                       alt="nft-img"
-                                                      style={{
-                                                        height: "280px",
-                                                      }}
                                                     />
                                                   </div>
                                                 </div>

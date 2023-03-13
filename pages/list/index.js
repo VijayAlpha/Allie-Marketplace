@@ -82,12 +82,10 @@ const ListPage = () => {
           <div className="page-header-content">
             <div className="page-header-inner">
               <div className="page-title">
-                <h2>List NFT For Sale</h2>
+                <h2>List NFT</h2>
               </div>
               <ol className="breadcrumb">
-                <li className="active">
-                  This all minted NFTs, List them for sale
-                </li>
+                <li className="active">List them for sale</li>
               </ol>
             </div>
           </div>
@@ -105,9 +103,7 @@ const ListPage = () => {
                   <h3>Sorry!... There is No NFT Now.</h3>
                 ) : (
                   nftList.map((nftData, id) => {
-                    return (
-                      <NFTCard post={nftData} page={"list"} key={id} />
-                    );
+                    return <NFTCard post={nftData} page={"list"} key={id} />;
                   })
                 )}
               </div>

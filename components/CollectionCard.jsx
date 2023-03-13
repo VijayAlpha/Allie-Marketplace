@@ -38,7 +38,7 @@ export const CollectionCard = ({ post }) => {
           <div className="nft-item-bottom">
             <div
               className="nft-thumb"
-              style={{ width: "100%", height: "260px" }}
+              style={{ width: "100%", height: "300px" }}
             >
               <Image loading="lazy" src={post.nftImage} alt="nft-img" fill />
             </div>
