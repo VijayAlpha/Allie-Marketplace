@@ -38,13 +38,11 @@ export default function SingleCollection() {
 
   const deleteCollection = async () => {
     try {
-      const signerRes = await wallet.signMessage("test-message");
-
       const res = await axios({
         method: "DELETE",
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
-        data: {
-          signerRes,
+        data:  {
+          connectedAccount: activeAccountId,
         },
       });
 

@@ -1,7 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import { utils } from "near-api-js";
 
 export const MainSection = ({ collection }) => {
+  const priceYocto = collection?.price.toLocaleString().replace(/,/g, "");
+  const priceNear = utils.format.formatNearAmount(priceYocto, 2);
   return (
     <section
       className="banner-section home-4"
@@ -65,66 +68,37 @@ export const MainSection = ({ collection }) => {
                                 </li>
                               </ul>
                             </div>
-                            <div className="more-part">
-                              <div className="dropstart">
-                                <a
-                                  className="dropdown-toggle"
-                                  href="#"
-                                  role="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                  data-bs-offset="25,0"
-                                >
-                                  <i className="icofont-flikr"></i>
-                                </a>
-
-                                <ul className="dropdown-menu">
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      <span>
-                                        <i className="icofont-warning"></i>
-                                      </span>
-                                      Report
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a className="dropdown-item" href="#">
-                                      <span>
-                                        <i className="icofont-reply"></i>
-                                      </span>
-                                      Share
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
                           </div>
                           {/* <!-- nft-bottom part --> */}
+
                           <div className="nft-item-bottom">
-                            <div className="nft-thumb" style={{ width: "100%", height: "360px" }}>
+                            <div
+                              className="nft-thumb"
+                              style={{ width: "100%", height: "360px" }}
+                            >
                               <Image
-                                src={collection?.nftImage ? collection?.nftImage : "/no-image.png"}
+                                src={
+                                  collection?.nftImage
+                                    ? collection?.nftImage
+                                    : "/no-image.png"
+                                }
                                 alt="nft-img"
                                 fill
                               />
                             </div>
                             <div className="nft-content">
                               <h4>
-                                <Link href="/collection/${}">
-                                  {collection?.name}{" "}
+                                <Link
+                                  href={`/collection/${collection?.metadata_id}`}
+                                >
+                                  {collection?.name}
                                 </Link>
                               </h4>
                               <div className="price-like d-flex justify-content-between align-items-center">
                                 <p className="nft-price">
                                   Price:
                                   <span className="yellow-color">
-                                    {Math.round(
-                                      collection?.price.toLocaleString("fullwide", {
-                                        useGrouping: false,
-                                      }) *
-                                        10 ** -24
-                                    )}{" "}
-                                    NEAR
+                                    {priceNear}N
                                   </span>
                                 </p>
                               </div>
