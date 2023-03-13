@@ -9,6 +9,7 @@ export const Buy = ({ meta }) => {
   const { selector } = useWallet();
 
   const priceYocto = nftData?.price.toLocaleString().replace(/,/g, "");
+  const priceNear = utils.format.formatNearAmount(priceYocto, 2);
 
   const handleBuyToken = async (nftContractId, tokenId, price) => {
     const wallet = await selector.wallet();
@@ -23,80 +24,55 @@ export const Buy = ({ meta }) => {
     );
   };
 
-  const onclkBtn = async () => {
-    const wallet = await selector.wallet();
-
-    const price = nftData.price;
-
-    const buyArgs = {
-      contractAddress: nftData.nft_contract_id,
-      tokenId: nftData.token_id,
-      referrerId: process.env.NEXT_PUBLIC_REFERRAL_ID,
-      marketId: "market-v2-beta.mintspace2.testnet",
-      price: price.toString(),
-    };
-
-    await execute(
-      { wallet },
-      {
-        ...buy(buyArgs),
-      }
-    );
-  };
-
   useEffect(() => {
-    async function fetchGraphQL(operationsDoc, operationName, variables) {
-      const result = await fetch(
-        "https://interop-testnet.hasura.app/v1/graphql",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            query: operationsDoc,
-            variables: variables,
-            operationName: operationName,
-          }),
-        }
-      );
-      return result.json();
-    }
-    const operations = (metadata_id_) => {
-      return `
-            query checkNFT {
-              mb_views_active_listings(
-                where: {metadata_id: {_eq: "${metadata_id_}"}}
-                limit: 1
-              ) {
-                token_id
-                nft_contract_id
-                title
-                price
-                description
-                media
-                market_id
-              }
-            }
-          `;
-    };
-
-    const setbuydata = async () => {
-      const returnedNftData = await fetchGraphQL(
-        operations(meta),
-        "checkNFT",
-        {}
-      );
-      setNFTData(returnedNftData.data.mb_views_active_listings[0]);
-    };
-
-    setbuydata();
+    fetchTokenData();
   });
 
-  const Loading = (
+  async function fetchGraphQL(operationsDoc, operationName, variables) {
+    const result = await fetch(
+      "https://interop-testnet.hasura.app/v1/graphql",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          query: operationsDoc,
+          variables: variables,
+          operationName: operationName,
+        }),
+      }
+    );
+    return result.json();
+  }
+  const TOKEN_QUERY = (metadata_id_) => {
+    return `
+          query checkNFT {
+            mb_views_active_listings(
+              where: {metadata_id: {_eq: "${metadata_id_}"}}
+              limit: 1
+            ) {
+              token_id
+              nft_contract_id
+              title
+              price
+              description
+              media
+              market_id
+            }
+          }
+        `;
+  };
+
+  const fetchTokenData = async () => {
+    const tokenData = await fetchGraphQL(TOKEN_QUERY(meta), "checkNFT", {});
+    setNFTData(tokenData?.data.mb_views_active_listings[0]);
+  };
+
+  const NoTokens = (
     <section className="page-header-section style-1 vh-100">
       <div className="container">
         <div className="page-header-content">
           <div className="page-header-inner">
             <div className="page-title">
-              <h2>Sorry You have not own this NFT </h2>
+              <h2>All NFTs are sold out for this collection.</h2>
             </div>
           </div>
         </div>
@@ -104,7 +80,7 @@ export const Buy = ({ meta }) => {
     </section>
   );
 
-  const NftDetails = nftData ? (
+  const TokenBuy = nftData ? (
     <>
       <section className="page-header-section style-1">
         <div className="container">
@@ -114,7 +90,7 @@ export const Buy = ({ meta }) => {
                 <h2> NFT Details</h2>
               </div>
               <ol className="breadcrumb">
-                <li>Buy this NFT to unloack the collection</li>
+                <li>Buy this NFT to unlock the collection</li>
               </ol>
             </div>
           </div>
@@ -195,7 +171,7 @@ export const Buy = ({ meta }) => {
                 <div className="item-buy-part">
                   <div className="nft-item-title">
                     <h3>Name: {nftData.title}</h3>
-                    <div className="share-btn">
+                    {/* <div className="share-btn">
                       <div className=" dropstart">
                         <a
                           className=" dropdown-toggle"
@@ -235,21 +211,28 @@ export const Buy = ({ meta }) => {
                           </li>
                         </ul>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="item-price">
-                    <h4>Price</h4>
+                    <h4>Price :</h4>
                     <p>
                       <span>
                         <i className="icofont-coins"></i>
-                        {utils.format.formatNearAmount(priceYocto, 2)} NEAR
+                        {priceNear}N
                       </span>
                     </p>
                   </div>
                   <div
                     className="buying-btns d-flex flex-wrap pointer"
-                    onClick={handleBuyToken}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleBuyToken(
+                        nftData.nft_contract_id,
+                        nftData.token_id,
+                        priceYocto
+                      );
+                    }}
                   >
                     <div className="default-btn move-right">
                       <span>Buy Now</span>{" "}
@@ -261,45 +244,6 @@ export const Buy = ({ meta }) => {
           </div>
         </div>
       </div>
-      {/* <section className="section section-buy-nft">
-        <div className="collection">
-          <div className="collection__left">
-            <div className="right">
-              <img
-                src={nftData.media}
-                alt="NFT image"
-                className="collection__nft ma--bottom"
-              />
-              <h2 className="collection__name ma--bottom">{nftData.title}</h2>
-              <p className="collection__description ma--bottom text-base--1">
-                {nftData.description}
-              </p>
-              <span className="collection__price text--h2 ma--bottom">
-                {Math.round(
-                  nftData.price.toLocaleString("fullwide", {
-                    useGrouping: false,
-                  }) *
-                    10 ** -24
-                )}
-                <img
-                  src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
-                  alt="NEAR"
-                  className="collection__price--img"
-                />
-              </span>
-            </div>
-            <div className="left">
-              <button
-                className="btn collection__btn"
-                id="btn-buy-nft"
-                onClick={() => onclkBtn()}
-              >
-                Buy to Unlock
-              </button>
-            </div>
-          </div>
-        </div>
-      </section> */}
     </>
   ) : (
     <section className="page-header-section style-1 vh-100">
@@ -320,5 +264,5 @@ export const Buy = ({ meta }) => {
     </section>
   );
 
-  return nftData ? NftDetails : Loading;
+  return nftData ? TokenBuy : NoTokens;
 };

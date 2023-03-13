@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
@@ -8,7 +9,6 @@ export default function SingleCollection() {
   const [collectionData, setColllectionData] = useState();
   const [accessError, setError] = useState();
   const [userName, setUsername] = useState();
-  const [wallet, setWallet] = useState();
 
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
@@ -17,7 +17,6 @@ export default function SingleCollection() {
   useEffect(() => {
     const checkAccess = async () => {
       try {
-        console.log(activeAccountId);
         const res = await axios({
           method: "POST",
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
@@ -29,13 +28,13 @@ export default function SingleCollection() {
         setColllectionData(res.data.collection);
       } catch (error) {
         setError(error);
-        console.log(error);
       }
     };
     if (activeAccountId) {
+      setUsername(activeAccountId);
       checkAccess();
     }
-  }, [activeAccountId]);
+  }, [activeAccountId, metadata_id]);
 
   const deleteCollection = async () => {
     try {
