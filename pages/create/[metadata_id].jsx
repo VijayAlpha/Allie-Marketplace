@@ -60,11 +60,7 @@ const UploadFiles = () => {
 
   const onClickFilesBtn = async (e) => {
     e.preventDefault();
-
-
     setIsUploading(true);
-
-  
 
     var formdata = new FormData();
 
