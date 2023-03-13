@@ -201,10 +201,10 @@ export default function SingleCollection() {
         <div className="page-header-content">
           <div className="page-header-inner">
             <div className="page-title">
-              <h2>Checking Access </h2>
+              <h2>Hold On Tight.</h2>
             </div>
             <ol className="breadcrumb">
-              <li className="active">Please Wait...</li>
+              <li className="active">Checking Access.</li>
             </ol>
           </div>
         </div>

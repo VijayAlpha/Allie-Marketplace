@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import { execute, buy } from "@mintbase-js/sdk";
@@ -72,7 +73,10 @@ export const Buy = ({ meta }) => {
         <div className="page-header-content">
           <div className="page-header-inner">
             <div className="page-title">
-              <h2>All NFTs are sold out for this collection.</h2>
+              <h2>NFTs are sold.</h2>
+            </div>
+            <div className="page-title">
+              <Link href="/collection">Check other collections here.</Link>
             </div>
           </div>
         </div>
