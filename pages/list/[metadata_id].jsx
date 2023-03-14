@@ -7,18 +7,10 @@ const List = () => {
   const router = useRouter();
   const metadataId = router.query.metadata_id;
 
-  const { selector, activeAccountId } = useWallet();
+  const { selector } = useWallet();
   const [token, setToken] = useState({});
   const [listPrice, setListPrice] = useState();
   const [listAmount, setListAmount] = useState();
-
-  const listNFT = async (e) => {
-    e.preventDefault();
-
-    let price = `${(listPrice ** 24).toLocaleString("fullwide", {
-      useGrouping: false,
-    })}`;
-  };
 
   const handleListToken = async (e) => {
     e.preventDefault();
@@ -29,18 +21,25 @@ const List = () => {
 
     if (!token) return;
 
-    await execute({ wallet }, [
+    let listArg = [
       depositStorage({
         listAmount: listAmount,
         marketAddress: marketAddress,
       }),
-      list({
-        contractAddress: token.nft_contract_id,
-        marketAddress: marketAddress,
-        tokenId: token.token_id,
-        price: `5${"0".repeat(23)}`,
-      }),
-    ]);
+    ];
+
+    for (let i = 0; i < listAmount; i++) {
+      listArg.push(
+        list({
+          contractAddress: token.nft_contract_id,
+          marketAddress: marketAddress,
+          tokenId: `${parseInt(token.token_id) + (i + 1)}`,
+          price: `${listPrice + "0".repeat(24)}`,
+        })
+      );
+    }
+
+    await execute({ wallet }, listArg);
   };
 
   useEffect(() => {
@@ -117,12 +116,13 @@ const List = () => {
                     <a href="#"> Description:</a> {token.description}{" "}
                   </span>
                 </div>
-                <form className="account-form">
+                <form className="account-form" onSubmit={handleListToken}>
                   <div className="form-floating mb-3">
                     <input
                       type="number"
                       className="form-control"
                       id="floatingInput"
+                      min="1"
                       placeholder="10 NEAR"
                       onChange={(e) => {
                         setListPrice(e.currentTarget.value);
@@ -136,17 +136,32 @@ const List = () => {
                       className="form-control"
                       id="floatingPassword"
                       placeholder="50"
+                      min="1"
+                      max={token.copies}
+                      onChange={(e) => {
+                        setListAmount(e.currentTarget.value);
+                      }}
                     />
                     <label for="floatingPassword">Amount</label>
                   </div>
 
                   <div className="form-group">
-                    <button
-                      className="d-block default-btn move-top"
-                      onClick={handleListToken}
-                    >
-                      <span>List For Sale</span>
-                    </button>
+                    {listAmount && listPrice ? (
+                      <button
+                        className="d-block default-btn move-top"
+                        type="submit"
+                      >
+                        <span>List For Sale</span>
+                      </button>
+                    ) : (
+                      <button
+                        className="d-block default-btn move-top"
+                        type="submit"
+                        style={{ cursor: "not-allowed" }}
+                      >
+                        <span>List For Sale</span>
+                      </button>
+                    )}
                   </div>
                 </form>
               </div>

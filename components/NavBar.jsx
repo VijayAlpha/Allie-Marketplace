@@ -1,11 +1,7 @@
-import { useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import Link from "next/link";
 
 export const NavBar = () => {
-  const [userName, setUsername] = useState();
-  const [walletBalance, setWalletBalance] = useState();
-  const [wallet, setWallet] = useState();
 
   const { connect, disconnect, activeAccountId, isConnected } = useWallet();
 
