@@ -125,7 +125,7 @@ const Mint = () => {
                   ></textarea>
                   <label for="itemDesc">NFT Description</label>
                 </div>
-                <div className="form-floating item-name-field mb-3">
+                {/* <div className="form-floating item-name-field mb-3">
                   <input
                     type="text"
                     className="form-control"
@@ -136,7 +136,7 @@ const Mint = () => {
                     }}
                   />
                   <label for="itemNameInput">Royalities</label>
-                </div>
+                </div> */}
                 <div className="form-floating item-name-field mb-3">
                   <input
                     type="text"
