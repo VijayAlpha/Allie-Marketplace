@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
@@ -92,7 +93,6 @@ const UploadFiles = () => {
       .catch((error) => {
         console.error(error);
       });
-
   };
 
   const ele = nftData ? (
@@ -105,10 +105,11 @@ const UploadFiles = () => {
           <div className="section-wrapper">
             <div className="member-profile">
               <div className="profile-item">
-                <div className="profile-cover">
+                <div className="profile-cover" style={{ height: "300px" }}>
                   <img
-                    src="../assets/images/profile/cover.jpg"
+                    src={nftData.media}
                     alt="cover-pic"
+                    style={{ filter: "blur(10px)" }}
                   />
                 </div>
                 <div className="profile-information">
@@ -116,8 +117,8 @@ const UploadFiles = () => {
                     <img src={nftData.media} alt="DP" />
                   </div>
                   <div className="profile-name">
-                    <h4 style={{ textAlign: "left" }}>{nftData.title}</h4>
-                    <p>{nftData.description}</p>
+                    <h2 style={{ textAlign: "left" ,textShadow: "1px 1px 3px #1e1f21" }}>{nftData.title}</h2>
+                    {/* <p>{nftData.description}</p> */}
                   </div>
                 </div>
               </div>
@@ -144,17 +145,18 @@ const UploadFiles = () => {
                   )}
 
                   <div className="custom-upload">
-                  {collectionImages ? (
-                    <div className="file-btn">
-                      <i className="icofont-check"></i>
-                      Added
-                    </div>                  ) : (
-                    <div className="file-btn">
-                    <i className="icofont-upload-alt"></i>
-                    Upload a Images
-                  </div>
-                  )}
-                    
+                    {collectionImages ? (
+                      <div className="file-btn">
+                        <i className="icofont-check"></i>
+                        Added
+                      </div>
+                    ) : (
+                      <div className="file-btn">
+                        <i className="icofont-upload-alt"></i>
+                        Upload a Images
+                      </div>
+                    )}
+
                     <input
                       type="file"
                       accept="image/*"
@@ -188,16 +190,16 @@ const UploadFiles = () => {
     </>
   ) : (
     <section className="page-header-section style-1 vh-100">
-    <div className="container">
-      <div className="page-header-content">
-        <div className="page-header-inner">
-          <div className="page-title">
-            <h2>Loading... </h2>
+      <div className="container">
+        <div className="page-header-content">
+          <div className="page-header-inner">
+            <div className="page-title">
+              <h2>Loading... </h2>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
   );
   return ele;
 };

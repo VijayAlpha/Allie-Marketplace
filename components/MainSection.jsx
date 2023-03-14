@@ -47,7 +47,14 @@ export const MainSection = ({ collection }) => {
                   <div className="swiper-wrapper">
                     <div className="swiper-slide">
                       <div className="nft-item home-4">
-                        <div className="nft-inner">
+                        <div
+                          className="nft-inner"
+                          onClick={() => {
+                            let herfLink = `/collection/${collection?.metadata_id}`;
+                            window.open(herfLink, "_self");
+                          }}
+                          style={{ cursor: "pointer" }}
+                        >
                           {/* <!-- nft top part --> */}
                           <div className="nft-item-top d-flex justify-content-between align-items-center">
                             <div className="author-part">

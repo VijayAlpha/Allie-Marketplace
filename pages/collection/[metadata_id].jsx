@@ -159,8 +159,13 @@ export default function SingleCollection() {
                                                   <div
                                                     className="nft-thumb"
                                                     style={{
-                                                      height: "400px",
+                                                      maxHeight: "400px",
                                                       overflow: "hidden",
+                                                      cursor: "pointer"
+                                                    }}
+                                                    onClick={()=>{
+                                                      let herfLink = `${process.env.NEXT_PUBLIC_BACKEND_URL}/${img}`;
+                                                      window.open(herfLink);
                                                     }}
                                                   >
                                                     <img
