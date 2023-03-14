@@ -9,6 +9,13 @@ import "../public/assets/css/style.css";
 import { NavBar } from "../components/NavBar";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { mbjs, NEAR_NETWORKS } from "@mintbase-js/sdk";
+
+mbjs.config({
+  network: NEAR_NETWORKS.TESTNET,
+});
+
+mbjs.keys.apiKey = "omni-site";
 
 function MyApp({ Component, pageProps }) {
   return (
