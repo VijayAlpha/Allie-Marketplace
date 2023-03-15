@@ -2,8 +2,13 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
-
 import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  "https://rqechictkuaydahokxpn.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxZWNoaWN0a3VheWRhaG9reHBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg1NDIyNTQsImV4cCI6MTk5NDExODI1NH0._8dFzAKiPBe0sX-bIfgeAU5Zvuk5Q8o8Ju69uH957iQ"
+);
 
 const UploadFiles = () => {
   const [nftData, setNftData] = useState();
@@ -59,40 +64,96 @@ const UploadFiles = () => {
     fetchCheckNFT();
   }, [activeAccountId]);
 
-  const onClickFilesBtn = async (e) => {
+  const uploadFiles = async (e) => {
+    let file;
+    if (e.target.files) {
+      setCollectionImages(e.target.files);
+      file = e.target.files[0];
+    }
+
+    Array.from(e.target?.files).forEach(async (file) => {
+      const { data, error } = await supabase.storage
+        .from("collectionimages")
+        .upload(`${nftData.title}/${file?.name}`, file);
+      console.log(data);
+    });
+  };
+
+  const handleCreateCollection = async (e) => {
     e.preventDefault();
     setIsUploading(true);
 
-    var formdata = new FormData();
+    let imageImagesURL = [];
 
-    formdata.append("name", nftData.title);
-    formdata.append("description", nftData.description);
-    formdata.append("price", nftData.price);
-    formdata.append("metadata_id", metadata_id);
-    formdata.append("nftImage", nftData.media);
-    formdata.append("connectedAccount", activeAccountId);
+    const { data: imageList, error: imageError } = await supabase.storage
+      .from("collectionimages")
+      .list(`${nftData.title}`, {
+        limit: 100,
+        offset: 0,
+      });
 
-    Object.values(collectionImages).forEach((el) => {
-      formdata.append("files", el, el.name);
+    imageList?.forEach(async (image) => {
+      let { data } = await supabase.storage
+        .from("collectionimages")
+        .getPublicUrl(`${nftData.title}/${image.name}`);
+      imageImagesURL.push(data.publicUrl);
     });
 
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
-        formdata,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
-      .then((response) => {
-        window.location.href = `/collection/${metadata_id}`;
-        setIsUploading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    let formData = {
+      name: nftData.title,
+      description: nftData.description,
+      price: nftData.price,
+      metadata_id: metadata_id,
+      nftImage: nftData.media,
+      connectedAccount: activeAccountId,
+      files: imageImagesURL
+    }
+
+    console.log(formData);
+
+    // var formdata = new FormData();
+
+    // formdata.append("name", nftData.title);
+    // formdata.append("description", nftData.description);
+    // formdata.append("price", nftData.price);
+    // formdata.append("metadata_id", metadata_id);
+    // formdata.append("nftImage", nftData.media);
+    // formdata.append("connectedAccount", activeAccountId);
+    // formdata.append("files", imageImagesURL);
+
+    // console.log(formData);
+
+    const res = await axios({
+      method: "POST",
+      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
+      data: formData,
+    });
+
+    // console.log(formdata);
+
+    // Object.values(collectionImages).forEach((el) => {
+    //   formdata.append("files", el, el.name);
+    // });
+
+    // console.log(res);
+
+    // axios
+    //   .post(
+    //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
+    //     formdata,
+    //     {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     window.location.href = `/collection/${metadata_id}`;
+    //     setIsUploading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
   const ele = nftData ? (
@@ -117,7 +178,14 @@ const UploadFiles = () => {
                     <img src={nftData.media} alt="DP" />
                   </div>
                   <div className="profile-name">
-                    <h2 style={{ textAlign: "left" ,textShadow: "1px 1px 3px #1e1f21" }}>{nftData.title}</h2>
+                    <h2
+                      style={{
+                        textAlign: "left",
+                        textShadow: "1px 1px 3px #1e1f21",
+                      }}
+                    >
+                      {nftData.title}
+                    </h2>
                     {/* <p>{nftData.description}</p> */}
                   </div>
                 </div>
@@ -162,7 +230,7 @@ const UploadFiles = () => {
                       accept="image/*"
                       name="title"
                       onChange={(e) => {
-                        setCollectionImages(e.currentTarget.files);
+                        uploadFiles(e);
                       }}
                       multiple
                       id="form-nftImage"
@@ -176,7 +244,7 @@ const UploadFiles = () => {
                     <button
                       type="submit"
                       id="btn-upload-file"
-                      onClick={(e) => onClickFilesBtn(e)}
+                      onClick={(e) => handleCreateCollection(e)}
                     >
                       Create Collection
                     </button>

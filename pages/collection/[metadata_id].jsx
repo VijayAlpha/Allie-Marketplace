@@ -164,12 +164,12 @@ export default function SingleCollection() {
                                                       cursor: "pointer"
                                                     }}
                                                     onClick={()=>{
-                                                      let herfLink = `${process.env.NEXT_PUBLIC_BACKEND_URL}/${img}`;
+                                                      let herfLink = `${img}`;
                                                       window.open(herfLink);
                                                     }}
                                                   >
                                                     <img
-                                                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${img}`}
+                                                      src={`${img}`}
                                                       alt="nft-img"
                                                     />
                                                   </div>
