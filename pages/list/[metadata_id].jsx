@@ -1,32 +1,45 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Wallet, Network, Chain } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
+import { depositStorage, execute, list } from "@mintbase-js/sdk";
 
 const List = () => {
   const router = useRouter();
-
   const metadataId = router.query.metadata_id;
 
-  const [nftData, setNftData] = useState({});
+  const { selector } = useWallet();
+  const [token, setToken] = useState({});
   const [listPrice, setListPrice] = useState();
   const [listAmount, setListAmount] = useState();
 
-  const listNFT = async (e) => {
+  const handleListToken = async (e) => {
     e.preventDefault();
 
-    const { data, error } = await new Wallet().init({
-      networkName: Network.testnet,
-      chain: Chain.near,
-      apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-    });
+    const wallet = await selector.wallet();
 
-    const { wallet } = data;
+    const marketAddress = "market-v2-beta.mintspace2.testnet";
 
-    let price = `${(listPrice ** 24).toLocaleString("fullwide", {
-      useGrouping: false,
-    })}`;
+    if (!token) return;
 
-    wallet.list(nftData.token_id, nftData.nft_contract_id, price);
+    let listArg = [
+      depositStorage({
+        listAmount: listAmount,
+        marketAddress: marketAddress,
+      }),
+    ];
+
+    for (let i = 0; i < listAmount; i++) {
+      listArg.push(
+        list({
+          contractAddress: token.nft_contract_id,
+          marketAddress: marketAddress,
+          tokenId: `${parseInt(token.token_id) + (i + 1)}`,
+          price: `${listPrice + "0".repeat(24)}`,
+        })
+      );
+    }
+
+    await execute({ wallet }, listArg);
   };
 
   useEffect(() => {
@@ -71,14 +84,13 @@ const List = () => {
         "MyQuery",
         {}
       );
-
-      setNftData(data.mb_views_nft_tokens[0]);
+      setToken(data.mb_views_nft_tokens[0]);
     }
 
     fetchCheckNFT();
   });
 
-  const element = nftData ? (
+  const element = token ? (
     <>
       <section className="page-header-section style-1">
         <div className="container">
@@ -97,19 +109,20 @@ const List = () => {
             <div className="col-lg-5">
               <div className="account-wrapper">
                 <div className="account-bottom">
-                  <h5 className="subtitle">Title: {nftData.title}</h5>
+                  <h5 className="subtitle">Title: {token.title}</h5>
 
                   <span className="d-block cate pt-10 mb-5">
                     {" "}
-                    <a href="#"> Description:</a> {nftData.description}{" "}
+                    <a href="#"> Description:</a> {token.description}{" "}
                   </span>
                 </div>
-                <form className="account-form">
+                <form className="account-form" onSubmit={handleListToken}>
                   <div className="form-floating mb-3">
                     <input
                       type="number"
                       className="form-control"
                       id="floatingInput"
+                      min="1"
                       placeholder="10 NEAR"
                       onChange={(e) => {
                         setListPrice(e.currentTarget.value);
@@ -123,25 +136,32 @@ const List = () => {
                       className="form-control"
                       id="floatingPassword"
                       placeholder="50"
+                      min="1"
+                      max={token.copies}
+                      onChange={(e) => {
+                        setListAmount(e.currentTarget.value);
+                      }}
                     />
                     <label for="floatingPassword">Amount</label>
                   </div>
-                  {/* <div className="form-group">
-                                <div className="d-flex justify-content-between flex-wrap pt-sm-2">
-                                    <div className="checkgroup">
-                                        <input type="checkbox" name="remember" id="remember" />
-                                        <label for="remember">Remember Me</label>
-                                    </div>
-                                    <a href="forgot-pass.html">Forgot Password?</a>
-                                </div>
-                            </div> */}
+
                   <div className="form-group">
-                    <button
-                      className="d-block default-btn move-top"
-                      onClick={(e) => listNFT(e)}
-                    >
-                      <span>List For Sale</span>
-                    </button>
+                    {listAmount && listPrice ? (
+                      <button
+                        className="d-block default-btn move-top"
+                        type="submit"
+                      >
+                        <span>List For Sale</span>
+                      </button>
+                    ) : (
+                      <button
+                        className="d-block default-btn move-top"
+                        type="submit"
+                        style={{ cursor: "not-allowed" }}
+                      >
+                        <span>List For Sale</span>
+                      </button>
+                    )}
                   </div>
                 </form>
               </div>
@@ -149,7 +169,7 @@ const List = () => {
             <div className="col-lg-7">
               <div className="account-img">
                 <img
-                  src={nftData.media ? nftData.media : "/no-image.png"}
+                  src={token.media ? token.media : "/no-image.png"}
                   alt="nft-image"
                 />
               </div>
@@ -157,47 +177,6 @@ const List = () => {
           </div>
         </div>
       </div>
-
-      {/* <section className="title text--center">
-        <div className="container">
-          <h1 className="HIW text--h1">List NFT for Sale</h1>
-        </div>
-      </section>
-
-      <section className="section section-list ma--bottom-lg">
-        <MintbaseNFT nft={nftData} buttonName={null} /> 
-
-        <form id="form-list-nft">
-          <div className="">
-            <label> Price to List </label>
-            <input
-              type="number"
-              name="price"
-              id="input-list-price"
-              placeholder="NEAR"
-              onChange={(e) => {
-                setListPrice(e.currentTarget.value);
-              }}
-            />
-          </div>
-          <div className="">
-            <label> Amount to list </label>
-            <input
-              type="number"
-              name="amount"
-              id="input-list-amount"
-              placeholder="1"
-            />
-          </div>
-          <button
-            className="btn btn--primary text-base--1 ma--top-side"
-            id="btn-list-nft"
-            onClick={(e) => listNFT(e)}
-          >
-            List NFT
-          </button>
-        </form>
-      </section> */}
     </>
   ) : (
     <></>

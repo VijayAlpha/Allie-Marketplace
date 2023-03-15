@@ -1,28 +1,17 @@
-import { Wallet, Network, Chain } from "mintbase";
+// import { Wallet, Network, Chain } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
 import { useState, useEffect, useRef } from "react";
 import { NFTCard } from "./../../components/NFTCard";
 
 const ListPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [nftList, setNftList] = useState();
-  const dataFetchedRef = useRef(false);
+  const { activeAccountId } = useWallet();
+
+  // const dataFetchedRef = useRef(false);
 
   const loadOwnedNFT = async () => {
     try {
-      const { data: walletData, error } = await new Wallet().init({
-        networkName: Network.testnet,
-        chain: Chain.near,
-        apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-      });
-
-      const { wallet } = walletData;
-
-      const { data: details } = await wallet.details();
-
-      if (error) {
-        console.log(error);
-      }
-
       async function fetchGraphQL(operationsDoc, operationName, variables) {
         const result = await fetch(
           "https://interop-testnet.hasura.app/v1/graphql",
@@ -41,7 +30,8 @@ const ListPage = () => {
         return `
         query ownedNFT {
           mb_views_nft_tokens(
-            distinct_on: metadata_id
+            order_by: {minted_timestamp: desc}
+            distinct_on: minted_timestamp
             where: {owner: {_eq: "${accountId}"}, _and: {burned_timestamp: {_is_null: true}}, minter: {_eq: "${accountId}"}, nft_contract_id: {_eq: "${contract_id}"}}
             ) {
             nft_contract_id
@@ -54,10 +44,12 @@ const ListPage = () => {
       `;
       };
 
+      console.log(activeAccountId);
+
       const contract_id = process.env.NEXT_PUBLIC_CONTRACT_ID;
 
       const returnedNftList = await fetchGraphQL(
-        operations(details.accountId, contract_id),
+        operations(activeAccountId, contract_id),
         "ownedNFT",
         {}
       );
@@ -70,10 +62,13 @@ const ListPage = () => {
   };
 
   useEffect(() => {
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-    loadOwnedNFT();
-  });
+    // if (dataFetchedRef.current) return;
+    // dataFetchedRef.current = true;
+    if (activeAccountId) {
+      loadOwnedNFT();
+    }
+    console.log(activeAccountId);
+  }, [activeAccountId]);
 
   return (
     <>
@@ -82,12 +77,10 @@ const ListPage = () => {
           <div className="page-header-content">
             <div className="page-header-inner">
               <div className="page-title">
-                <h2>List NFT For Sale</h2>
+                <h2>List NFT</h2>
               </div>
               <ol className="breadcrumb">
-                <li className="active">
-                  This all minted NFTs, List them for sale
-                </li>
+                <li className="active">List them for sale</li>
               </ol>
             </div>
           </div>
@@ -105,9 +98,7 @@ const ListPage = () => {
                   <h3>Sorry!... There is No NFT Now.</h3>
                 ) : (
                   nftList.map((nftData, id) => {
-                    return (
-                      <NFTCard post={nftData} page={"list"} key={id} />
-                    );
+                    return <NFTCard post={nftData} page={"list"} key={id} />;
                   })
                 )}
               </div>

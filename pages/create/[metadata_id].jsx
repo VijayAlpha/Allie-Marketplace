@@ -1,12 +1,15 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Wallet, Chain, Network, MetadataField } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
+
 import axios from "axios";
 
 const UploadFiles = () => {
   const [nftData, setNftData] = useState();
   const [collectionImages, setCollectionImages] = useState();
   const [isUploading, setIsUploading] = useState(false);
+  const { activeAccountId } = useWallet();
 
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
@@ -54,23 +57,11 @@ const UploadFiles = () => {
       setNftData(data.mb_views_active_listings[0]);
     }
     fetchCheckNFT();
-  });
+  }, [activeAccountId]);
 
   const onClickFilesBtn = async (e) => {
     e.preventDefault();
-
-
     setIsUploading(true);
-
-    const { data, error } = await new Wallet().init({
-      networkName: Network.testnet,
-      chain: Chain.near,
-      apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-    });
-
-    const { wallet } = data;
-
-    const signerRes = await wallet.signMessage("test-message");
 
     var formdata = new FormData();
 
@@ -79,7 +70,7 @@ const UploadFiles = () => {
     formdata.append("price", nftData.price);
     formdata.append("metadata_id", metadata_id);
     formdata.append("nftImage", nftData.media);
-    formdata.append("signerRes", JSON.stringify(signerRes));
+    formdata.append("connectedAccount", activeAccountId);
 
     Object.values(collectionImages).forEach((el) => {
       formdata.append("files", el, el.name);
@@ -102,7 +93,6 @@ const UploadFiles = () => {
       .catch((error) => {
         console.error(error);
       });
-
   };
 
   const ele = nftData ? (
@@ -115,10 +105,11 @@ const UploadFiles = () => {
           <div className="section-wrapper">
             <div className="member-profile">
               <div className="profile-item">
-                <div className="profile-cover">
+                <div className="profile-cover" style={{ height: "300px" }}>
                   <img
-                    src="../assets/images/profile/cover.jpg"
+                    src={nftData.media}
                     alt="cover-pic"
+                    style={{ filter: "blur(10px)" }}
                   />
                 </div>
                 <div className="profile-information">
@@ -126,8 +117,8 @@ const UploadFiles = () => {
                     <img src={nftData.media} alt="DP" />
                   </div>
                   <div className="profile-name">
-                    <h4 style={{ textAlign: "left" }}>{nftData.title}</h4>
-                    <p>{nftData.description}</p>
+                    <h2 style={{ textAlign: "left" ,textShadow: "1px 1px 3px #1e1f21" }}>{nftData.title}</h2>
+                    {/* <p>{nftData.description}</p> */}
                   </div>
                 </div>
               </div>
@@ -154,17 +145,18 @@ const UploadFiles = () => {
                   )}
 
                   <div className="custom-upload">
-                  {collectionImages ? (
-                    <div className="file-btn">
-                      <i className="icofont-check"></i>
-                      Added
-                    </div>                  ) : (
-                    <div className="file-btn">
-                    <i className="icofont-upload-alt"></i>
-                    Upload a Images
-                  </div>
-                  )}
-                    
+                    {collectionImages ? (
+                      <div className="file-btn">
+                        <i className="icofont-check"></i>
+                        Added
+                      </div>
+                    ) : (
+                      <div className="file-btn">
+                        <i className="icofont-upload-alt"></i>
+                        Upload a Images
+                      </div>
+                    )}
+
                     <input
                       type="file"
                       accept="image/*"
@@ -198,16 +190,16 @@ const UploadFiles = () => {
     </>
   ) : (
     <section className="page-header-section style-1 vh-100">
-    <div className="container">
-      <div className="page-header-content">
-        <div className="page-header-inner">
-          <div className="page-title">
-            <h2>Loading... </h2>
+      <div className="container">
+        <div className="page-header-content">
+          <div className="page-header-inner">
+            <div className="page-title">
+              <h2>Loading... </h2>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
   );
   return ele;
 };

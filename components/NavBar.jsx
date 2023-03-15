@@ -1,31 +1,10 @@
-import { useEffect, useState } from "react";
-import { Wallet, Chain, Network } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
 import Link from "next/link";
 
 export const NavBar = () => {
-  const [userName, setUsername] = useState();
-  const [walletBalance, setWalletBalance] = useState();
-  const [wallet, setWallet] = useState();
 
-  useEffect(() => {
-    const connect = async () => {
-      const { data, error } = await new Wallet().init({
-        networkName: Network.testnet,
-        chain: Chain.near,
-        apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-      });
-      const { wallet, isConnected } = data;
+  const { connect, disconnect, activeAccountId, isConnected } = useWallet();
 
-      setWallet(wallet);
-
-      if (isConnected) {
-        const { data: details } = await wallet.details();
-        setUsername(details.accountId);
-        setWalletBalance(details.balance);
-      }
-    };
-    connect();
-  }, []);
   return (
     <header className="header">
       <div className="container-fluid">
@@ -55,7 +34,7 @@ export const NavBar = () => {
             </button>
           </form>
           <div className="header__menu ms-auto">
-            {userName !== process.env.NEXT_PUBLIC_OWNER ? (
+            {activeAccountId !== process.env.NEXT_PUBLIC_OWNER ? (
               <ul className="header__nav mb-0">
                 <li className="header__nav-item">
                   <Link href="/collection" className="header__nav-link">
@@ -116,27 +95,20 @@ export const NavBar = () => {
                   <span data-blast="bgColor">
                     <i className="icofont-user"></i>
                   </span>{" "}
-                  <span className="d-none d-md-inline">{userName}</span>
+                  <span className="d-none d-md-inline">{activeAccountId}</span>
                 </Link>
               </div>
             </div>
             <div className="wallet-btn pointer">
-              {userName ? (
-                <a
-                  onClick={() => {
-                    wallet.disconnect();
-                    location.reload();
-                  }}
-                >
+              {isConnected ? (
+                <a onClick={disconnect}>
                   <span>
                     <i className="icofont-wallet" data-blast="color"></i>
                   </span>{" "}
-                  <span className="d-none d-md-inline">
-                    Disconnect
-                  </span>{" "}
+                  <span className="d-none d-md-inline">Disconnect</span>{" "}
                 </a>
               ) : (
-                <a onClick={() => wallet.connect({ requestSignIn: true })}>
+                <a onClick={connect}>
                   <span>
                     <i className="icofont-wallet" data-blast="color"></i>
                   </span>{" "}

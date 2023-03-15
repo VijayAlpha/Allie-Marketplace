@@ -1,59 +1,52 @@
-import { Wallet, Chain, Network, MetadataField } from "mintbase";
+import { useWallet } from "@mintbase-js/react";
+import { execute, mint } from "@mintbase-js/sdk";
+import { uploadReference } from "@mintbase-js/storage";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Mint = () => {
-  const envVar = {
-    mintBaseApi: process.env.NEXT_PUBLIC_MINTBASE_API,
-    backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
-  };
-
   const router = useRouter();
   const [nftTitle, setNftTitle] = useState();
   const [nftDescription, setNftDescription] = useState();
   const [nftImage, setNftImage] = useState();
   const [nftAmount, setNftAmount] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const { selector, activeAccountId, isConnected } = useWallet();
 
-  // console.log(nftImage);
-  const onClickMint = async (e) => {
-    setIsLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!nftImage) return;
 
-    const formData = {
+    setLoading(true);
+
+    const metadata = {
       title: nftTitle,
       description: nftDescription,
-      image: nftImage,
-      amount: Number(nftAmount),
+      media: nftImage,
     };
 
-    e.preventDefault();
-    const { data, error } = await new Wallet().init({
-      networkName: Network.testnet,
-      chain: Chain.near,
-      apiKey: process.env.NEXT_PUBLIC_MINTBASE_API,
-    });
-    const { wallet } = data;
+    const uploadResult = await uploadReference(metadata);
 
-    const { data: fileUploadResult, error: fileError } =
-      await wallet.minter.uploadField(MetadataField.Media, formData.image);
+    setLoading(false);
 
-    if (fileError) {
-      console.error("ERROR : ", fileError);
-    }
+    handleMintToken(uploadResult.id);
+  };
 
-    wallet.minter.setMetadata({
-      title: formData.title,
-      description: formData.description,
-    });
+  const handleMintToken = async (reference) => {
+    if (!activeAccountId) return;
 
-    await wallet.mint(
-      formData.amount,
-      process.env.NEXT_PUBLIC_CONTRACT_ID,
-      undefined,
-      undefined,
-      undefined
+    const wallet = await selector.wallet();
+
+    execute(
+      { wallet },
+      mint({
+        ownerId: activeAccountId,
+        metadata: { reference: reference },
+        noMedia: true,
+        contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ID,
+        amount: parseInt(nftAmount),
+      })
     );
-    setIsLoading(false);
   };
 
   return (
@@ -86,10 +79,15 @@ const Mint = () => {
             <div className="create-nft py-5 px-4 d-flex justify-content-center">
               <form className="create-nft-form col-8">
                 <div className="upload-item mb-30">
-                  <p>
-                    Accepted Formats: image/png, image/jpeg, image/gif,
-                    image/svg+xml | Ideal dimension: 1:1 | Max size: 5mb
-                  </p>
+                  {nftImage ? (
+                    <p>Image Uploaded</p>
+                  ) : (
+                    <p>
+                      Accepted Formats: image/png, image/jpeg, image/gif,
+                      image/svg+xml | Ideal dimension: 1:1 | Max size: 5mb
+                    </p>
+                  )}
+
                   <div className="custom-upload">
                     <div className="file-btn">
                       <i className="icofont-upload-alt"></i>
@@ -127,7 +125,7 @@ const Mint = () => {
                   ></textarea>
                   <label for="itemDesc">NFT Description</label>
                 </div>
-                <div className="form-floating item-name-field mb-3">
+                {/* <div className="form-floating item-name-field mb-3">
                   <input
                     type="text"
                     className="form-control"
@@ -138,7 +136,7 @@ const Mint = () => {
                     }}
                   />
                   <label for="itemNameInput">Royalities</label>
-                </div>
+                </div> */}
                 <div className="form-floating item-name-field mb-3">
                   <input
                     type="text"
@@ -151,44 +149,14 @@ const Mint = () => {
                   />
                   <label for="itemNameInput">Number of Copies</label>
                 </div>
-                {/* <div className="item-price-field mb-3">
-                  <div className="row g-3">
-                    <div className="col-md-6">
-                      <div className="form-floating">
-                        <select
-                          className="form-select"
-                          id="selectCrypto"
-                          aria-label="Floating label select"
-                        >
-                          <option selected>Ethereum</option>
-                          <option value="1">BitCoin</option>
-                          <option value="2">Dollar</option>
-                          <option value="3">Pound</option>
-                        </select>
-                        <label for="selectCrypto">Select Currency</label>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-floating">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="itemPriceInput"
-                          placeholder="Item Price"
-                        />
-                        <label for="itemPriceInput">Item Price</label>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
 
                 {isLoading ? (
                   <div className="submit-btn-field text-center">
-                  <button type="disable" >Minting...</button>
-                </div>
+                    <button type="disable">Minting...</button>
+                  </div>
                 ) : (
                   <div className="submit-btn-field text-center">
-                    <button type="submit" onClick={(e) => onClickMint(e)}>
+                    <button type="submit" onClick={handleSubmit}>
                       Mint NFT
                     </button>
                   </div>
@@ -198,92 +166,6 @@ const Mint = () => {
           </div>
         </div>
       </div>
-      {/* <div className="main">
-      <section className="page-header-section style-1">
-        <div className="container">
-          <div className="page-header-content">
-            <div className="page-header-inner">
-              <div className="page-title">
-                <h2>Mint Page</h2>
-              </div>
-              <ol className="breadcrumb">
-                <li>
-                  <a href="index.html">Mint</a>
-                </li>
-                <li className="active">NFT</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section section-collection ma--bottom-lg">
-        <form>
-          <div className="">
-            <label htmlFor="form-title">Name </label>
-            <input
-              type="text"
-              name="title"
-              id="form-title"
-              onChange={(e) => {
-                setNftTitle(e.currentTarget.value);
-              }}
-              className="input input__text"
-              placeholder="Halloween Nights NFT"
-            />
-          </div>
-          <div className="">
-            <label htmlFor="form-title">Description </label>
-            <textarea
-              name="description"
-              id="form-description"
-              rows="8"
-              onChange={(e) => {
-                setNftDescription(e.currentTarget.value);
-              }}
-              placeholder="This a NFT that containes 25+ Halloween Nights collections."
-            ></textarea>
-          </div>
-          <div className="">
-            <label htmlFor="form-title"> Image </label>
-            <input
-              type="file"
-              accept="image/*"
-              name="title"
-              onChange={(e) => {
-                setNftImage(e.currentTarget.files[0]);
-              }}
-              id="form-nftImage"
-            />
-          </div>
-
-          <div className="">
-            <label htmlFor="form-nft-amount"> Amount to mint </label>
-            <input
-              type="number"
-              name="amount"
-              id="form-nft-amount"
-              onChange={(e) => {
-                setNftAmount(e.currentTarget.value);
-              }}
-            />
-          </div>
-          {isLoading ? (
-            <button className="default-btn move-right" id="btn-mint-nft">
-              <span>Loading...</span>
-            </button>
-          ) : (
-            <button
-              className="default-btn move-right"
-              id="btn-mint-nft"
-              onClick={(e) => onClickMint(e)}
-            >
-              <span>Mint NFT</span>
-            </button>
-          )}
-        </form>
-      </section>
-    </div> */}
     </>
   );
 };

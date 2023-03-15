@@ -1,3 +1,5 @@
+import { WalletContextProvider } from "@mintbase-js/react";
+import "@near-wallet-selector/modal-ui/styles.css";
 import "../public/assets/css/bootstrap.min.css";
 import "../public/assets/css//icofont.min.css";
 import "../public/assets/css/animate.css";
@@ -16,15 +18,24 @@ import "../public/assets/css/style.css";
 import { NavBar } from "../components/NavBar";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { mbjs, NEAR_NETWORKS } from "@mintbase-js/sdk";
+
+mbjs.config({
+  network: NEAR_NETWORKS.TESTNET,
+});
+
+mbjs.keys.apiKey = "omni-site";
 
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <Header />
-      <NavBar />
-      <Component {...pageProps} />
-      <Footer />
+      <WalletContextProvider>
+        <Header />
+        <NavBar />
+        <Component {...pageProps} />
+        <Footer />
+      </WalletContextProvider>
     </>
   );
 }

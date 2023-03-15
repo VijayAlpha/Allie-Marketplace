@@ -1,7 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
+import { utils } from "near-api-js";
 
 export const CollectionCard = ({ post }) => {
+  const priceYocto = post.price.toLocaleString().replace(/,/g, "");
+  const priceNear = utils.format.formatNearAmount(priceYocto, 2);
+
   return (
     <Link
       href={`/collection/${post.metadata_id}`}
@@ -34,7 +38,7 @@ export const CollectionCard = ({ post }) => {
           <div className="nft-item-bottom">
             <div
               className="nft-thumb"
-              style={{ width: "100%", height: "260px" }}
+              style={{ width: "100%", height: "300px" }}
             >
               <Image loading="lazy" src={post.nftImage} alt="nft-img" fill />
             </div>
@@ -42,20 +46,8 @@ export const CollectionCard = ({ post }) => {
               <h4>{post.name}</h4>
               <div className="price-like d-flex justify-content-between align-items-center">
                 <p className="nft-price">
-                  Price:{" "}
-                  <span className="yellow-color">
-                    {Math.round(
-                      post.price.toLocaleString("fullwide", {
-                        useGrouping: false,
-                      }) *
-                        10 ** -24
-                    )}{" "}
-                    NEAR
-                  </span>
+                  Price: <span className="yellow-color">{priceNear}N</span>
                 </p>
-                {/* <a href="#" className="nft-like">
-                  <i className="icofont-heart"></i> 230
-                </a> */}
               </div>
             </div>
           </div>
