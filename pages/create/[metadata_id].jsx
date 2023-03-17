@@ -83,7 +83,7 @@ const UploadFiles = () => {
     e.preventDefault();
     setIsUploading(true);
 
-    let imageImagesURL = [];
+    let imagesURL = [];
 
     const { data: imageList, error: imageError } = await supabase.storage
       .from("collectionimages")
@@ -92,71 +92,38 @@ const UploadFiles = () => {
         offset: 0,
       });
 
-    imageList?.forEach(async (image) => {
+    await imageList?.forEach(async (image) => {
       let { data } = await supabase.storage
         .from("collectionimages")
         .getPublicUrl(`${nftData.title}/${image.name}`);
-      imageImagesURL.push(data.publicUrl);
+      imagesURL.push(data.publicUrl);
     });
 
-    let formData = {
+    let formdata = {
       name: nftData.title,
       description: nftData.description,
       price: nftData.price,
       metadata_id: metadata_id,
       nftImage: nftData.media,
       connectedAccount: activeAccountId,
-      files: imageImagesURL
-    }
+      files: imagesURL,
+    };
 
-    console.log(formData);
-
-    // var formdata = new FormData();
-
-    // formdata.append("name", nftData.title);
-    // formdata.append("description", nftData.description);
-    // formdata.append("price", nftData.price);
-    // formdata.append("metadata_id", metadata_id);
-    // formdata.append("nftImage", nftData.media);
-    // formdata.append("connectedAccount", activeAccountId);
-    // formdata.append("files", imageImagesURL);
-
-    // console.log(formData);
-
-    const res = await axios({
-      method: "POST",
-      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
-      data: formData,
-    });
-
-    // console.log(formdata);
-
-    // Object.values(collectionImages).forEach((el) => {
-    //   formdata.append("files", el, el.name);
-    // });
-
-    // console.log(res);
-
-    // axios
-    //   .post(
-    //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
-    //     formdata,
-    //     {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     window.location.href = `/collection/${metadata_id}`;
-    //     setIsUploading(false);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/addCollection`,
+        formdata
+      )
+      .then((response) => {
+        window.location.href = `/collection/${metadata_id}`;
+        setIsUploading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  const ele = nftData ? (
+  const createCollection = nftData ? (
     <>
       <section
         className="profile-section padding-top padding-bottom"
@@ -269,7 +236,7 @@ const UploadFiles = () => {
       </div>
     </section>
   );
-  return ele;
+  return createCollection;
 };
 
 export default UploadFiles;
