@@ -38,16 +38,22 @@ export default function SingleCollection() {
 
   const deleteCollection = async () => {
     try {
-      const res = await axios({
-        method: "DELETE",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
-        data: {
-          connectedAccount: activeAccountId,
-        },
-      });
+      // alert("Click OK to Delete this collection.");
+      let promptMsg = prompt("Type 'YES' to Delete this collection.");
+      if (promptMsg == "YES") {
+        const res = await axios({
+          method: "DELETE",
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
+          data: {
+            connectedAccount: activeAccountId,
+          },
+        });
 
-      if (res) {
-        window.location.href = "/";
+        if (res) {
+          window.location.href = "/";
+        }
+      } else {
+        location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -90,7 +96,14 @@ export default function SingleCollection() {
                     <img src={collectionData.nftImage} alt="DP" />
                   </div>
                   <div className="profile-name">
-                    <h2 style={{ textAlign: "left" ,textShadow: "1px 1px 3px #1e1f21"}}>{collectionData.name}</h2>
+                    <h2
+                      style={{
+                        textAlign: "left",
+                        textShadow: "1px 1px 3px #1e1f21",
+                      }}
+                    >
+                      {collectionData.name}
+                    </h2>
                     {/* <p>{collectionData.description}</p> */}
                   </div>
                 </div>
@@ -161,9 +174,9 @@ export default function SingleCollection() {
                                                     style={{
                                                       maxHeight: "400px",
                                                       overflow: "hidden",
-                                                      cursor: "pointer"
+                                                      cursor: "pointer",
                                                     }}
-                                                    onClick={()=>{
+                                                    onClick={() => {
                                                       let herfLink = `${img}`;
                                                       window.open(herfLink);
                                                     }}
