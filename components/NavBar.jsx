@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useWallet } from "@mintbase-js/react";
 import Link from "next/link";
 
