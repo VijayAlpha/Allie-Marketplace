@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const NFTCard = ({ post  , page}) => {
+export const NFTCard = ({ post, page }) => {
   return (
     <>
       <Link
@@ -29,7 +29,10 @@ export const NFTCard = ({ post  , page}) => {
               </div>
             </div>
             {/* <!-- nft-bottom part --> */}
-            <div className="nft-item-bottom" style={{ height: "360px" ,  overflow: "hidden"}}>
+            <div
+              className="nft-item-bottom"
+              style={{ height: "360px", overflow: "hidden" }}
+            >
               <div className="nft-thumb">
                 <img
                   loading="lazy"
@@ -42,9 +45,7 @@ export const NFTCard = ({ post  , page}) => {
                 <h4>
                   <Link href="item-details.html">{post.title}</Link>
                 </h4>
-                <div
-                  className="price-like d-flex justify-content-between align-items-center"
-                >
+                <div className="price-like d-flex justify-content-between align-items-center">
                   <p className="nft-price">
                     Description:{" "}
                     <span className="yellow-color">{post.description}</span>
@@ -58,36 +59,6 @@ export const NFTCard = ({ post  , page}) => {
           </div>
         </div>
       </Link>
-
-      {/* <div className="collection">
-        <div className="collection__left">
-          <div className="right">
-            <img
-              src={nft.media ? nft.media : "/no-image.png"}
-              alt="NFT image"
-              className="collection__nft ma--bottom"
-            />
-            <h2 className="collection__name ma--bottom">{nft.title}</h2>
-            <p className="collection__description ma--bottom text-base--1">
-              {nft.description}
-            </p>
-          </div>
-          {buttonName ? (
-            <div className="left">
-              <Link href={`/${route}/${nft.metadata_id}`}>
-                <button
-                  className="btn collection__btn"
-                  id="btn-unlock-collection"
-                >
-                  {`${buttonName}`}
-                </button>
-              </Link>
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>{" "}
-      </div> */}
     </>
   );
 };
