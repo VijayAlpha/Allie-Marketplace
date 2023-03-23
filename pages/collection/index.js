@@ -35,49 +35,6 @@ const CollectionPage = () => {
 
       <section className="explore-section padding-top padding-bottom">
         <div className="container">
-          <div className="section-header">
-            <div className="nft-filter d-flex flex-wrap justify-content-center">
-              <div className="form-floating">
-                <select
-                  className="form-select"
-                  id="catSelect"
-                  aria-label="Floating label select example"
-                >
-                  <option selected>All Category</option>
-                  <option value="1">Art</option>
-                  <option value="2">Music</option>
-                  <option value="3">Video</option>
-                  <option value="3">Digital Anime</option>
-                </select>
-                <label for="catSelect">Select a Category</label>
-              </div>
-              <div className="form-floating">
-                <select
-                  className="form-select"
-                  id="sortSelect"
-                  aria-label="Floating label select example"
-                >
-                  <option selected>Newest</option>
-                  <option value="1">Trending</option>
-                  <option value="2">Most Viewed</option>
-                  <option value="3">Less Viewed</option>
-                  <option value="3">Ending Soon</option>
-                  <option value="3">Recently Sold </option>
-                  <option value="3">Recently Created </option>
-                  <option value="3">Recently Viewed </option>
-                  <option value="3">Ending Soon</option>
-                </select>
-                <label for="sortSelect">Sort By</label>
-              </div>
-            </div>
-            {/* <div className="nft-search">
-                    <div className="form-floating nft-search-input">
-                        <input type="text" className="form-control" id="nftSearch" placeholder="Search NFT" />
-                        <label for="nftSearch">Search NFT</label>
-                        <button type="button"> <i className="icofont-search-1"></i></button>
-                    </div>
-                </div> */}
-          </div>
           <div className="section-wrapper">
             <div className="explore-wrapper">
               <div className="row justify-content-start gx-4 gy-3">
