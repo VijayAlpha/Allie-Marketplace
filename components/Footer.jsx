@@ -21,7 +21,7 @@ export const Footer = () => {
               <div className="col-lg-6">
                 <div className="newsletter-part">
                   <div className="ft-header">
-                    <h4>Get The Latest Rarible Updates</h4>
+                    <h4>Get The Latest Allie's Marketplace Updates</h4>
                   </div>
                   <form action="#">
                     <input type="email" placeholder="Your Mail Address" />
@@ -34,7 +34,7 @@ export const Footer = () => {
               <div className="col-lg-6">
                 <div className="social-part ps-lg-5">
                   <div className="ft-header">
-                    <h4>Join the Community</h4>
+                    <h4>Connect With Me Here</h4>
                   </div>
                   <ul className="social-list d-flex flex-wrap align-items-center mb-0">
                     <li className="social-link">
@@ -152,70 +152,6 @@ export const Footer = () => {
                     <li>
                       <a href="#" className="footer-link">
                         Services
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="col">
-                <div className="footer-link-item">
-                  <h5>NFT Marketplace</h5>
-                  <ul className="footer-link-list">
-                    <li>
-                      <a href="#" className="footer-link">
-                        Sell your assets
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="footer-link">
-                        FAQ
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="footer-link">
-                        Support
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="footer-link">
-                        Privacy/Policy
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="footer-link">
-                        Your purchases
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="col">
-                <div className="footer-link-item">
-                  <h5>Comunity</h5>
-                  <ul className="footer-link-list">
-                    <li>
-                      <a href="#" className="footer-link">
-                        NFT Token
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="footer-link">
-                        Discusion
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="footer-link">
-                        Voting
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="footer-link">
-                        Suggest Feature
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="footer-link">
-                        Language
                       </a>
                     </li>
                   </ul>
