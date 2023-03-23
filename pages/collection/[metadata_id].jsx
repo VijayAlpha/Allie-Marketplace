@@ -84,7 +84,6 @@ export default function SingleCollection() {
                           <i className="icofont-trash"></i>
                           Delete
                         </div>
-                        {/* <input type="file" /> */}
                       </div>
                     </>
                   ) : (
