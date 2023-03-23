@@ -161,16 +161,6 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-
-      {/* <Script src="./assets/js/bootstrap.bundle.min.js" async></Script>
-      <Script src="./assets/js/waypoints.min.js" async></Script>
-      <Script src="./assets/js/lightcase.js" async></Script>
-      <Script src="./assets/js/swiper-bundle.min.js" async></Script>
-      <Script src="./assets/js/countdown.min.js" async></Script>
-      <Script src="./assets/js/jquery.counterup.min.js" async></Script>
-      <Script src="./assets/js/wow.min.js" async></Script>
-      <Script src="./assets/js/isotope.pkgd.min.js" async></Script>
-      <Script src="./assets/js/functions.js" async></Script> */}
     </footer>
   );
 };

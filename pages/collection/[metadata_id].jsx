@@ -122,7 +122,7 @@ export default function SingleCollection() {
                     >
                       Images
                     </button>
-                    <button
+                    {/* <button
                       className="nav-link"
                       id="nav-about-tab"
                       data-bs-toggle="tab"
