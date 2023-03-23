@@ -44,8 +44,6 @@ const ListPage = () => {
       `;
       };
 
-      console.log(activeAccountId);
-
       const contract_id = process.env.NEXT_PUBLIC_CONTRACT_ID;
 
       const returnedNftList = await fetchGraphQL(
@@ -62,12 +60,9 @@ const ListPage = () => {
   };
 
   useEffect(() => {
-    // if (dataFetchedRef.current) return;
-    // dataFetchedRef.current = true;
     if (activeAccountId) {
       loadOwnedNFT();
     }
-    console.log(activeAccountId);
   }, [activeAccountId]);
 
   return (

@@ -75,7 +75,6 @@ const UploadFiles = () => {
       const { data, error } = await supabase.storage
         .from("collectionimages")
         .upload(`${nftData.title}/${file?.name}`, file);
-      console.log(data);
     });
   };
 
