@@ -94,7 +94,7 @@ const UploadFiles = () => {
     await imageList?.forEach(async (image) => {
       let { data } = await supabase.storage
         .from("collectionimages")
-        .getPublicUrl(`${nftData.title}/${image.name}`);
+        .getPublicUrl(`${metadata_id}/${image.name}`);
       imagesURL.push(data.publicUrl);
     });
 
