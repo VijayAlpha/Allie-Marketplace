@@ -74,7 +74,7 @@ const UploadFiles = () => {
     Array.from(e.target?.files).forEach(async (file) => {
       const { data, error } = await supabase.storage
         .from("collectionimages")
-        .upload(`${nftData.title}/${file?.name}`, file);
+        .upload(`${metadata_id}/${file?.name}`, file);
     });
   };
 
@@ -86,7 +86,7 @@ const UploadFiles = () => {
 
     const { data: imageList, error: imageError } = await supabase.storage
       .from("collectionimages")
-      .list(`${nftData.title}`, {
+      .list(`${metadata_id}`, {
         limit: 100,
         offset: 0,
       });
@@ -194,6 +194,39 @@ const UploadFiles = () => {
                     <input
                       type="file"
                       accept="image/*"
+                      name="title"
+                      onChange={(e) => {
+                        uploadFiles(e);
+                      }}
+                      multiple
+                      id="form-nftImage"
+                    />
+                  </div>
+                </div>
+
+                <div className="upload-item mb-30">
+                  {collectionImages ? (
+                    <p>Video Added, Ready to Create Collection...</p>
+                  ) : (
+                    <p>Add a single video/mp4 file </p>
+                  )}
+
+                  <div className="custom-upload">
+                    {collectionImages ? (
+                      <div className="file-btn">
+                        <i className="icofont-check"></i>
+                        Added
+                      </div>
+                    ) : (
+                      <div className="file-btn">
+                        <i className="icofont-upload-alt"></i>
+                        Upload a Video
+                      </div>
+                    )}
+
+                    <input
+                      type="file"
+                      accept="video/*	"
                       name="title"
                       onChange={(e) => {
                         uploadFiles(e);
