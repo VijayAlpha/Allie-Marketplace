@@ -17,7 +17,10 @@ const List = () => {
 
     const wallet = await selector.wallet();
 
-    const marketAddress = "market-v2-beta.mintspace2.testnet";
+    const marketAddress =
+      process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
+        ? "simple.market.mintbase1.near"
+        : "market-v2-beta.mintspace2.testnet";
 
     if (!token) return;
 
@@ -44,17 +47,19 @@ const List = () => {
 
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
-      const result = await fetch(
-        "https://interop-testnet.hasura.app/v1/graphql",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            query: operationsDoc,
-            variables: variables,
-            operationName: operationName,
-          }),
-        }
-      );
+      const qureyHttpLink =
+        process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
+          ? "https://interop-mainnet.hasura.app/v1/graphql"
+          : "https://interop-testnet.hasura.app/v1/graphql";
+
+      const result = await fetch(qureyHttpLink, {
+        method: "POST",
+        body: JSON.stringify({
+          query: operationsDoc,
+          variables: variables,
+          operationName: operationName,
+        }),
+      });
 
       return await result.json();
     }
@@ -108,7 +113,7 @@ const List = () => {
           <div className="row g-5 align-items-center flex-md-row-reverse">
             <div className="col-lg-5">
               <div className="account-wrapper">
-                <div className="account-bottom">
+                <div className="account-bottom" style={{ textAlign: "start" }}>
                   <h5 className="subtitle">Title: {token.title}</h5>
 
                   <span className="d-block cate pt-10 mb-5">
@@ -128,7 +133,7 @@ const List = () => {
                         setListPrice(e.currentTarget.value);
                       }}
                     />
-                    <label for="floatingInput">Price</label>
+                    <label for="floatingInput">Price of each Token</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
@@ -142,7 +147,9 @@ const List = () => {
                         setListAmount(e.currentTarget.value);
                       }}
                     />
-                    <label for="floatingPassword">Amount</label>
+                    <label for="floatingPassword">
+                      How many tokens to list
+                    </label>
                   </div>
 
                   <div className="form-group">
@@ -167,10 +174,11 @@ const List = () => {
               </div>
             </div>
             <div className="col-lg-7">
-              <div className="account-img">
+              <div className="account-img" style={{ height: "50vh" }}>
                 <img
                   src={token.media ? token.media : "/no-image.png"}
                   alt="nft-image"
+                  style={{ height: "100%" }}
                 />
               </div>
             </div>

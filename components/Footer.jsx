@@ -18,7 +18,7 @@ export const Footer = () => {
         <div className="footer-newsletter">
           <div className="container">
             <div className="row g-4 align-items-center justify-content-center">
-              <div className="col-lg-6">
+              {/* <div className="col-lg-6">
                 <div className="newsletter-part">
                   <div className="ft-header">
                     <h4>Get The Latest Allie&apos;s Marketplace Updates</h4>
@@ -30,11 +30,11 @@ export const Footer = () => {
                     </button>
                   </form>
                 </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="social-part ps-lg-5">
+              </div> */}
+              <div className="col-lg-12">
+                <div className="social-part ps-lg-5" style={{display: "flex", width: "100%" , justifyContent: "space-between"}}>
                   <div className="ft-header">
-                    <h4>Connect With Me Here</h4>
+                    <h2>Connect With Me</h2>
                   </div>
                   <ul className="social-list d-flex flex-wrap align-items-center mb-0">
                     <li className="social-link">
@@ -68,7 +68,7 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="footer-links padding-top padding-bottom">
+        {/* <div className="footer-links padding-top padding-bottom">
           <div className="container">
             <div className="row g-5 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5">
               <div className="col">
@@ -159,7 +159,7 @@ export const Footer = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </footer>
   );
