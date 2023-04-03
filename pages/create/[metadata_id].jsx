@@ -204,7 +204,7 @@ const UploadFiles = () => {
                   </div>
                 </div>
 
-                <div className="upload-item mb-30">
+                {/* <div className="upload-item mb-30">
                   {collectionImages ? (
                     <p>Video Added, Ready to Create Collection...</p>
                   ) : (
@@ -235,7 +235,7 @@ const UploadFiles = () => {
                       id="form-nftImage"
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="submit-btn-field text-center">
                   {isUploading ? (
                     <button type="submit">Uploading...</button>
