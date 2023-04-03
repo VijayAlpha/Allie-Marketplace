@@ -16,17 +16,19 @@ const UploadFiles = () => {
 
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
-      const result = await fetch(
-        "https://interop-testnet.hasura.app/v1/graphql",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            query: operationsDoc,
-            variables: variables,
-            operationName: operationName,
-          }),
-        }
-      );
+      const qureyHttpLink =
+        process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
+          ? "https://interop-mainnet.hasura.app/v1/graphql"
+          : "https://interop-testnet.hasura.app/v1/graphql";
+
+      const result = await fetch(qureyHttpLink, {
+        method: "POST",
+        body: JSON.stringify({
+          query: operationsDoc,
+          variables: variables,
+          operationName: operationName,
+        }),
+      });
 
       return await result.json();
     }
@@ -74,7 +76,7 @@ const UploadFiles = () => {
     Array.from(e.target?.files).forEach(async (file) => {
       const { data, error } = await supabase.storage
         .from("collectionimages")
-        .upload(`${nftData.title}/${file?.name}`, file);
+        .upload(`${metadata_id}/${file?.name}`, file);
     });
   };
 
@@ -86,7 +88,7 @@ const UploadFiles = () => {
 
     const { data: imageList, error: imageError } = await supabase.storage
       .from("collectionimages")
-      .list(`${nftData.title}`, {
+      .list(`${metadata_id}`, {
         limit: 100,
         offset: 0,
       });
@@ -94,7 +96,7 @@ const UploadFiles = () => {
     await imageList?.forEach(async (image) => {
       let { data } = await supabase.storage
         .from("collectionimages")
-        .getPublicUrl(`${nftData.title}/${image.name}`);
+        .getPublicUrl(`${metadata_id}/${image.name}`);
       imagesURL.push(data.publicUrl);
     });
 
@@ -203,6 +205,39 @@ const UploadFiles = () => {
                     />
                   </div>
                 </div>
+
+                {/* <div className="upload-item mb-30">
+                  {collectionImages ? (
+                    <p>Video Added, Ready to Create Collection...</p>
+                  ) : (
+                    <p>Add a single video/mp4 file </p>
+                  )}
+
+                  <div className="custom-upload">
+                    {collectionImages ? (
+                      <div className="file-btn">
+                        <i className="icofont-check"></i>
+                        Added
+                      </div>
+                    ) : (
+                      <div className="file-btn">
+                        <i className="icofont-upload-alt"></i>
+                        Upload a Video
+                      </div>
+                    )}
+
+                    <input
+                      type="file"
+                      accept="video/*	"
+                      name="title"
+                      onChange={(e) => {
+                        uploadFiles(e);
+                      }}
+                      multiple
+                      id="form-nftImage"
+                    />
+                  </div>
+                </div> */}
                 <div className="submit-btn-field text-center">
                   {isUploading ? (
                     <button type="submit">Uploading...</button>

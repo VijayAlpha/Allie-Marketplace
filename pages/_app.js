@@ -20,12 +20,18 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { mbjs, NEAR_NETWORKS } from "@mintbase-js/sdk";
 
-mbjs.config({
-  network: NEAR_NETWORKS.TESTNET,
-});
+const mbjsConfig =
+  process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
+    ? {
+        network: NEAR_NETWORKS.MAINNET,
+      }
+    : {
+        network: NEAR_NETWORKS.TESTNET,
+      };
+
+mbjs.config(mbjsConfig);
 
 mbjs.keys.apiKey = "omni-site";
-
 
 function MyApp({ Component, pageProps }) {
   return (

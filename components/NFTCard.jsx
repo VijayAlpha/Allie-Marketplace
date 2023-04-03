@@ -38,7 +38,7 @@ export const NFTCard = ({ post, page }) => {
                   loading="lazy"
                   src={post.media ? post.media : "/no-image.png"}
                   alt="nft-img"
-                  style={{ width: "100%", height: "260px" }}
+                  style={{ width: "100%", height: "260px" , objectFit:"contain"}}
                 />
               </div>
               <div className="nft-content">

@@ -220,11 +220,22 @@ export default function SingleCollection() {
         <div className="page-header-content">
           <div className="page-header-inner">
             <div className="page-title">
-              <h2>Hold On Tight.</h2>
+              {activeAccountId ? (
+                <>
+                  <h2>Hold On Tight.</h2>
+                  <ol className="breadcrumb">
+                    <li className="active">Checking Access.</li>
+                  </ol>
+                </>
+              ) : (
+                <>
+                  <h2>Connect Wallet</h2>
+                  <ol className="breadcrumb">
+                    <li className="active">To access the collection</li>
+                  </ol>
+                </>
+              )}
             </div>
-            <ol className="breadcrumb">
-              <li className="active">Checking Access.</li>
-            </ol>
           </div>
         </div>
       </div>
