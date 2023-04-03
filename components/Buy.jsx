@@ -21,6 +21,7 @@ export const Buy = ({ meta }) => {
         tokenId,
         price,
         contractAddress: nftContractId,
+        affiliateAccount: process.env.NEXT_PUBLIC_REFERRAL_ID,
       })
     );
   };
