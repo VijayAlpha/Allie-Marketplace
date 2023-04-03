@@ -17,9 +17,10 @@ const List = () => {
 
     const wallet = await selector.wallet();
 
-    const marketAddress = process.env.NEXT_PUBLIC_NEAR_NETWORK
-      ? "simple.market.mintbase1.near"
-      : "market-v2-beta.mintspace2.testnet";
+    const marketAddress =
+      process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
+        ? "simple.market.mintbase1.near"
+        : "market-v2-beta.mintspace2.testnet";
 
     if (!token) return;
 
