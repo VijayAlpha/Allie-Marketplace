@@ -25,7 +25,6 @@ export const Buy = ({ meta }) => {
       })
     );
   };
-
   useEffect(() => {
     fetchTokenData();
   });
@@ -80,6 +79,43 @@ export const Buy = ({ meta }) => {
             <div className="page-title">
               <Link href="/collection">Check other collections here.</Link>
             </div>
+
+      <div class="collection">
+        <div class="collection__left">
+          <div class="right">
+            <img
+              src={nftdata.data.mb_views_active_listings[0].media}
+              alt="NFT image"
+              class="collection__nft ma--bottom"
+            />
+            <h2 class="collection__name ma--bottom">
+              {nftdata.data.mb_views_active_listings[0].title}
+            </h2>
+            <p class="collection__description ma--bottom text-base--1">
+              {nftdata.data.mb_views_active_listings[0].description}
+            </p>
+            <span class="collection__price text--h2 ma--bottom">
+              {nftdata.data.mb_views_active_listings[0].price.toLocaleString(
+                "fullwide",
+                { useGrouping: false }
+              ) *
+                10 ** -24}
+              <img
+                src="https://cryptologos.cc/logos/near-protocol-near-logo.svg?v=023"
+                alt="NEAR"
+                class="collection__price--img"
+              />
+            </span>
+          </div>
+          <div class="left">
+            <button
+              class="btn collection__btn"
+              id="btn-buy-nft"
+              onClick={() => onclkBtn()}
+            >
+              Buy to Unlock
+            </button>
+>>>>>>> c69484f5d454839c0d67a2c6ed131973ca77986a
           </div>
         </div>
       </div>
