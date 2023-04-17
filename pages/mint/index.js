@@ -91,7 +91,7 @@ const Mint = () => {
                   <div className="custom-upload">
                     <div className="file-btn">
                       <i className="icofont-upload-alt"></i>
-                      Upload a Image
+                      Upload a Image || Image must be 1:1 ratio
                     </div>
                     <input
                       type="file"
