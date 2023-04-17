@@ -1,11 +1,38 @@
-import Script from "next/script";
-import { useEffect } from "react";
-import jQuery from "jquery";
+import { useState, useEffect } from "react";
 
 export const Footer = () => {
+  const [isMobile, setIsMobile] = useState();
+
+  const footerStyle = () => {
+    let style;
+    if (isMobile) {
+      style = {
+        display: "flex",
+        width: "100%",
+        justifyContent: "space-between",
+        flexDirection: "column",
+        alignItems: "center"
+      };
+    } else {
+      style = {
+        display: "flex",
+        width: "100%",
+        justifyContent: "space-between",
+      };
+    }
+
+    return style;
+  };
+
   useEffect(() => {
-    window.jQuery = jQuery;
-  });
+    function handleResize() {
+      setIsMobile(window.innerWidth < 768);
+    }
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setIsMobile, isMobile]);
 
   return (
     <footer className="footer-section style-4">
@@ -32,18 +59,18 @@ export const Footer = () => {
                 </div>
               </div> */}
               <div className="col-lg-12">
-                <div className="social-part ps-lg-5" style={{display: "flex", width: "100%" , justifyContent: "space-between"}}>
+                <div className="social-part ps-lg-5" style={footerStyle()}>
                   <div className="ft-header">
                     <h2>Connect With Me</h2>
                   </div>
                   <ul className="social-list d-flex flex-wrap align-items-center mb-0">
                     <li className="social-link">
-                      <a href="#" data-blast="bgColor">
+                      <a href="https://twitter.com/allieeveknox" data-blast="bgColor">
                         <i className="icofont-twitter"></i>
                       </a>
                     </li>
                     <li className="social-link">
-                      <a href="#" data-blast="bgColor">
+                      <a href="https://www.tiktok.com/@allieeveknoxthirst" data-blast="bgColor">
                         <i className="icofont-twitch"></i>
                       </a>
                     </li>
@@ -53,12 +80,12 @@ export const Footer = () => {
                       </a>
                     </li>
                     <li className="social-link">
-                      <a href="#" data-blast="bgColor">
+                      <a href="https://www.instagram.com/allieeveknox/" data-blast="bgColor">
                         <i className="icofont-instagram"></i>
                       </a>
                     </li>
                     <li className="social-link">
-                      <a href="#" data-blast="bgColor">
+                      <a href="https://spoilallieknox.wixsite.com" data-blast="bgColor">
                         <i className="icofont-dribble"></i>
                       </a>
                     </li>

@@ -182,6 +182,7 @@ export default function SingleCollection() {
                                                   >
                                                     <img
                                                       src={`${img}`}
+                                                      style={{objectFit : "cover" , objectPosition:"top"}}
                                                       alt="nft-img"
                                                     />
                                                   </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
@@ -174,11 +175,11 @@ const List = () => {
               </div>
             </div>
             <div className="col-lg-7">
-              <div className="account-img" style={{ height: "50vh" }}>
+              <div className="account-img" style={{ height: "50vh" , textAlign:"center"}}>
                 <img
                   src={token.media ? token.media : "/no-image.png"}
                   alt="nft-image"
-                  style={{ height: "100%" }}
+                  style={{ height: "100%"}}
                 />
               </div>
             </div>

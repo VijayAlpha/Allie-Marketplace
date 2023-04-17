@@ -40,7 +40,8 @@ export const CollectionCard = ({ post }) => {
               className="nft-thumb"
               style={{ width: "100%", height: "300px" }}
             >
-              <Image loading="lazy" src={post.nftImage} style={{objectFit : "cover" , objectPosition: "top"}} alt="nft-img" fill />
+              <Image loading="lazy" src={post.nftImage} style={{objectFit : "cover" , objectPosition:"top"}} alt="nft-img" fill />
+
             </div>
             <div className="nft-content">
               <h4>{post.name}</h4>

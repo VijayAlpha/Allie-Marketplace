@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 
 export const NFTCard = ({ post, page }) => {
@@ -31,14 +32,14 @@ export const NFTCard = ({ post, page }) => {
             {/* <!-- nft-bottom part --> */}
             <div
               className="nft-item-bottom"
-              style={{ height: "360px", overflow: "hidden" }}
+              style={{ height: "420px", overflow: "hidden" }}
             >
               <div className="nft-thumb">
                 <img
                   loading="lazy"
                   src={post.media ? post.media : "/no-image.png"}
                   alt="nft-img"
-                  style={{ width: "100%", height: "260px" , objectFit:"contain"}}
+                  style={{ width: "100%", height: "320px" , objectFit:"cover" , objectPosition:"top"}}
                 />
               </div>
               <div className="nft-content">
