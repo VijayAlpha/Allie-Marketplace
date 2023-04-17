@@ -99,11 +99,7 @@ const ListPage = () => {
                   })
                 )}
               </div>
-              <div className="load-btn mt-5">
-                <a href="#" className="default-btn move-bottom">
-                  <span>Load More</span>
-                </a>
-              </div>
+          
             </div>
           </div>
         </div>
