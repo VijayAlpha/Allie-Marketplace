@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useWallet } from "@mintbase-js/react";
+import { useState } from "react";
 import Link from "next/link";
 
 export const NavBar = () => {
+  const [toggle, setToggle] = useState(false);
 
   const { connect, disconnect, activeAccountId, isConnected } = useWallet();
 
@@ -19,7 +21,6 @@ export const NavBar = () => {
               />
             </Link>
           </div>
-
           {/* <form action="#" className="header__search">
             <input
               type="text"
@@ -34,7 +35,10 @@ export const NavBar = () => {
               </svg>
             </button>
           </form> */}
-          <div className="header__menu ms-auto">
+          <div
+            className="header__menu ms-auto"
+            style={toggle ? { width: "100%" } : { width: "0%" }}
+          >
             {activeAccountId !== process.env.NEXT_PUBLIC_OWNER ? (
               <ul className="header__nav mb-0">
                 <li className="header__nav-item">
@@ -75,14 +79,7 @@ export const NavBar = () => {
               </ul>
             )}
           </div>
-
           <div className="header__actions">
-            <div className="header__action header__action--search">
-              <button className="header__action-btn" type="button">
-                <i className="icofont-search-1"></i>
-              </button>
-            </div>
-
             <div className="header__action header__action--profile">
               <div className="dropdown">
                 <Link
@@ -118,8 +115,13 @@ export const NavBar = () => {
               )}
             </div>
           </div>
-
-          <button className="menu-trigger header__btn" id="menu05">
+          <button
+            className="menu-trigger header__btn"
+            onClick={() => {
+              setToggle((prev) => !prev);
+            }}
+            id="menu05"
+          >
             <span></span>
             <span></span>
             <span></span>
