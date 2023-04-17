@@ -89,7 +89,7 @@ export const MainSection = ({ collection }) => {
                                     ? collection?.nftImage
                                     : "/no-image.png"
                                 }
-                                style={{objectFit: "contain"}}
+                                style={{objectFit : "cover" , objectPosition:"top"}}
                                 alt="nft-img"
                                 fill
                               />
