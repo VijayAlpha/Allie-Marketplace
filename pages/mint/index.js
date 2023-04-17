@@ -112,7 +112,7 @@ const Mint = () => {
                       setNftTitle(e.currentTarget.value);
                     }}
                   />
-                  <label for="itemNameInput">NFT Name</label>
+                  <label  htmlFor="itemNameInput">NFT Name</label>
                 </div>
                 <div className="form-floating item-desc-field mb-3">
                   <textarea
@@ -123,7 +123,7 @@ const Mint = () => {
                       setNftDescription(e.currentTarget.value);
                     }}
                   ></textarea>
-                  <label for="itemDesc">NFT Description</label>
+                  <label htmlFor="itemDesc">NFT Description</label>
                 </div>
                 {/* <div className="form-floating item-name-field mb-3">
                   <input
@@ -147,7 +147,7 @@ const Mint = () => {
                       setNftAmount(e.currentTarget.value);
                     }}
                   />
-                  <label for="itemNameInput">Number of Copies</label>
+                  <label htmlFor="itemNameInput">Number of Copies</label>
                 </div>
 
                 {isLoading ? (
