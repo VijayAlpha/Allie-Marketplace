@@ -53,10 +53,16 @@ const Mint = () => {
   const handleMintToken = async (reference) => {
     if (!activeAccountId) return;
 
+    const currentUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+    const apiUrl = `${currentUrl}/list`;
+
     const wallet = await selector.wallet();
 
     execute(
-      { wallet },
+      {
+        wallet,
+        callbackUrl: `${apiUrl}`,
+      },
       mint({
         ownerId: activeAccountId,
         metadata: { reference: reference },
@@ -97,7 +103,17 @@ const Mint = () => {
             <div className="create-nft py-5 px-4 d-flex justify-content-center">
               <form className="create-nft-form col-8" onSubmit={handleSubmit}>
                 <div className="upload-item mb-30">
-                  {imagePreview && <img src={imagePreview} style={{marginBottom:"1.5rem" , borderRadius:"10px" , width:"400px"}} alt="Preview" />}
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      style={{
+                        marginBottom: "1.5rem",
+                        borderRadius: "10px",
+                        width: "400px",
+                      }}
+                      alt="Preview"
+                    />
+                  )}
 
                   {nftImage ? (
                     <p>Image Uploaded</p>
@@ -164,9 +180,7 @@ const Mint = () => {
                   </div>
                 ) : (
                   <div className="submit-btn-field text-center">
-                    <button type="submit">
-                      Mint NFT
-                    </button>
+                    <button type="submit">Mint NFT</button>
                   </div>
                 )}
               </form>
