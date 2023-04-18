@@ -122,11 +122,13 @@ const List = () => {
               <div className="account-wrapper">
                 <div className="account-bottom" style={{ textAlign: "start" }}>
                   <h5 className="subtitle">Title: {token.title}</h5>
-
+                  <span className="d-block cate pt-10 mb-3">
+                    <a href="#"> Total Tokens:</a> {token.copies}
+                  </span>
                   <span className="d-block cate pt-10 mb-5">
-                    {" "}
                     <a href="#"> Description:</a> {token.description}{" "}
                   </span>
+                  
                 </div>
                 <form className="account-form" onSubmit={handleListToken}>
                   <div className="form-floating mb-3">
