@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import { depositStorage, execute, list } from "@mintbase-js/sdk";
+import { utils } from "near-api-js";
 
 const List = () => {
   const router = useRouter();
@@ -32,18 +33,23 @@ const List = () => {
       }),
     ];
 
+    const amountInYocto = utils.format.parseNearAmount(listPrice);
+
     for (let i = 0; i < listAmount; i++) {
       listArg.push(
         list({
           contractAddress: token.nft_contract_id,
           marketAddress: marketAddress,
-          tokenId: `${parseInt(token.token_id) + (i + 1)}`,
-          price: `${listPrice + "0".repeat(24)}`,
+          tokenId: `${parseInt(token.token_id) + ++i}`,
+          price: amountInYocto,
         })
       );
     }
 
-    await execute({ wallet }, listArg);
+    const currentUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+    const apiUrl = `${currentUrl}/create/${metadataId}`;
+
+    await execute({ wallet, callbackUrl: `${apiUrl}` }, listArg);
   };
 
   useEffect(() => {
@@ -128,19 +134,20 @@ const List = () => {
                       type="number"
                       className="form-control"
                       id="floatingInput"
-                      min="1"
+                      min="0"
+                      step="0.0000001"
                       placeholder="10 NEAR"
                       onChange={(e) => {
                         setListPrice(e.currentTarget.value);
                       }}
                     />
-                    <label for="floatingInput">Price of each Token</label>
+                    <label htmlFor="floatingInput">Price of each Token</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
                       type="number"
                       className="form-control"
-                      id="floatingPassword"
+                      id="listtokeamount"
                       placeholder="50"
                       min="1"
                       max={token.copies}
@@ -148,7 +155,7 @@ const List = () => {
                         setListAmount(e.currentTarget.value);
                       }}
                     />
-                    <label for="floatingPassword">
+                    <label htmlFor="floatingPassword">
                       How many tokens to list
                     </label>
                   </div>
@@ -175,11 +182,14 @@ const List = () => {
               </div>
             </div>
             <div className="col-lg-7">
-              <div className="account-img" style={{ height: "50vh" , textAlign:"center"}}>
+              <div
+                className="account-img"
+                style={{ height: "50vh", textAlign: "center" }}
+              >
                 <img
                   src={token.media ? token.media : "/no-image.png"}
                   alt="nft-image"
-                  style={{ height: "100%"}}
+                  style={{ height: "100%" }}
                 />
               </div>
             </div>
