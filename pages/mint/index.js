@@ -95,7 +95,7 @@ const Mint = () => {
         <div className="row">
           <div className="col">
             <div className="create-nft py-5 px-4 d-flex justify-content-center">
-              <form className="create-nft-form col-8">
+              <form className="create-nft-form col-8" onSubmit={handleSubmit}>
                 <div className="upload-item mb-30">
                   {imagePreview && <img src={imagePreview} style={{marginBottom:"1.5rem" , borderRadius:"10px" , width:"400px"}} alt="Preview" />}
 
@@ -143,24 +143,14 @@ const Mint = () => {
                   ></textarea>
                   <label htmlFor="itemDesc">NFT Description</label>
                 </div>
-                {/* <div className="form-floating item-name-field mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="itemNameInput"
-                    placeholder="Item Name"
-                    onChange={(e) => {
-                      setNftTitle(e.currentTarget.value);
-                    }}
-                  />
-                  <label for="itemNameInput">Royalities</label>
-                </div> */}
                 <div className="form-floating item-name-field mb-3">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     id="itemNameInput"
                     placeholder="Item Name"
+                    min="1"
+                    max="100"
                     onChange={(e) => {
                       setNftAmount(e.currentTarget.value);
                     }}
@@ -174,7 +164,7 @@ const Mint = () => {
                   </div>
                 ) : (
                   <div className="submit-btn-field text-center">
-                    <button type="submit" onClick={handleSubmit}>
+                    <button type="submit">
                       Mint NFT
                     </button>
                   </div>
