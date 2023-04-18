@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useWallet } from "@mintbase-js/react";
 import { execute, mint } from "@mintbase-js/sdk";
 import { uploadReference } from "@mintbase-js/storage";
@@ -11,7 +12,24 @@ const Mint = () => {
   const [nftImage, setNftImage] = useState();
   const [nftAmount, setNftAmount] = useState();
   const [isLoading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
   const { selector, activeAccountId, isConnected } = useWallet();
+
+  const nftImageUpload = (e) => {
+    setNftImage(e.currentTarget.files[0]);
+    const file = e.currentTarget.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview("");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,6 +97,8 @@ const Mint = () => {
             <div className="create-nft py-5 px-4 d-flex justify-content-center">
               <form className="create-nft-form col-8">
                 <div className="upload-item mb-30">
+                  {imagePreview && <img src={imagePreview} style={{marginBottom:"1.5rem" , borderRadius:"10px" , width:"400px"}} alt="Preview" />}
+
                   {nftImage ? (
                     <p>Image Uploaded</p>
                   ) : (
@@ -96,9 +116,7 @@ const Mint = () => {
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => {
-                        setNftImage(e.currentTarget.files[0]);
-                      }}
+                      onChange={nftImageUpload}
                     />
                   </div>
                 </div>
@@ -112,7 +130,7 @@ const Mint = () => {
                       setNftTitle(e.currentTarget.value);
                     }}
                   />
-                  <label  htmlFor="itemNameInput">NFT Name</label>
+                  <label htmlFor="itemNameInput">NFT Name</label>
                 </div>
                 <div className="form-floating item-desc-field mb-3">
                   <textarea
