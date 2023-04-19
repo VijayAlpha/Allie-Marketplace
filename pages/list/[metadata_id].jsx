@@ -2,14 +2,15 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
-import { depositStorage, execute, list } from "@mintbase-js/sdk";
+import { depositStorage, execute, list, mint } from "@mintbase-js/sdk";
 import { utils } from "near-api-js";
 
 const List = () => {
   const router = useRouter();
   const metadataId = router.query.metadata_id;
 
-  const { selector } = useWallet();
+  const { selector, activeAccountId } = useWallet();
+  const [nftAmount, setNftAmount] = useState();
   const [token, setToken] = useState({});
   const [listPrice, setListPrice] = useState();
   const [listAmount, setListAmount] = useState();
@@ -52,6 +53,30 @@ const List = () => {
     await execute({ wallet, callbackUrl: `${apiUrl}` }, listArg);
   };
 
+  const handleMintMore = async (e) => {
+    e.preventDefault();
+    if (!activeAccountId) return;
+
+    const currentUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+    const apiUrl = `${currentUrl}/list`;
+
+    const wallet = await selector.wallet();
+
+    execute(
+      {
+        wallet,
+        callbackUrl: `${apiUrl}`,
+      },
+      mint({
+        ownerId: activeAccountId,
+        metadata: { reference: token.reference },
+        noMedia: true,
+        contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ID,
+        amount: parseInt(nftAmount),
+      })
+    );
+  };
+
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
       const qureyHttpLink =
@@ -86,6 +111,7 @@ const List = () => {
           copies
           nft_contract_id
           token_id
+          reference
         }
       }
     `;
@@ -118,16 +144,16 @@ const List = () => {
       </section>
       <div className="login-section padding-top padding-bottom">
         <div className=" container">
-          <div className="row g-5 align-items-center flex-md-row-reverse">
+          <div className="row g-5 align-items-center flex-row-reverse">
             <div className="col-lg-5">
               <div className="account-wrapper">
+              <h4 className="subtitle mb-4 d-block ">{token.title}</h4>
                 <div className="account-bottom" style={{ textAlign: "start" }}>
-                  <h5 className="subtitle">Title: {token.title}</h5>
                   <span className="d-block cate pt-10 mb-3">
                     <a href="#"> Total Tokens:</a> {token.copies}
                   </span>
-                  <span className="d-block cate pt-10 mb-5">
-                    <a href="#"> Description:</a> {token.description}{" "}
+                  <span className="d-block cate pt-10 mb-3">
+                    <a href="#"> Description:</a> {token.description}
                   </span>
                 </div>
                 <form className="account-form" onSubmit={handleListToken}>
@@ -179,6 +205,34 @@ const List = () => {
                         <span>List For Sale</span>
                       </button>
                     )}
+                  </div>
+                </form>
+                <h5 className="subtitle mb-4 mt-5 d-block">Mint More Token</h5>
+                <form className="account-form" onSubmit={handleMintMore}>
+                  <div className="form-floating mb-3">
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="listtokeamount"
+                      placeholder="50"
+                      min="1"
+                      max="100"
+                      onChange={(e) => {
+                        setNftAmount(e.currentTarget.value);
+                      }}
+                    />
+                    <label htmlFor="floatingPassword">
+                      How many tokens to mint
+                    </label>
+                  </div>
+
+                  <div className="form-group">
+                    <button
+                      className="d-block default-btn move-top"
+                      type="submit"
+                    >
+                      <span>Multipy</span>
+                    </button>
                   </div>
                 </form>
               </div>
