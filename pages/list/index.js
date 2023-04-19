@@ -32,8 +32,7 @@ const ListPage = () => {
         return `
         query ownedNFT {
           mb_views_nft_tokens(
-            order_by: {minted_timestamp: desc}
-            distinct_on: minted_timestamp
+            distinct_on: reference
             where: {owner: {_eq: "${accountId}"}, _and: {burned_timestamp: {_is_null: true}}, minter: {_eq: "${accountId}"}, nft_contract_id: {_eq: "${contract_id}"}}
             ) {
             nft_contract_id
@@ -41,6 +40,7 @@ const ListPage = () => {
             description
             media
             metadata_id
+            minted_timestamp
           }
         }
       `;
@@ -54,7 +54,15 @@ const ListPage = () => {
         {}
       );
 
-      setNftList(returnedNftList.data.mb_views_nft_tokens);
+      const sortedArray = returnedNftList.data.mb_views_nft_tokens.sort(
+        (a, b) => {
+          return (
+            Date.parse(b.minted_timestamp) - Date.parse(a.minted_timestamp)
+          );
+        }
+      );
+
+      setNftList(sortedArray);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
