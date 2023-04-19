@@ -40,7 +40,7 @@ const List = () => {
         list({
           contractAddress: token.nft_contract_id,
           marketAddress: marketAddress,
-          tokenId: `${parseInt(token.token_id) + ++i}`,
+          tokenId: `${parseInt(token.token_id++)}`,
           price: amountInYocto,
         })
       );
@@ -77,6 +77,7 @@ const List = () => {
         mb_views_nft_tokens(
           where: {metadata_id: {_eq: "${metadata_id}"}}
           limit: 1
+          order_by: {token_id: asc}
         ) {
           description
           media
@@ -128,7 +129,6 @@ const List = () => {
                   <span className="d-block cate pt-10 mb-5">
                     <a href="#"> Description:</a> {token.description}{" "}
                   </span>
-                  
                 </div>
                 <form className="account-form" onSubmit={handleListToken}>
                   <div className="form-floating mb-3">
@@ -191,7 +191,11 @@ const List = () => {
                 <img
                   src={token.media ? token.media : "/no-image.png"}
                   alt="nft-image"
-                  style={{ height: "100%" }}
+                  style={{
+                    margin: "1.5rem",
+                    borderRadius: "8px",
+                    width: "90%",
+                  }}
                 />
               </div>
             </div>
