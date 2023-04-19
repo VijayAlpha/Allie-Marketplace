@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useWallet } from "@mintbase-js/react";
 import { execute, mint } from "@mintbase-js/sdk";
 import { uploadReference } from "@mintbase-js/storage";
@@ -11,7 +12,24 @@ const Mint = () => {
   const [nftImage, setNftImage] = useState();
   const [nftAmount, setNftAmount] = useState();
   const [isLoading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
   const { selector, activeAccountId, isConnected } = useWallet();
+
+  const nftImageUpload = (e) => {
+    setNftImage(e.currentTarget.files[0]);
+    const file = e.currentTarget.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview("");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,10 +53,16 @@ const Mint = () => {
   const handleMintToken = async (reference) => {
     if (!activeAccountId) return;
 
+    const currentUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+    const apiUrl = `${currentUrl}/list`;
+
     const wallet = await selector.wallet();
 
     execute(
-      { wallet },
+      {
+        wallet,
+        callbackUrl: `${apiUrl}`,
+      },
       mint({
         ownerId: activeAccountId,
         metadata: { reference: reference },
@@ -77,8 +101,20 @@ const Mint = () => {
         <div className="row">
           <div className="col">
             <div className="create-nft py-5 px-4 d-flex justify-content-center">
-              <form className="create-nft-form col-8">
+              <form className="create-nft-form col-8" onSubmit={handleSubmit}>
                 <div className="upload-item mb-30">
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      style={{
+                        marginBottom: "1.5rem",
+                        borderRadius: "10px",
+                        width: "400px",
+                      }}
+                      alt="Preview"
+                    />
+                  )}
+
                   {nftImage ? (
                     <p>Image Uploaded</p>
                   ) : (
@@ -96,9 +132,7 @@ const Mint = () => {
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => {
-                        setNftImage(e.currentTarget.files[0]);
-                      }}
+                      onChange={nftImageUpload}
                     />
                   </div>
                 </div>
@@ -112,7 +146,7 @@ const Mint = () => {
                       setNftTitle(e.currentTarget.value);
                     }}
                   />
-                  <label  htmlFor="itemNameInput">NFT Name</label>
+                  <label htmlFor="itemNameInput">NFT Name</label>
                 </div>
                 <div className="form-floating item-desc-field mb-3">
                   <textarea
@@ -125,24 +159,14 @@ const Mint = () => {
                   ></textarea>
                   <label htmlFor="itemDesc">NFT Description</label>
                 </div>
-                {/* <div className="form-floating item-name-field mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="itemNameInput"
-                    placeholder="Item Name"
-                    onChange={(e) => {
-                      setNftTitle(e.currentTarget.value);
-                    }}
-                  />
-                  <label for="itemNameInput">Royalities</label>
-                </div> */}
                 <div className="form-floating item-name-field mb-3">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     id="itemNameInput"
                     placeholder="Item Name"
+                    min="1"
+                    max="100"
                     onChange={(e) => {
                       setNftAmount(e.currentTarget.value);
                     }}
@@ -156,9 +180,7 @@ const Mint = () => {
                   </div>
                 ) : (
                   <div className="submit-btn-field text-center">
-                    <button type="submit" onClick={handleSubmit}>
-                      Mint NFT
-                    </button>
+                    <button type="submit">Mint NFT</button>
                   </div>
                 )}
               </form>
