@@ -12,6 +12,7 @@ const List = () => {
   const { selector, activeAccountId } = useWallet();
   const [nftAmount, setNftAmount] = useState();
   const [token, setToken] = useState({});
+  const [totalToken, setTotalToken] = useState();
   const [listPrice, setListPrice] = useState();
   const [listAmount, setListAmount] = useState();
 
@@ -101,7 +102,6 @@ const List = () => {
       query MyQuery {
         mb_views_nft_tokens(
           where: {metadata_id: {_eq: "${metadata_id}"}}
-          limit: 1
           order_by: {token_id: asc}
         ) {
           description
@@ -124,6 +124,13 @@ const List = () => {
         {}
       );
       setToken(data.mb_views_nft_tokens[0]);
+
+      // To get the total numbers of tokens even after extra mints added
+      let arrayList = data.mb_views_nft_tokens;
+      let totalTokens =
+        parseInt(arrayList[arrayList.length - 1].token_id) -
+        parseInt(arrayList[0].token_id);
+      setTotalToken(totalTokens);
     }
 
     fetchCheckNFT();
@@ -147,10 +154,10 @@ const List = () => {
           <div className="row g-5 align-items-center flex-row-reverse">
             <div className="col-lg-5">
               <div className="account-wrapper">
-              <h4 className="subtitle mb-4 d-block ">{token.title}</h4>
+                <h4 className="subtitle mb-4 d-block ">{token.title}</h4>
                 <div className="account-bottom" style={{ textAlign: "start" }}>
                   <span className="d-block cate pt-10 mb-3">
-                    <a href="#"> Total Tokens:</a> {token.copies}
+                    <a href="#"> Total Tokens:</a> {totalToken}
                   </span>
                   <span className="d-block cate pt-10 mb-3">
                     <a href="#"> Description:</a> {token.description}
@@ -181,6 +188,8 @@ const List = () => {
                       max={token.copies}
                       onChange={(e) => {
                         setListAmount(e.currentTarget.value);
+
+                        console.log(totalToken);
                       }}
                     />
                     <label htmlFor="floatingPassword">
