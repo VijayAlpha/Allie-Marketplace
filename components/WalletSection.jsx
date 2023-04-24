@@ -13,20 +13,20 @@ export const WalletSection = () => {
 
         <div className="wallet-inner">
           <div className="row g-3 d-flex justify-content-center">
-          <div className="col-lg-2 col-sm-4 col-6">
+            <div className="col-lg-2 col-sm-4 col-6">
               <div className="wallet-item home-4">
                 <div className="wallet-item-inner text-center">
                   <div className="wallet-thumb">
-                      <Image
-                        width={60}
-                        height={60}
-                        src="/assets/images/wallet/ledger-logo.png"
-                        alt="wallet-img"
-                      />
+                    <Image
+                      width={60}
+                      height={60}
+                      src="/assets/images/wallet/ledger-logo.png"
+                      alt="wallet-img"
+                    />
                   </div>
                   <div className="wallet-content">
                     <h5>
-                      <a href="signin.html">Ledger</a>
+                      <a href="#">Ledger</a>
                     </h5>
                   </div>
                 </div>
@@ -36,16 +36,16 @@ export const WalletSection = () => {
               <div className="wallet-item home-4">
                 <div className="wallet-item-inner text-center">
                   <div className="wallet-thumb">
-                      <Image
-                        width={60}
-                        height={60}
-                        src="/assets/images/wallet/my-near-wallet-icon.webp"
-                        alt="wallet-img"
-                      />
+                    <Image
+                      width={60}
+                      height={60}
+                      src="/assets/images/wallet/my-near-wallet-icon.webp"
+                      alt="wallet-img"
+                    />
                   </div>
                   <div className="wallet-content">
                     <h5>
-                      <a href="signin.html">MyNearWallet</a>
+                      <a href="#">MyNearWallet</a>
                     </h5>
                   </div>
                 </div>
@@ -55,36 +55,36 @@ export const WalletSection = () => {
               <div className="wallet-item home-4">
                 <div className="wallet-item-inner text-center">
                   <div className="wallet-thumb">
-                      <Image
-                        width={60}
-                        height={60}
-                        src="/assets/images/wallet/near-icon.png"
-                        alt="wallet-img"
-                      />
+                    <Image
+                      width={60}
+                      height={60}
+                      src="/assets/images/wallet/near-icon.png"
+                      alt="wallet-img"
+                    />
                   </div>
                   <div className="wallet-content">
                     <h5>
-                      <a href="signin.html">Near Wallet</a>
+                      <a href="#">Near Wallet</a>
                     </h5>
                   </div>
                 </div>
               </div>
             </div>
-          
+
             <div className="col-lg-2 col-sm-4 col-6">
               <div className="wallet-item home-4">
                 <div className="wallet-item-inner text-center">
                   <div className="wallet-thumb">
-                      <Image
-                        width={60}
-                        height={60}
-                        src="/assets/images/wallet/senderwallet.jpg"
-                        alt="wallet-img"
-                      />
+                    <Image
+                      width={60}
+                      height={60}
+                      src="/assets/images/wallet/senderwallet.jpg"
+                      alt="wallet-img"
+                    />
                   </div>
                   <div className="wallet-content">
                     <h5>
-                      <a href="signin.html">Sender</a>
+                      <a href="#">Sender</a>
                     </h5>
                   </div>
                 </div>
@@ -94,22 +94,21 @@ export const WalletSection = () => {
               <div className="wallet-item home-4">
                 <div className="wallet-item-inner text-center">
                   <div className="wallet-thumb">
-                      <Image
-                        width={60}
-                        height={60}
-                        src="/assets/images/wallet/meteor-wallet.jpg"
-                        alt="wallet-img"
-                      />
+                    <Image
+                      width={60}
+                      height={60}
+                      src="/assets/images/wallet/meteor-wallet.jpg"
+                      alt="wallet-img"
+                    />
                   </div>
                   <div className="wallet-content">
                     <h5>
-                      <a href="signin.html">Meteor</a>
+                      <a href="#">Meteor</a>
                     </h5>
                   </div>
                 </div>
               </div>
             </div>
-          
           </div>
         </div>
       </div>

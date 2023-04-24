@@ -84,7 +84,7 @@ const Mint = () => {
               </div>
               <ol className="breadcrumb">
                 <li>
-                  <a href="index.html">Mint</a>
+                  <a href="/">Mint</a>
                 </li>
                 <li className="active">NFT</li>
               </ol>

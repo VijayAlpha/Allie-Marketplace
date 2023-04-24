@@ -18,7 +18,7 @@ export const CollectionCard = ({ post }) => {
             <div className="author-part">
               <ul className="author-list d-flex">
                 <li className="single-author d-flex align-items-center">
-                  <span href="/author" className="veryfied">
+                  <span href="#" className="veryfied">
                     <Image
                       loading="lazy"
                       src="/assets/images/seller/author.jpg"

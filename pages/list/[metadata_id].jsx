@@ -101,7 +101,7 @@ const List = () => {
       return `
       query MyQuery {
         mb_views_nft_tokens(
-          where: {metadata_id: {_eq: "${metadata_id}"}}
+          where: {metadata_id: {_eq: "${metadata_id}"} , listings: {metadata_id: {_is_null: false}}}
           order_by: {token_id: asc}
         ) {
           description
@@ -112,6 +112,9 @@ const List = () => {
           nft_contract_id
           token_id
           reference
+          listings {
+            token_id
+          }
         }
       }
     `;
@@ -131,6 +134,8 @@ const List = () => {
         parseInt(arrayList[arrayList.length - 1]?.token_id) -
         parseInt(arrayList[0]?.token_id);
       setTotalToken(totalTokens);
+
+      let totalListedTokens = null;
     }
 
     fetchCheckNFT();
@@ -267,7 +272,22 @@ const List = () => {
       </div>
     </>
   ) : (
-    <></>
+    <>
+      <section className="page-header-section style-1">
+        <div className="container">
+          <div className="page-header-content">
+            <div className="page-header-inner">
+              <div className="page-title">
+                <h2>Something went wrong <br/> Try again...</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div className="login-section padding-top padding-bottom">
+        <div className="container" style={{ height: "50vh" }}></div>
+      </div>
+    </>
   );
 
   return element;
