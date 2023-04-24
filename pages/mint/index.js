@@ -4,6 +4,7 @@ import { execute, mint } from "@mintbase-js/sdk";
 import { uploadReference } from "@mintbase-js/storage";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Mint = () => {
   const router = useRouter();
@@ -84,7 +85,7 @@ const Mint = () => {
               </div>
               <ol className="breadcrumb">
                 <li>
-                  <a href="/">Mint</a>
+                  <Link href="/">Mint</Link>
                 </li>
                 <li className="active">NFT</li>
               </ol>

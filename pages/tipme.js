@@ -9,7 +9,7 @@ const TipMePage = () => {
             </div>
             <ol className="breadcrumb">
               <li>
-                <a href="/">Please</a>
+                <a href="#">Please</a>
               </li>
               <li className="active">wait</li>
             </ol>
