@@ -13,10 +13,24 @@ const List = () => {
   const [nftAmount, setNftAmount] = useState();
   const [token, setToken] = useState({});
   const [totalToken, setTotalToken] = useState();
-  const [ownedToken, setOwnedToken] = useState(0);
-  const [listedToken, setListedToken] = useState(0);
+  const [ownderTokens, setOwnedToken] = useState();
+  const [listedTokens, setListedTokens] = useState();
+  const [ownedTokenNumber, setNumberOwnedToken] = useState(0);
+  const [numOflistedToken, setNumbersOfListedToken] = useState(0);
   const [listPrice, setListPrice] = useState();
   const [listAmount, setListAmount] = useState();
+
+  const getNoneListedTokenIds = () => {
+    const notListedArray = ownderTokens
+      .filter(
+        ({ token_id }) =>
+          !listedTokens.some((item) => item.token_id === token_id)
+      )
+      .map(({ token_id }) => token_id);
+
+    // setNoneListedTokens(notListedArray);
+    return notListedArray;
+  };
 
   const handleListToken = async (e) => {
     e.preventDefault();
@@ -28,7 +42,9 @@ const List = () => {
         ? "simple.market.mintbase1.near"
         : "market-v2-beta.mintspace2.testnet";
 
-    if (!token) return;
+    const noneListedID = getNoneListedTokenIds();
+
+    if (!noneListedID) return;
 
     let listArg = [
       depositStorage({
@@ -44,7 +60,7 @@ const List = () => {
         list({
           contractAddress: token.nft_contract_id,
           marketAddress: marketAddress,
-          tokenId: `${parseInt(token.token_id++)}`,
+          tokenId: `${parseInt(noneListedID[i])}`,
           price: amountInYocto,
         })
       );
@@ -134,7 +150,7 @@ const List = () => {
     }
 
     async function fetchOwnedToken() {
-      const listOperations = (metadata_id, owner) => {
+      const ownedOperations = (metadata_id, owner) => {
         return `
         query MyQuery {
           mb_views_nft_tokens(
@@ -151,14 +167,16 @@ const List = () => {
       };
 
       const { errors, data } = await fetchGraphQL(
-        listOperations(metadataId, process.env.NEXT_PUBLIC_OWNER),
+        ownedOperations(metadataId, process.env.NEXT_PUBLIC_OWNER),
         "MyQuery",
         {}
       );
 
+      setOwnedToken(data?.mb_views_nft_tokens);
+
       let arrayList = data?.mb_views_nft_tokens;
       let ownedToken = arrayList?.length === 0 ? 1 : arrayList?.length;
-      setOwnedToken(ownedToken);
+      setNumberOwnedToken(ownedToken);
     }
 
     async function fetchListedToken() {
@@ -187,7 +205,8 @@ const List = () => {
 
       let arrayList = data?.mb_views_nft_tokens;
       let listedToken = arrayList?.length === 0 ? 1 : arrayList?.length;
-      setListedToken(listedToken);
+      setNumbersOfListedToken(listedToken);
+      setListedTokens(arrayList);
     }
 
     fetchCheckNFT();
@@ -202,7 +221,7 @@ const List = () => {
           <div className="page-header-content">
             <div className="page-header-inner">
               <div className="page-title">
-                <h2>List For Sale</h2>
+                <h2 >List For Sale</h2>
               </div>
             </div>
           </div>
@@ -238,10 +257,10 @@ const List = () => {
                     <a href="#">Total NFTs:</a> {totalToken}
                   </span>
                   <span className="d-block cate pt-10 mb-3">
-                    <a href="#"> Owned NFTs:</a> {ownedToken}
+                    <a href="#"> Owned NFTs:</a> {ownedTokenNumber}
                   </span>
                   <span className="d-block cate pt-10 mb-3">
-                    <a href="#"> Listed NFTs:</a> {listedToken}
+                    <a href="#"> Listed NFTs:</a> {numOflistedToken}
                   </span>
                 </div>
                 <form className="account-form" onSubmit={handleListToken}>
@@ -252,7 +271,6 @@ const List = () => {
                       id="floatingInput"
                       min="0"
                       step="0.0000001"
-                      placeholder="10 NEAR"
                       onChange={(e) => {
                         setListPrice(e.currentTarget.value);
                       }}
@@ -266,7 +284,7 @@ const List = () => {
                       id="listtokeamount"
                       placeholder="50"
                       min="1"
-                      max={ownedToken > 100 ? "100" : ownedToken}
+                      max={ownedTokenNumber > 100 ? "100" : ownedTokenNumber}
                       onChange={(e) => {
                         setListAmount(e.currentTarget.value);
                       }}
