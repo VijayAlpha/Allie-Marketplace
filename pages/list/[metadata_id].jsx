@@ -101,7 +101,7 @@ const List = () => {
       return `
       query MyQuery {
         mb_views_nft_tokens(
-          where: {metadata_id: {_eq: "${metadata_id}"} , listings: {metadata_id: {_is_null: false}}}
+          where: {metadata_id: {_eq: "${metadata_id}"}}
           order_by: {token_id: asc}
         ) {
           description
@@ -112,9 +112,6 @@ const List = () => {
           nft_contract_id
           token_id
           reference
-          listings {
-            token_id
-          }
         }
       }
     `;
@@ -126,13 +123,11 @@ const List = () => {
         "MyQuery",
         {}
       );
-      setToken(data.mb_views_nft_tokens[0]);
+      setToken(data?.mb_views_nft_tokens[0]);
 
       // To get the total numbers of tokens even after extra mints added
-      let arrayList = data.mb_views_nft_tokens;
-      let totalTokens =
-        parseInt(arrayList[arrayList.length - 1]?.token_id) -
-        parseInt(arrayList[0]?.token_id);
+      let arrayList = data?.mb_views_nft_tokens;
+      let totalTokens = arrayList?.length === 0 ? 1 : arrayList?.length;
       setTotalToken(totalTokens);
 
       let totalListedTokens = null;
@@ -190,11 +185,9 @@ const List = () => {
                       id="listtokeamount"
                       placeholder="50"
                       min="1"
-                      max={token.copies}
+                      max={totalToken}
                       onChange={(e) => {
                         setListAmount(e.currentTarget.value);
-
-                        console.log(totalToken);
                       }}
                     />
                     <label htmlFor="floatingPassword">
@@ -278,7 +271,9 @@ const List = () => {
           <div className="page-header-content">
             <div className="page-header-inner">
               <div className="page-title">
-                <h2>Something went wrong <br/> Try again...</h2>
+                <h2>
+                  Something went wrong <br /> Try again...
+                </h2>
               </div>
             </div>
           </div>
