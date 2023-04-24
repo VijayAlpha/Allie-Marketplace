@@ -13,6 +13,8 @@ const List = () => {
   const [nftAmount, setNftAmount] = useState();
   const [token, setToken] = useState({});
   const [totalToken, setTotalToken] = useState();
+  const [ownedToken, setOwnedToken] = useState(0);
+  const [listedToken, setListedToken] = useState(0);
   const [listPrice, setListPrice] = useState();
   const [listAmount, setListAmount] = useState();
 
@@ -97,27 +99,27 @@ const List = () => {
       return await result.json();
     }
 
-    const operations = (metadata_id) => {
-      return `
-      query MyQuery {
-        mb_views_nft_tokens(
-          where: {metadata_id: {_eq: "${metadata_id}"}}
-          order_by: {token_id: asc}
-        ) {
-          description
-          media
-          metadata_id
-          title
-          copies
-          nft_contract_id
-          token_id
-          reference
-        }
-      }
-    `;
-    };
-
     async function fetchCheckNFT() {
+      const operations = (metadata_id) => {
+        return `
+        query MyQuery {
+          mb_views_nft_tokens(
+            where: {metadata_id: {_eq: "${metadata_id}"}}
+            order_by: {token_id: asc}
+          ) {
+            description
+            media
+            metadata_id
+            title
+            copies
+            nft_contract_id
+            token_id
+            reference
+          }
+        }
+      `;
+      };
+
       const { errors, data } = await fetchGraphQL(
         operations(metadataId),
         "MyQuery",
@@ -129,11 +131,70 @@ const List = () => {
       let arrayList = data?.mb_views_nft_tokens;
       let totalTokens = arrayList?.length === 0 ? 1 : arrayList?.length;
       setTotalToken(totalTokens);
+    }
 
-      let totalListedTokens = null;
+    async function fetchOwnedToken() {
+      const listOperations = (metadata_id, owner) => {
+        return `
+        query MyQuery {
+          mb_views_nft_tokens(
+            where: {metadata_id: {_eq: "${metadata_id}"}, owner: {_eq: "${owner}"}}
+            order_by: {token_id: asc}
+          ) {
+            token_id
+            listings {
+              token_id
+            }
+          }
+        }
+    `;
+      };
+
+      const { errors, data } = await fetchGraphQL(
+        listOperations(metadataId, process.env.NEXT_PUBLIC_OWNER),
+        "MyQuery",
+        {}
+      );
+      // To get the total numbers of tokens even after extra mints added
+      let arrayList = data?.mb_views_nft_tokens;
+      let ownedToken = arrayList?.length === 0 ? 1 : arrayList?.length;
+      setOwnedToken(ownedToken);
+      // console.log(data);
+    }
+
+    async function fetchListedToken() {
+      const listOperations = (metadata_id, owner) => {
+        return `
+        query MyQuery {
+          mb_views_nft_tokens(
+            where: {metadata_id: {_eq: "${metadata_id}"}, owner: {_eq: "${owner}"} , listings: {token_id: {_is_null: false}}}
+            order_by: {token_id: asc}
+          ) {
+            token_id
+            listings {
+              token_id
+            }
+          }
+        }
+        
+    `;
+      };
+
+      const { errors, data } = await fetchGraphQL(
+        listOperations(metadataId, process.env.NEXT_PUBLIC_OWNER),
+        "MyQuery",
+        {}
+      );
+      // To get the total numbers of tokens even after extra mints added
+      let arrayList = data?.mb_views_nft_tokens;
+      let listedToken = arrayList?.length === 0 ? 1 : arrayList?.length;
+      setListedToken(listedToken);
+      // console.log(data);
     }
 
     fetchCheckNFT();
+    fetchOwnedToken();
+    fetchListedToken();
   });
 
   const element = token ? (
@@ -157,10 +218,16 @@ const List = () => {
                 <h4 className="subtitle mb-4 d-block ">{token.title}</h4>
                 <div className="account-bottom" style={{ textAlign: "start" }}>
                   <span className="d-block cate pt-10 mb-3">
-                    <a href="#"> Total Tokens:</a> {totalToken}
+                    <a href="#"> Description:</a> {token.description}
                   </span>
                   <span className="d-block cate pt-10 mb-3">
-                    <a href="#"> Description:</a> {token.description}
+                    <a href="#">Total NFTs:</a> {totalToken}
+                  </span>
+                  <span className="d-block cate pt-10 mb-3">
+                    <a href="#"> Owned NFTs:</a> {ownedToken}
+                  </span>
+                  <span className="d-block cate pt-10 mb-3">
+                    <a href="#"> Listed NFTs:</a> {listedToken}
                   </span>
                 </div>
                 <form className="account-form" onSubmit={handleListToken}>
@@ -185,7 +252,7 @@ const List = () => {
                       id="listtokeamount"
                       placeholder="50"
                       min="1"
-                      max={totalToken}
+                      max={ownedToken > 100 ? "100" : ownedToken}
                       onChange={(e) => {
                         setListAmount(e.currentTarget.value);
                       }}
