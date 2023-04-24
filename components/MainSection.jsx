@@ -60,7 +60,7 @@ export const MainSection = ({ collection }) => {
                             <div className="author-part">
                               <ul className="author-list d-flex">
                                 <li className="single-author d-flex align-items-center">
-                                  <a href="author.html" className="veryfied">
+                                  <a href="#" className="veryfied">
                                     <Image
                                       loading="lazy"
                                       src="/assets/images/seller/author.jpg"
@@ -70,7 +70,7 @@ export const MainSection = ({ collection }) => {
                                     />
                                   </a>
                                   <h6>
-                                    <a href="author.html">Aliie eve knox</a>
+                                    <a href="#">Aliie eve knox</a>
                                   </h6>
                                 </li>
                               </ul>
