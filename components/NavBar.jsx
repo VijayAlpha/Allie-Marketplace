@@ -63,7 +63,7 @@ export const NavBar = () => {
               <ul className="header__nav mb-0">
                 <li className="header__nav-item">
                   <Link href="/collection" className="header__nav-link">
-                    Collection
+                    Collections
                   </Link>
                 </li>
 
@@ -76,12 +76,6 @@ export const NavBar = () => {
             ) : (
               <ul className="header__nav mb-0">
                 <li className="header__nav-item">
-                  <Link href="/collection" className="header__nav-link">
-                    Collection
-                  </Link>
-                </li>
-
-                <li className="header__nav-item">
                   <Link href="/mint" className="header__nav-link">
                     Mint NFT
                   </Link>
@@ -93,7 +87,12 @@ export const NavBar = () => {
                 </li>
                 <li className="header__nav-item">
                   <Link href="/create" className="header__nav-link">
-                    Create
+                    Create Collection
+                  </Link>
+                </li>
+                <li className="header__nav-item">
+                  <Link href="/collection" className="header__nav-link">
+                   Collections
                   </Link>
                 </li>
               </ul>

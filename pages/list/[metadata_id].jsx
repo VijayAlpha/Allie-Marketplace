@@ -49,7 +49,7 @@ const List = () => {
     }
 
     const currentUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
-    const apiUrl = `${currentUrl}/create/${metadataId}`;
+    const apiUrl = `${currentUrl}/create`;
 
     await execute({ wallet, callbackUrl: `${apiUrl}` }, listArg);
   };
@@ -128,8 +128,8 @@ const List = () => {
       // To get the total numbers of tokens even after extra mints added
       let arrayList = data.mb_views_nft_tokens;
       let totalTokens =
-        parseInt(arrayList[arrayList.length - 1].token_id) -
-        parseInt(arrayList[0].token_id);
+        parseInt(arrayList[arrayList.length - 1]?.token_id) -
+        parseInt(arrayList[0]?.token_id);
       setTotalToken(totalTokens);
     }
 
