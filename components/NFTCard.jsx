@@ -15,7 +15,7 @@ export const NFTCard = ({ post, page }) => {
               <div className="author-part">
                 <ul className="author-list d-flex">
                   <li className="single-author d-flex align-items-center">
-                    <Link href="author.html" className="veryfied">
+                    <Link href="#" className="veryfied">
                       <img
                         loading="lazy"
                         src="/assets/images/seller/author.jpg"
@@ -23,7 +23,7 @@ export const NFTCard = ({ post, page }) => {
                       />
                     </Link>
                     <h6>
-                      <a href="author.html">Allie eve knox</a>
+                      <a href="#">Allie eve knox</a>
                     </h6>
                   </li>
                 </ul>
@@ -39,12 +39,17 @@ export const NFTCard = ({ post, page }) => {
                   loading="lazy"
                   src={post.media ? post.media : "/no-image.png"}
                   alt="nft-img"
-                  style={{ width: "100%", height: "320px" , objectFit:"cover" , objectPosition:"top"}}
+                  style={{
+                    width: "100%",
+                    height: "320px",
+                    objectFit: "cover",
+                    objectPosition: "top",
+                  }}
                 />
               </div>
               <div className="nft-content">
                 <h4>
-                  <Link href="item-details.html">{post.title}</Link>
+                  <Link href="#">{post.title}</Link>
                 </h4>
                 <div className="price-like d-flex justify-content-between align-items-center">
                   <p className="nft-price">

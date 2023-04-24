@@ -261,7 +261,7 @@ export const Buy = ({ meta }) => {
             </div>
             <ol className="breadcrumb">
               <li>
-                <a href="index.html">Please Check Other Collections.</a>
+                <Link href="/">Please Check Other Collections.</Link>
               </li>
             </ol>
           </div>

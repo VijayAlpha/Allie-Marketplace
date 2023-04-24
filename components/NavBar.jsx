@@ -11,12 +11,16 @@ export const NavBar = () => {
   const toggleMenu = () => {
     let style;
     if (isMobile) {
-      style = toggle ? { width: "100%" } : { width: "0%" };
+      style = toggle ? { width: "150%" } : { width: "0%" };
     } else {
       style = { width: "100%" };
     }
 
     return style;
+  };
+
+  const handleToggle = () => {
+    setToggle(!toggle);
   };
 
   useEffect(() => {
@@ -61,13 +65,13 @@ export const NavBar = () => {
           <div className="header__menu ms-auto" style={toggleMenu()}>
             {activeAccountId !== process.env.NEXT_PUBLIC_OWNER ? (
               <ul className="header__nav mb-0">
-                <li className="header__nav-item">
-                  <Link href="/collection" className="header__nav-link">
-                    Collection
+                <li className="header__nav-item" onClick={ () => {setToggle(false)}}>
+                  <Link href="/collection" className="header__nav-link" >
+                    Collections
                   </Link>
                 </li>
 
-                <li className="header__nav-item">
+                <li className="header__nav-item"  onClick={ () => {setToggle(false)}}>
                   <Link href="/tipme" className="header__nav-link">
                     Tip me
                   </Link>
@@ -75,25 +79,24 @@ export const NavBar = () => {
               </ul>
             ) : (
               <ul className="header__nav mb-0">
-                <li className="header__nav-item">
-                  <Link href="/collection" className="header__nav-link">
-                    Collection
-                  </Link>
-                </li>
-
-                <li className="header__nav-item">
+                <li className="header__nav-item"  onClick={ () => {setToggle(false)}}>
                   <Link href="/mint" className="header__nav-link">
                     Mint NFT
                   </Link>
                 </li>
-                <li className="header__nav-item">
+                <li className="header__nav-item" onClick={ () => {setToggle(false)}}>
                   <Link href="/list" className="header__nav-link">
                     List NFT
                   </Link>
                 </li>
-                <li className="header__nav-item">
+                <li className="header__nav-item"  onClick={ () => {setToggle(false)}}>
                   <Link href="/create" className="header__nav-link">
-                    Create
+                    Create Collection
+                  </Link>
+                </li>
+                <li className="header__nav-item"  onClick={ () => {setToggle(false)}}>
+                  <Link href="/collection" className="header__nav-link">
+                    Collections
                   </Link>
                 </li>
               </ul>
@@ -137,9 +140,7 @@ export const NavBar = () => {
           </div>
           <button
             className="menu-trigger header__btn"
-            onClick={() => {
-              setToggle((prev) => !prev);
-            }}
+            onClick={handleToggle}
             id="menu05"
           >
             <span></span>
