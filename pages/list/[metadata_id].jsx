@@ -155,11 +155,10 @@ const List = () => {
         "MyQuery",
         {}
       );
-      // To get the total numbers of tokens even after extra mints added
+
       let arrayList = data?.mb_views_nft_tokens;
       let ownedToken = arrayList?.length === 0 ? 1 : arrayList?.length;
       setOwnedToken(ownedToken);
-      // console.log(data);
     }
 
     async function fetchListedToken() {
@@ -185,11 +184,10 @@ const List = () => {
         "MyQuery",
         {}
       );
-      // To get the total numbers of tokens even after extra mints added
+
       let arrayList = data?.mb_views_nft_tokens;
       let listedToken = arrayList?.length === 0 ? 1 : arrayList?.length;
       setListedToken(listedToken);
-      // console.log(data);
     }
 
     fetchCheckNFT();
@@ -213,6 +211,22 @@ const List = () => {
       <div className="login-section padding-top padding-bottom">
         <div className=" container">
           <div className="row g-5 align-items-center flex-row-reverse">
+            <div className="col-lg-7">
+              <div
+                className="account-img"
+                style={{ height: "50vh", textAlign: "center" }}
+              >
+                <img
+                  src={token.media ? token.media : "/no-image.png"}
+                  alt="nft-image"
+                  style={{
+                    margin: "1.5rem",
+                    borderRadius: "8px",
+                    width: "90%",
+                  }}
+                />
+              </div>
+            </div>
             <div className="col-lg-5">
               <div className="account-wrapper">
                 <h4 className="subtitle mb-4 d-block ">{token.title}</h4>
@@ -309,22 +323,6 @@ const List = () => {
                     </button>
                   </div>
                 </form>
-              </div>
-            </div>
-            <div className="col-lg-7">
-              <div
-                className="account-img"
-                style={{ height: "50vh", textAlign: "center" }}
-              >
-                <img
-                  src={token.media ? token.media : "/no-image.png"}
-                  alt="nft-image"
-                  style={{
-                    margin: "1.5rem",
-                    borderRadius: "8px",
-                    width: "90%",
-                  }}
-                />
               </div>
             </div>
           </div>
