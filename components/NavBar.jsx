@@ -11,7 +11,7 @@ export const NavBar = () => {
   const toggleMenu = () => {
     let style;
     if (isMobile) {
-      style = toggle ? { width: "100%" } : { width: "0%" };
+      style = toggle ? { width: "150%" } : { width: "0%" };
     } else {
       style = { width: "100%" };
     }
