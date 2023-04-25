@@ -4,24 +4,28 @@ import { WalletSection } from "../components/WalletSection";
 import { MainSection } from "../components/MainSection";
 import axios from "axios";
 
-
 export default function Home() {
-  const [content, setContent] = useState();
+  const [collection, setCollection] = useState();
+  const [content, setContent] = useState("Loading...");
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection`
-      );
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection`
+        );
 
-      setContent(res.data);
+        setCollection(res.data?.collection.reverse());
+      } catch (err) {
+        setContent("Something went wrong!");
+      }
     };
     fetchData();
   }, []);
 
   return (
     <>
-      <MainSection collection={content?.collection[0]}/>
+      <MainSection collection={collection ? collection[0] : undefined} />
       <WalletSection />
 
       <section className="ex-drop-section padding-bottom">
@@ -35,16 +39,16 @@ export default function Home() {
           <div className="section-wrapper">
             <div className="ex-drop-wrapper">
               <div className="row gx-4 gy-3 d-flex justify-content-start">
-                {content ? (
-                  content.collection.length !== 0 ? (
-                    content.collection?.map((post, id) => {
+                {collection ? (
+                  collection.length !== 0 ? (
+                    collection.map((post, id) => {
                       return <CollectionCard post={post} key={id} />;
                     })
                   ) : (
                     <h3>Sorry!... There is No Collection Now.</h3>
                   )
                 ) : (
-                  <h1>Loading..</h1>
+                  <h1>{content}</h1>
                 )}
               </div>
             </div>
