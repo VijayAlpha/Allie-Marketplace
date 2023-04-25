@@ -14,6 +14,11 @@ const UploadFiles = () => {
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
 
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY
+  );
+
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
       const qureyHttpLink =
@@ -34,7 +39,7 @@ const UploadFiles = () => {
     }
 
     const operations = (metadata_id) => {
-      return `
+    return `
       query MyQuery {
         mb_views_active_listings(
           where: {metadata_id: {_eq: "${metadata_id}"}}
@@ -58,13 +63,11 @@ const UploadFiles = () => {
       );
       setNftData(data.mb_views_active_listings[0]);
     }
+
     fetchCheckNFT();
   }, [activeAccountId]);
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY
-  );
+
 
   const uploadFiles = async (e) => {
     let file;
@@ -116,7 +119,7 @@ const UploadFiles = () => {
         formdata
       )
       .then((response) => {
-        window.location.href = `/collection/${metadata_id}`;
+        window.location.href = `/collection`;
         setIsUploading(false);
       })
       .catch((error) => {
