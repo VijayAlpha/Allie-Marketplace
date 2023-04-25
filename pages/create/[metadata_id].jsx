@@ -8,16 +8,12 @@ import { createClient } from "@supabase/supabase-js";
 const UploadFiles = () => {
   const [nftData, setNftData] = useState();
   const [collectionImages, setCollectionImages] = useState();
+  const [isImagesUploaded, setIsImagesUploaded] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const { activeAccountId } = useWallet();
 
   const router = useRouter();
   const metadata_id = router.query.metadata_id;
-
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY
-  );
 
   useEffect(() => {
     async function fetchGraphQL(operationsDoc, operationName, variables) {
@@ -39,7 +35,7 @@ const UploadFiles = () => {
     }
 
     const operations = (metadata_id) => {
-    return `
+      return `
       query MyQuery {
         mb_views_active_listings(
           where: {metadata_id: {_eq: "${metadata_id}"}}
@@ -67,20 +63,31 @@ const UploadFiles = () => {
     fetchCheckNFT();
   }, [activeAccountId]);
 
-
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY
+  );
 
   const uploadFiles = async (e) => {
-    let file;
-    if (e.target.files) {
+    if (e.target?.files) {
       setCollectionImages(e.target.files);
-      file = e.target.files[0];
-    }
 
-    Array.from(e.target?.files).forEach(async (file) => {
-      const { data, error } = await supabase.storage
-        .from("collectionimages")
-        .upload(`${metadata_id}/${file?.name}`, file);
-    });
+      const files = Array.from(e.target.files);
+      let uploadedImage = [];
+
+      files.forEach(async (file, index) => {
+        const { data, error } = await supabase.storage
+          .from("collectionimages")
+          .upload(`${metadata_id}/image-${index}-${Date.now()}`, file);
+
+        if (data) {
+          uploadedImage.push(data);
+          if (uploadedImage.length === e.target.files.length) {
+            setIsImagesUploaded(true);
+          }
+        }
+      });
+    }
   };
 
   const handleCreateCollection = async (e) => {
@@ -178,35 +185,36 @@ const UploadFiles = () => {
               <form className="create-nft-form col-8">
                 <div className="upload-item mb-30">
                   {collectionImages ? (
-                    <p>Images Added, Ready to Create Collection...</p>
+                    isImagesUploaded ? (
+                      <p>Images Uploaded, Ready to Create Collection</p>
+                    ) : (
+                      <p>Images Uploading...</p>
+                    )
                   ) : (
                     <p>PNG,JPG,JPEG,SVG,WEBP</p>
                   )}
-
-                  <div className="custom-upload">
-                    {collectionImages ? (
-                      <div className="file-btn">
-                        <i className="icofont-check"></i>
-                        Added
-                      </div>
-                    ) : (
+                  
+                  {collectionImages ? (
+                    <></>
+                  ) : (
+                    <div className="custom-upload">
                       <div className="file-btn">
                         <i className="icofont-upload-alt"></i>
                         Upload a Images
                       </div>
-                    )}
 
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="title"
-                      onChange={(e) => {
-                        uploadFiles(e);
-                      }}
-                      multiple
-                      id="form-nftImage"
-                    />
-                  </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        name="title"
+                        onChange={(e) => {
+                          uploadFiles(e);
+                        }}
+                        multiple
+                        id="form-nftImage"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* <div className="upload-item mb-30">
@@ -243,8 +251,8 @@ const UploadFiles = () => {
                 </div> */}
                 <div className="submit-btn-field text-center">
                   {isUploading ? (
-                    <button type="submit">Uploading...</button>
-                  ) : (
+                    <button type="submit">Creating...</button>
+                  ) : isImagesUploaded ? (
                     <button
                       type="submit"
                       id="btn-upload-file"
@@ -252,6 +260,8 @@ const UploadFiles = () => {
                     >
                       Create Collection
                     </button>
+                  ) : (
+                    <></>
                   )}
                 </div>
               </form>
