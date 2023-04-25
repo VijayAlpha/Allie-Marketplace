@@ -3,15 +3,20 @@ import { CollectionCard } from "./../../components/CollectionCard";
 import axios from "axios";
 
 const CollectionPage = () => {
-  const [content, setContent] = useState();
+  const [collection, setCollection] = useState();
+  const [content, setContent] = useState("Loading...");
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection`
-      );
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection`
+        );
 
-      setContent(res.data);
+        setCollection(res.data?.collection.reverse());
+      } catch (err) {
+        setContent("Something went wrong!");
+      }
     };
     fetchData();
   }, []);
@@ -23,7 +28,9 @@ const CollectionPage = () => {
           <div className="page-header-content">
             <div className="page-header-inner">
               <div className="page-title">
-                <h2>Explore All Collections </h2>
+                <h2 onClick={console.log(collection)}>
+                  Explore All Collections{" "}
+                </h2>
               </div>
               <ol className="breadcrumb">
                 <li className="active">Explore</li>
@@ -38,37 +45,22 @@ const CollectionPage = () => {
           <div className="section-wrapper">
             <div className="explore-wrapper">
               <div className="row justify-content-start gx-4 gy-3">
-                {content ? (
-                  content.collection.length !== 0 ? (
-                    content.collection &&
-                    content.collection.map((post, id) => {
+                {collection ? (
+                  collection.length !== 0 ? (
+                    collection.map((post, id) => {
                       return <CollectionCard post={post} key={id} />;
                     })
                   ) : (
                     <h3>Sorry!... There is No Collection Now.</h3>
                   )
                 ) : (
-                  <h1>Loading..</h1>
+                  <h1>{content}</h1>
                 )}
               </div>
-            
             </div>
           </div>
         </div>
       </section>
-
-      {/* {content ? (
-        content.collection.length !== 0 ? (
-          content.collection &&
-          content.collection.map((post, id) => {
-            return <Collection post={post} key={id} />;
-          })
-        ) : (
-          <h3>Sorry!... There is No Collection Now.</h3>
-        )
-      ) : (
-        <h1>Loading..</h1>
-      )} */}
     </>
   );
 };
