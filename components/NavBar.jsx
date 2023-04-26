@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export const NavBar = () => {
   const [toggle, setToggle] = useState(false);
-
   const [isMobile, setIsMobile] = useState();
+  const { connect, disconnect, activeAccountId, isConnected } = useWallet();
 
   const toggleMenu = () => {
     let style;
@@ -33,7 +33,6 @@ export const NavBar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [setIsMobile, isMobile]);
 
-  const { connect, disconnect, activeAccountId, isConnected } = useWallet();
 
   return (
     <header className="header">

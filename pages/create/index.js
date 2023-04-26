@@ -1,50 +1,58 @@
 import { useEffect, useState } from "react";
+import { useWallet } from "@mintbase-js/react";
 import { NFTCard } from "../../components/NFTCard";
 
 const CreateCollection = () => {
   const [nftData, setNftData] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const { activeAccountId } = useWallet();
 
   useEffect(() => {
-    async function fetchGraphQL(operationsDoc, operationName, variables) {
-      const qureyHttpLink =
-        process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
-          ? "https://interop-mainnet.hasura.app/v1/graphql"
-          : "https://interop-testnet.hasura.app/v1/graphql";
-
-      const result = await fetch(qureyHttpLink, {
-        method: "POST",
-        body: JSON.stringify({
-          query: operationsDoc,
-          variables: variables,
-          operationName: operationName,
-        }),
-      });
-
-      return await result.json();
+    function isOwner() {
+      if (activeAccountId !== process.env.NEXT_PUBLIC_OWNER) {
+        window.location.href = "/";
+      }
     }
 
-    let nft_contract_id = process.env.NEXT_PUBLIC_CONTRACT_ID;
-
-    const operations = (nft_contract_id) => {
-      return `
-      query MyQuery {
-        mb_views_active_listings(
-          where: {nft_contract_id: {_eq: "${nft_contract_id}"}}
-          distinct_on: metadata_id
-        ) {
-          description      
-          media
-          metadata_id
-          price
-          title
-        }
-      }
-      
-    `;
-    };
-
     async function fetchCheckNFT() {
+      let nft_contract_id = process.env.NEXT_PUBLIC_CONTRACT_ID;
+
+      async function fetchGraphQL(operationsDoc, operationName, variables) {
+        const qureyHttpLink =
+          process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
+            ? "https://interop-mainnet.hasura.app/v1/graphql"
+            : "https://interop-testnet.hasura.app/v1/graphql";
+
+        const result = await fetch(qureyHttpLink, {
+          method: "POST",
+          body: JSON.stringify({
+            query: operationsDoc,
+            variables: variables,
+            operationName: operationName,
+          }),
+        });
+
+        return await result.json();
+      }
+
+      const operations = (nft_contract_id) => {
+        return `
+        query MyQuery {
+          mb_views_active_listings(
+            where: {nft_contract_id: {_eq: "${nft_contract_id}"}}
+            distinct_on: metadata_id
+          ) {
+            description      
+            media
+            metadata_id
+            price
+            title
+          }
+        }
+        
+      `;
+      };
+
       const { errors, data } = await fetchGraphQL(
         operations(nft_contract_id),
         "MyQuery",
@@ -54,6 +62,7 @@ const CreateCollection = () => {
       setNftData(data.mb_views_active_listings);
       setIsLoading(false);
     }
+    isOwner();
     fetchCheckNFT();
   }, []);
 
