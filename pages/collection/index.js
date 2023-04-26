@@ -28,7 +28,7 @@ const CollectionPage = () => {
           <div className="page-header-content">
             <div className="page-header-inner">
               <div className="page-title">
-                <h2 onClick={console.log(collection)}>
+                <h2>
                   Explore All Collections{" "}
                 </h2>
               </div>
