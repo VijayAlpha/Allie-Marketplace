@@ -8,6 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 const UploadFiles = () => {
   const [nftData, setNftData] = useState();
   const [collectionImages, setCollectionImages] = useState();
+  const [isImagesUploaded, setIsImagesUploaded] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const { activeAccountId } = useWallet();
 
@@ -58,6 +59,7 @@ const UploadFiles = () => {
       );
       setNftData(data.mb_views_active_listings[0]);
     }
+
     fetchCheckNFT();
   }, [activeAccountId]);
 
@@ -67,17 +69,25 @@ const UploadFiles = () => {
   );
 
   const uploadFiles = async (e) => {
-    let file;
-    if (e.target.files) {
+    if (e.target?.files) {
       setCollectionImages(e.target.files);
-      file = e.target.files[0];
-    }
 
-    Array.from(e.target?.files).forEach(async (file) => {
-      const { data, error } = await supabase.storage
-        .from("collectionimages")
-        .upload(`${metadata_id}/${file?.name}`, file);
-    });
+      const files = Array.from(e.target.files);
+      let uploadedImage = [];
+
+      files.forEach(async (file, index) => {
+        const { data, error } = await supabase.storage
+          .from("collectionimages")
+          .upload(`${metadata_id}/image-${index}-${Date.now()}`, file);
+
+        if (data) {
+          uploadedImage.push(data);
+          if (uploadedImage.length === e.target.files.length) {
+            setIsImagesUploaded(true);
+          }
+        }
+      });
+    }
   };
 
   const handleCreateCollection = async (e) => {
@@ -116,7 +126,7 @@ const UploadFiles = () => {
         formdata
       )
       .then((response) => {
-        window.location.href = `/collection/${metadata_id}`;
+        window.location.href = `/collection`;
         setIsUploading(false);
       })
       .catch((error) => {
@@ -175,35 +185,36 @@ const UploadFiles = () => {
               <form className="create-nft-form col-8">
                 <div className="upload-item mb-30">
                   {collectionImages ? (
-                    <p>Images Added, Ready to Create Collection...</p>
+                    isImagesUploaded ? (
+                      <p>Images Uploaded, Ready to Create Collection</p>
+                    ) : (
+                      <p>Images Uploading...</p>
+                    )
                   ) : (
                     <p>PNG,JPG,JPEG,SVG,WEBP</p>
                   )}
-
-                  <div className="custom-upload">
-                    {collectionImages ? (
-                      <div className="file-btn">
-                        <i className="icofont-check"></i>
-                        Added
-                      </div>
-                    ) : (
+                  
+                  {collectionImages ? (
+                    <></>
+                  ) : (
+                    <div className="custom-upload">
                       <div className="file-btn">
                         <i className="icofont-upload-alt"></i>
                         Upload a Images
                       </div>
-                    )}
 
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="title"
-                      onChange={(e) => {
-                        uploadFiles(e);
-                      }}
-                      multiple
-                      id="form-nftImage"
-                    />
-                  </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        name="title"
+                        onChange={(e) => {
+                          uploadFiles(e);
+                        }}
+                        multiple
+                        id="form-nftImage"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* <div className="upload-item mb-30">
@@ -240,8 +251,8 @@ const UploadFiles = () => {
                 </div> */}
                 <div className="submit-btn-field text-center">
                   {isUploading ? (
-                    <button type="submit">Uploading...</button>
-                  ) : (
+                    <button type="submit">Creating...</button>
+                  ) : isImagesUploaded ? (
                     <button
                       type="submit"
                       id="btn-upload-file"
@@ -249,6 +260,8 @@ const UploadFiles = () => {
                     >
                       Create Collection
                     </button>
+                  ) : (
+                    <></>
                   )}
                 </div>
               </form>

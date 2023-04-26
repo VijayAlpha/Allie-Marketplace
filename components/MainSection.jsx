@@ -42,73 +42,76 @@ export const MainSection = ({ collection }) => {
               </div>
             </div>
             <div className="col-lg-5">
-              <div className="nft-slider-wrapper">
-                <div className="swiper banner-item-slider-2">
-                  <div className="swiper-wrapper">
-                    <div className="swiper-slide">
-                      <div className="nft-item home-4">
-                        <div
-                          className="nft-inner"
-                          onClick={() => {
-                            let herfLink = `/collection/${collection?.metadata_id}`;
-                            window.open(herfLink, "_self");
-                          }}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {/* <!-- nft top part --> */}
-                          <div className="nft-item-top d-flex justify-content-between align-items-center">
-                            <div className="author-part">
-                              <ul className="author-list d-flex">
-                                <li className="single-author d-flex align-items-center">
-                                  <a href="#" className="veryfied">
-                                    <Image
-                                      loading="lazy"
-                                      src="/assets/images/seller/author.jpg"
-                                      alt="author-img"
-                                      width={100}
-                                      height={100}
-                                    />
-                                  </a>
-                                  <h6>
-                                    <a href="#">Aliie eve knox</a>
-                                  </h6>
-                                </li>
-                              </ul>
+              {collection ? (
+                <div className="nft-slider-wrapper">
+                  <div className="swiper banner-item-slider-2">
+                    <div className="swiper-wrapper">
+                      <div className="swiper-slide">
+                        <div className="nft-item home-4">
+                          <div
+                            className="nft-inner"
+                            onClick={() => {
+                              let herfLink = `/collection/${collection?.metadata_id}`;
+                              window.open(herfLink, "_self");
+                            }}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <div className="nft-item-top d-flex justify-content-between align-items-center">
+                              <div className="author-part">
+                                <ul className="author-list d-flex">
+                                  <li className="single-author d-flex align-items-center">
+                                    <a href="#" className="veryfied">
+                                      <Image
+                                        loading="lazy"
+                                        src="/assets/images/seller/author.jpg"
+                                        alt="author-img"
+                                        width={100}
+                                        height={100}
+                                      />
+                                    </a>
+                                    <h6>
+                                      <a href="#">Aliie eve knox</a>
+                                    </h6>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
-                          </div>
-                          {/* <!-- nft-bottom part --> */}
 
-                          <div className="nft-item-bottom">
-                            <div
-                              className="nft-thumb"
-                              style={{ width: "100%", height: "360px" }}
-                            >
-                              <Image
-                                src={
-                                  collection?.nftImage
-                                    ? collection?.nftImage
-                                    : "/no-image.png"
-                                }
-                                style={{objectFit : "cover" , objectPosition:"top"}}
-                                alt="nft-img"
-                                fill
-                              />
-                            </div>
-                            <div className="nft-content">
-                              <h4>
-                                <Link
-                                  href={`/collection/${collection?.metadata_id}`}
-                                >
-                                  {collection?.name}
-                                </Link>
-                              </h4>
-                              <div className="price-like d-flex justify-content-between align-items-center">
-                                <p className="nft-price">
-                                  Price:
-                                  <span className="yellow-color">
-                                    {priceNear}N
-                                  </span>
-                                </p>
+                            <div className="nft-item-bottom">
+                              <div
+                                className="nft-thumb"
+                                style={{ width: "100%", height: "360px" }}
+                              >
+                                <Image
+                                  src={
+                                    collection?.nftImage
+                                      ? collection?.nftImage
+                                      : "/no-image.png"
+                                  }
+                                  style={{
+                                    objectFit: "cover",
+                                    objectPosition: "top",
+                                  }}
+                                  alt="nft-img"
+                                  fill
+                                />
+                              </div>
+                              <div className="nft-content">
+                                <h4>
+                                  <Link
+                                    href={`/collection/${collection?.metadata_id}`}
+                                  >
+                                    {collection?.name}
+                                  </Link>
+                                </h4>
+                                <div className="price-like d-flex justify-content-between align-items-center">
+                                  <p className="nft-price">
+                                    Price:
+                                    <span className="yellow-color">
+                                      {priceNear}N
+                                    </span>
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -117,7 +120,9 @@ export const MainSection = ({ collection }) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>
