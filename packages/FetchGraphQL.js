@@ -16,6 +16,5 @@ export default async function fetchGraphQL(
     operationName: operationName,
   });
 
-  console.log(result.data);
   return result.data;
 }
