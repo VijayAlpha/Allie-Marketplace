@@ -1,10 +1,53 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import { utils } from "near-api-js";
 
 export const CollectionCard = ({ post }) => {
-  const priceYocto = post.price.toLocaleString().replace(/,/g, "");
+  const [nftData, setNFTData] = useState();
+
+  const priceYocto = nftData?.price.toLocaleString().replace(/,/g, "");
   const priceNear = utils.format.formatNearAmount(priceYocto, 2);
+
+
+  async function fetchGraphQL(operationsDoc, operationName, variables) {
+    const qureyHttpLink =
+      process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
+        ? "https://interop-mainnet.hasura.app/v1/graphql"
+        : "https://interop-testnet.hasura.app/v1/graphql";
+    const result = await fetch(qureyHttpLink, {
+      method: "POST",
+      body: JSON.stringify({
+        query: operationsDoc,
+        variables: variables,
+        operationName: operationName,
+      }),
+    });
+    return result.json();
+  }
+  const TOKEN_QUERY = (metadata_id_) => {
+    return `
+          query checkNFT {
+            mb_views_active_listings(
+              where: {metadata_id: {_eq: "${metadata_id_}"}}
+              limit: 1
+              order_by: {price: asc}
+            ) {
+              price
+            }
+          }
+        `;
+  };
+
+  const fetchTokenData = async () => {
+    const tokenData = await fetchGraphQL(TOKEN_QUERY(post.metadata_id), "checkNFT", {});
+    setNFTData(tokenData?.data.mb_views_active_listings[0]);
+  };
+
+  useEffect(() => {
+    fetchTokenData();
+  });
+
 
   return (
     <Link

@@ -26,10 +26,6 @@ export const Buy = ({ meta }) => {
     );
   };
 
-  useEffect(() => {
-    fetchTokenData();
-  });
-
   async function fetchGraphQL(operationsDoc, operationName, variables) {
     const qureyHttpLink =
       process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
@@ -51,6 +47,7 @@ export const Buy = ({ meta }) => {
             mb_views_active_listings(
               where: {metadata_id: {_eq: "${metadata_id_}"}}
               limit: 1
+              order_by: {price: asc}
             ) {
               token_id
               nft_contract_id
@@ -68,6 +65,10 @@ export const Buy = ({ meta }) => {
     const tokenData = await fetchGraphQL(TOKEN_QUERY(meta), "checkNFT", {});
     setNFTData(tokenData?.data.mb_views_active_listings[0]);
   };
+
+  useEffect(() => {
+    fetchTokenData();
+  });
 
   const NoTokens = (
     <section className="page-header-section style-1 vh-100">
