@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
+import fetchGraphQL from "../../packages/FetchGraphQL";
 
 const UploadFiles = () => {
   const [nftData, setNftData] = useState();
@@ -16,24 +17,6 @@ const UploadFiles = () => {
   const metadata_id = router.query.metadata_id;
 
   useEffect(() => {
-    async function fetchGraphQL(operationsDoc, operationName, variables) {
-      const qureyHttpLink =
-        process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
-          ? "https://interop-mainnet.hasura.app/v1/graphql"
-          : "https://interop-testnet.hasura.app/v1/graphql";
-
-      const result = await fetch(qureyHttpLink, {
-        method: "POST",
-        body: JSON.stringify({
-          query: operationsDoc,
-          variables: variables,
-          operationName: operationName,
-        }),
-      });
-
-      return await result.json();
-    }
-
     const operations = (metadata_id) => {
       return `
       query MyQuery {
@@ -61,7 +44,7 @@ const UploadFiles = () => {
     }
 
     fetchCheckNFT();
-  }, [activeAccountId]);
+  }, [activeAccountId , metadata_id]);
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
@@ -193,7 +176,7 @@ const UploadFiles = () => {
                   ) : (
                     <p>PNG,JPG,JPEG,SVG,WEBP</p>
                   )}
-                  
+
                   {collectionImages ? (
                     <></>
                   ) : (

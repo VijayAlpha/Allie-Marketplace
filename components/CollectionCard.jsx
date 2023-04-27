@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { utils } from "near-api-js";
+import fetchGraphQL from "../packages/FetchGraphQL";
 
 export const CollectionCard = ({ post }) => {
   const [nftData, setNFTData] = useState();
@@ -9,22 +10,6 @@ export const CollectionCard = ({ post }) => {
   const priceYocto = nftData?.price.toLocaleString().replace(/,/g, "");
   const priceNear = utils.format.formatNearAmount(priceYocto, 2);
 
-
-  async function fetchGraphQL(operationsDoc, operationName, variables) {
-    const qureyHttpLink =
-      process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
-        ? "https://interop-mainnet.hasura.app/v1/graphql"
-        : "https://interop-testnet.hasura.app/v1/graphql";
-    const result = await fetch(qureyHttpLink, {
-      method: "POST",
-      body: JSON.stringify({
-        query: operationsDoc,
-        variables: variables,
-        operationName: operationName,
-      }),
-    });
-    return result.json();
-  }
   const TOKEN_QUERY = (metadata_id_) => {
     return `
           query checkNFT {
@@ -40,14 +25,17 @@ export const CollectionCard = ({ post }) => {
   };
 
   const fetchTokenData = async () => {
-    const tokenData = await fetchGraphQL(TOKEN_QUERY(post.metadata_id), "checkNFT", {});
+    const tokenData = await fetchGraphQL(
+      TOKEN_QUERY(post.metadata_id),
+      "checkNFT",
+      {}
+    );
     setNFTData(tokenData?.data.mb_views_active_listings[0]);
   };
 
   useEffect(() => {
     fetchTokenData();
   });
-
 
   return (
     <Link
@@ -83,8 +71,13 @@ export const CollectionCard = ({ post }) => {
               className="nft-thumb"
               style={{ width: "100%", height: "300px" }}
             >
-              <Image loading="lazy" src={post.nftImage} style={{objectFit : "cover" , objectPosition:"top"}} alt="nft-img" fill />
-
+              <Image
+                loading="lazy"
+                src={post.nftImage}
+                style={{ objectFit: "cover", objectPosition: "top" }}
+                alt="nft-img"
+                fill
+              />
             </div>
             <div className="nft-content">
               <h4>{post.name}</h4>
