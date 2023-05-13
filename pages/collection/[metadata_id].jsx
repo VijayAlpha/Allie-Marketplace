@@ -14,8 +14,10 @@ export default function SingleCollection() {
 
   const [collectionData, setColllectionData] = useState();
   const [collectionImages, setColllectionImages] = useState();
+  const [newImages, setNewImages] = useState();
   const [imageDeleting, setImageDeleting] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [isImagesUploaded, setIsImagesUploaded] = useState(false);
   const [accessError, setError] = useState();
   const [userName, setUsername] = useState();
 
@@ -112,6 +114,29 @@ export default function SingleCollection() {
     }
   };
 
+  const uploadFiles = async (e) => {
+    if (e.target?.files) {
+      setNewImages(e.target.files);
+
+      const files = Array.from(e.target.files);
+      let uploadedImage = [];
+
+      files.forEach(async (file, index) => {
+        const { data, error } = await supabase.storage
+          .from("collectionimages")
+          .upload(`${metadata_id}/image-${index}-${Date.now()}`, file);
+
+        if (data) {
+          uploadedImage.push(data);
+          if (uploadedImage.length === e.target.files.length) {
+            setIsImagesUploaded(true);
+            location.reload();
+          }
+        }
+      });
+    }
+  };
+
   const Element = collectionData ? (
     <>
       <section className="profile-section padding-top padding-bottom">
@@ -167,11 +192,7 @@ export default function SingleCollection() {
                 </div>
               </div>
               <div className="profile-details">
-                <nav className="profile-nav h-100">
-                  {/* <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                    
-                  </div> */}
-                </nav>
+                <nav className="profile-nav h-100"></nav>
                 <div className="tab-content" id="nav-tabContent">
                   <div
                     className="tab-pane activity-page fade show active"
@@ -187,14 +208,57 @@ export default function SingleCollection() {
                                 className="tab-content activity-content"
                                 id="pills-tabContent"
                               >
+                                {editMode && (
+                                  <div className="create-nft py-5 px-4 d-flex justify-content-center mb-5" style={{background: "none"}}>
+                                    <form className="create-nft-form col-8">
+                                      <div className="upload-item mb-30">
+                                        {newImages ? (
+                                          isImagesUploaded ? (
+                                            <p>
+                                              Images Uploaded, Ready to Create
+                                              Collection
+                                            </p>
+                                          ) : (
+                                            <p>Images Uploading...</p>
+                                          )
+                                        ) : (
+                                          <p>PNG,JPG,JPEG,SVG,WEBP</p>
+                                        )}
+
+                                        {newImages ? (
+                                          <></>
+                                        ) : (
+                                          <div className="custom-upload">
+                                            <div className="file-btn">
+                                              <i className="icofont-upload-alt"></i>
+                                              Add More Images
+                                            </div>
+
+                                            <input
+                                              type="file"
+                                              accept="image/*"
+                                              name="title"
+                                              onChange={(e) => {
+                                                uploadFiles(e);
+                                              }}
+                                              multiple
+                                              id="form-nftImage"
+                                            />
+                                          </div>
+                                        )}
+                                      </div>
+                                    </form>
+                                  </div>
+                                )}
+
                                 <div
-                                  className="tab-pane fade mentions-section show active"
+                                  className="tab-pane fade mentions-section show active mt-4"
                                   id="pills-mentions"
                                   role="tabpanel"
                                   aria-labelledby="pills-mentions-tab"
                                 >
                                   <div className="row justify-content-center gx-3 gy-2">
-                                    {collectionImages ? (
+                                    {collectionImages && !imageDeleting ? (
                                       collectionImages.map((img, i) => {
                                         return (
                                           <div
