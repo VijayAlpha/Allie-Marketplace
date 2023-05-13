@@ -3,10 +3,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
 import { Buy } from "./../../components/Buy";
 
 export default function SingleCollection() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY
+  );
+
   const [collectionData, setColllectionData] = useState();
+  const [collectionImages, setColllectionImages] = useState();
   const [accessError, setError] = useState();
   const [userName, setUsername] = useState();
 
@@ -25,6 +32,24 @@ export default function SingleCollection() {
             connectedAccount: activeAccountId,
           },
         });
+
+        let imagesURL = [];
+
+        const { data: imageList, error: imageError } = await supabase.storage
+          .from("collectionimages")
+          .list(`${metadata_id}`, {
+            limit: 100,
+            offset: 0,
+          });
+
+        await imageList?.forEach(async (image) => {
+          let { data } = await supabase.storage
+            .from("collectionimages")
+            .getPublicUrl(`${metadata_id}/${image.name}`);
+
+          imagesURL.push(data.publicUrl);
+        });
+        setColllectionImages(imagesURL);
         setColllectionData(res.data.collection);
       } catch (error) {
         setError(error);
@@ -158,8 +183,8 @@ export default function SingleCollection() {
                                   aria-labelledby="pills-mentions-tab"
                                 >
                                   <div className="row justify-content-center gx-3 gy-2">
-                                    {collectionData ? (
-                                      collectionData.files.map((img, i) => {
+                                    {collectionImages ? (
+                                      collectionImages.map((img, i) => {
                                         return (
                                           <div
                                             className="col-lg-4 col-sm-6"
@@ -182,7 +207,10 @@ export default function SingleCollection() {
                                                   >
                                                     <img
                                                       src={`${img}`}
-                                                      style={{objectFit : "cover" , objectPosition:"top"}}
+                                                      style={{
+                                                        objectFit: "cover",
+                                                        objectPosition: "top",
+                                                      }}
                                                       alt="nft-img"
                                                     />
                                                   </div>

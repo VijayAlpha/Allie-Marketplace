@@ -77,22 +77,6 @@ const UploadFiles = () => {
     e.preventDefault();
     setIsUploading(true);
 
-    let imagesURL = [];
-
-    const { data: imageList, error: imageError } = await supabase.storage
-      .from("collectionimages")
-      .list(`${metadata_id}`, {
-        limit: 100,
-        offset: 0,
-      });
-
-    await imageList?.forEach(async (image) => {
-      let { data } = await supabase.storage
-        .from("collectionimages")
-        .getPublicUrl(`${metadata_id}/${image.name}`);
-      imagesURL.push(data.publicUrl);
-    });
-
     let formdata = {
       name: nftData.title,
       description: nftData.description,
@@ -100,7 +84,6 @@ const UploadFiles = () => {
       metadata_id: metadata_id,
       nftImage: nftData.media,
       connectedAccount: activeAccountId,
-      files: imagesURL,
     };
 
     axios
