@@ -14,6 +14,8 @@ export default function SingleCollection() {
 
   const [collectionData, setColllectionData] = useState();
   const [collectionImages, setColllectionImages] = useState();
+  const [imageDeleting, setImageDeleting] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [accessError, setError] = useState();
   const [userName, setUsername] = useState();
 
@@ -37,17 +39,17 @@ export default function SingleCollection() {
 
         const { data: imageList, error: imageError } = await supabase.storage
           .from("collectionimages")
-          .list(`${metadata_id}`, {
-            limit: 100,
-            offset: 0,
-          });
+          .list(`${metadata_id}`);
 
         await imageList?.forEach(async (image) => {
           let { data } = await supabase.storage
             .from("collectionimages")
             .getPublicUrl(`${metadata_id}/${image.name}`);
 
-          imagesURL.push(data.publicUrl);
+          imagesURL.push({
+            url: data.publicUrl,
+            fileName: `${metadata_id}/${image.name}`,
+          });
         });
         setColllectionImages(imagesURL);
         setColllectionData(res.data.collection);
@@ -66,6 +68,16 @@ export default function SingleCollection() {
       // alert("Click OK to Delete this collection.");
       let promptMsg = prompt("Type 'YES' to Delete this collection.");
       if (promptMsg == "YES") {
+        const { data: imageList, error: imageError } = await supabase.storage
+          .from("collectionimages")
+          .list(`${metadata_id}`);
+
+        await imageList?.forEach(async (image) => {
+          const { data, error } = await supabase.storage
+            .from("collectionimages")
+            .remove(`${metadata_id}/${image.name}`);
+        });
+
         const res = await axios({
           method: "DELETE",
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
@@ -85,6 +97,21 @@ export default function SingleCollection() {
     }
   };
 
+  const editImage = async (name) => {
+    try {
+      setImageDeleting(true);
+
+      const { data, error } = await supabase.storage
+        .from("collectionimages")
+        .remove(name);
+
+      location.reload();
+    } catch (err) {
+      setImageDeleting(false);
+      console.log(err);
+    }
+  };
+
   const Element = collectionData ? (
     <>
       <section className="profile-section padding-top padding-bottom">
@@ -101,13 +128,20 @@ export default function SingleCollection() {
 
                   {userName === process.env.NEXT_PUBLIC_OWNER ? (
                     <>
-                      <div
-                        className="edit-photo custom-upload"
-                        onClick={() => deleteCollection()}
-                      >
-                        <div className="file-btn">
+                      <div className="edit-photo custom-upload d-flex">
+                        <div
+                          className="file-btn px-2"
+                          onClick={() => deleteCollection()}
+                        >
                           <i className="icofont-trash"></i>
                           Delete
+                        </div>
+                        <div
+                          className="file-btn px-2"
+                          onClick={() => setEditMode(!editMode)}
+                        >
+                          <i className="icofont-edit"></i>
+                          Edit
                         </div>
                       </div>
                     </>
@@ -133,33 +167,10 @@ export default function SingleCollection() {
                 </div>
               </div>
               <div className="profile-details">
-                <nav className="profile-nav">
-                  <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                    {/* <button
-                      className="nav-link active"
-                      id="nav-allNft-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#allNft"
-                      type="button"
-                      role="tab"
-                      aria-controls="allNft"
-                      aria-selected="true"
-                    >
-                      Images
-                    </button>
-                    {/* <button
-                      className="nav-link"
-                      id="nav-about-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#about"
-                      type="button"
-                      role="tab"
-                      aria-controls="about"
-                      aria-selected="false"
-                    >
-                      About
-                    </button> */}
-                  </div>
+                <nav className="profile-nav h-100">
+                  {/* <div className="nav nav-tabs" id="nav-tab" role="tablist">
+                    
+                  </div> */}
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
                   <div
@@ -192,7 +203,22 @@ export default function SingleCollection() {
                                           >
                                             <div className="nft-item">
                                               <div className="nft-inner">
-                                                <div className="nft-item-bottom">
+                                                <div className="nft-item-bottom text-end">
+                                                  {editMode && (
+                                                    <button
+                                                      type="button"
+                                                      className="btn btn-danger mb-3"
+                                                      onClick={() =>
+                                                        editImage(img.fileName)
+                                                      }
+                                                    >
+                                                      Remove{" "}
+                                                      <span>
+                                                        <i className="icofont-trash"></i>
+                                                      </span>
+                                                    </button>
+                                                  )}
+
                                                   <div
                                                     className="nft-thumb"
                                                     style={{
@@ -201,12 +227,12 @@ export default function SingleCollection() {
                                                       cursor: "pointer",
                                                     }}
                                                     onClick={() => {
-                                                      let herfLink = `${img}`;
+                                                      let herfLink = `${img.url}`;
                                                       window.open(herfLink);
                                                     }}
                                                   >
                                                     <img
-                                                      src={`${img}`}
+                                                      src={`${img.url}`}
                                                       style={{
                                                         objectFit: "cover",
                                                         objectPosition: "top",
