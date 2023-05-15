@@ -50,7 +50,7 @@ const CollectionPage = () => {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection`
         );
 
-        setCollection(res.data?.collection.reverse());
+        setCollection(res.data?.collection); 
       } catch (err) {
         setContent("Something went wrong!");
       }
@@ -71,12 +71,12 @@ const CollectionPage = () => {
       setOwnedCollection(matchingCollection);
     };
 
-    if (activeAccountId) {
+    if (activeAccountId && !ownedCollection) {
       loadOwnedNFT();
       fetchAllCollection();
       sortOwnedCollection();
     }
-  }, [activeAccountId , collection , ownedNFT]);
+  }, [activeAccountId, collection, ownedNFT, ownedCollection]);
 
   return (
     <>
