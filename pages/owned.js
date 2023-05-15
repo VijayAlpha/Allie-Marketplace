@@ -50,7 +50,7 @@ const CollectionPage = () => {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection`
         );
 
-        setCollection(res.data?.collection); 
+        setCollection(res.data?.collection);
       } catch (err) {
         setContent("Something went wrong!");
       }
@@ -106,7 +106,7 @@ const CollectionPage = () => {
                       return <CollectionCard post={post} key={id} />;
                     })
                   ) : (
-                    <h3>Sorry!... There is No Collection Now.</h3>
+                    <h3>You own 0 Collection</h3>
                   )
                 ) : (
                   <h1>{content}</h1>
