@@ -20,8 +20,8 @@ const ListPage = () => {
         query ownedNFT {
           mb_views_nft_tokens(
             distinct_on: reference
-            where: {owner: {_eq: "${accountId}"}, _and: {burned_timestamp: {_is_null: true}}, minter: {_eq: "${accountId}"}, nft_contract_id: {_eq: "${contract_id}"}}
-            ) {
+            where: {minter: {_eq: "${accountId}"}, nft_contract_id: {_eq: "${contract_id}"}}
+          ) {
             nft_contract_id
             title
             description
@@ -30,6 +30,7 @@ const ListPage = () => {
             minted_timestamp
           }
         }
+        
       `;
       };
 
