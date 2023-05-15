@@ -73,16 +73,19 @@ export const NavBar = () => {
                     Collections
                   </Link>
                 </li>
-                <li
-                  className="header__nav-item"
-                  onClick={() => {
-                    setToggle(false);
-                  }}
-                >
-                  <Link href="/owned" className="header__nav-link">
-                    Owned Collections
-                  </Link>
-                </li>
+                {activeAccountId && (
+                  <li
+                    className="header__nav-item"
+                    onClick={() => {
+                      setToggle(false);
+                    }}
+                  >
+                    <Link href="/owned" className="header__nav-link">
+                      Owned Collections
+                    </Link>
+                  </li>
+                )}
+
                 <li
                   className="header__nav-item"
                   onClick={() => {

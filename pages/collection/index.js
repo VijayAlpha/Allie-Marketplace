@@ -40,7 +40,7 @@ const CollectionPage = () => {
         </div>
       </section>
 
-      <section className="explore-section padding-top padding-bottom">
+      <section className="explore-section padding-top padding-bottom min-vh-100">
         <div className="container">
           <div className="section-wrapper">
             <div className="explore-wrapper">
