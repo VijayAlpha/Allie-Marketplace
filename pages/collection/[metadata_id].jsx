@@ -3,10 +3,21 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
 import { Buy } from "./../../components/Buy";
 
 export default function SingleCollection() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY
+  );
+
   const [collectionData, setColllectionData] = useState();
+  const [collectionImages, setColllectionImages] = useState();
+  const [newImages, setNewImages] = useState();
+  const [imageDeleting, setImageDeleting] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [isImagesUploaded, setIsImagesUploaded] = useState(false);
   const [accessError, setError] = useState();
   const [userName, setUsername] = useState();
 
@@ -25,6 +36,24 @@ export default function SingleCollection() {
             connectedAccount: activeAccountId,
           },
         });
+
+        let imagesURL = [];
+
+        const { data: imageList, error: imageError } = await supabase.storage
+          .from("collectionimages")
+          .list(`${metadata_id}`);
+
+        await imageList?.forEach(async (image) => {
+          let { data } = await supabase.storage
+            .from("collectionimages")
+            .getPublicUrl(`${metadata_id}/${image.name}`);
+
+          imagesURL.push({
+            url: data.publicUrl,
+            fileName: `${metadata_id}/${image.name}`,
+          });
+        });
+        setColllectionImages(imagesURL);
         setColllectionData(res.data.collection);
       } catch (error) {
         setError(error);
@@ -41,6 +70,16 @@ export default function SingleCollection() {
       // alert("Click OK to Delete this collection.");
       let promptMsg = prompt("Type 'YES' to Delete this collection.");
       if (promptMsg == "YES") {
+        const { data: imageList, error: imageError } = await supabase.storage
+          .from("collectionimages")
+          .list(`${metadata_id}`);
+
+        await imageList?.forEach(async (image) => {
+          const { data, error } = await supabase.storage
+            .from("collectionimages")
+            .remove(`${metadata_id}/${image.name}`);
+        });
+
         const res = await axios({
           method: "DELETE",
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/collection/${metadata_id}`,
@@ -60,6 +99,44 @@ export default function SingleCollection() {
     }
   };
 
+  const editImage = async (name) => {
+    try {
+      setImageDeleting(true);
+
+      const { data, error } = await supabase.storage
+        .from("collectionimages")
+        .remove(name);
+
+      location.reload();
+    } catch (err) {
+      setImageDeleting(false);
+      console.log(err);
+    }
+  };
+
+  const uploadFiles = async (e) => {
+    if (e.target?.files) {
+      setNewImages(e.target.files);
+
+      const files = Array.from(e.target.files);
+      let uploadedImage = [];
+
+      files.forEach(async (file, index) => {
+        const { data, error } = await supabase.storage
+          .from("collectionimages")
+          .upload(`${metadata_id}/image-${index}-${Date.now()}`, file);
+
+        if (data) {
+          uploadedImage.push(data);
+          if (uploadedImage.length === e.target.files.length) {
+            setIsImagesUploaded(true);
+            location.reload();
+          }
+        }
+      });
+    }
+  };
+
   const Element = collectionData ? (
     <>
       <section className="profile-section padding-top padding-bottom">
@@ -76,13 +153,20 @@ export default function SingleCollection() {
 
                   {userName === process.env.NEXT_PUBLIC_OWNER ? (
                     <>
-                      <div
-                        className="edit-photo custom-upload"
-                        onClick={() => deleteCollection()}
-                      >
-                        <div className="file-btn">
+                      <div className="edit-photo custom-upload d-flex">
+                        <div
+                          className="file-btn px-2"
+                          onClick={() => deleteCollection()}
+                        >
                           <i className="icofont-trash"></i>
                           Delete
+                        </div>
+                        <div
+                          className="file-btn px-2"
+                          onClick={() => setEditMode(!editMode)}
+                        >
+                          <i className="icofont-edit"></i>
+                          Edit
                         </div>
                       </div>
                     </>
@@ -108,34 +192,7 @@ export default function SingleCollection() {
                 </div>
               </div>
               <div className="profile-details">
-                <nav className="profile-nav">
-                  <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                    {/* <button
-                      className="nav-link active"
-                      id="nav-allNft-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#allNft"
-                      type="button"
-                      role="tab"
-                      aria-controls="allNft"
-                      aria-selected="true"
-                    >
-                      Images
-                    </button>
-                    {/* <button
-                      className="nav-link"
-                      id="nav-about-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#about"
-                      type="button"
-                      role="tab"
-                      aria-controls="about"
-                      aria-selected="false"
-                    >
-                      About
-                    </button> */}
-                  </div>
-                </nav>
+                <nav className="profile-nav h-100"></nav>
                 <div className="tab-content" id="nav-tabContent">
                   <div
                     className="tab-pane activity-page fade show active"
@@ -151,15 +208,58 @@ export default function SingleCollection() {
                                 className="tab-content activity-content"
                                 id="pills-tabContent"
                               >
+                                {editMode && (
+                                  <div className="create-nft py-5 px-4 d-flex justify-content-center mb-5" style={{background: "none"}}>
+                                    <form className="create-nft-form col-8">
+                                      <div className="upload-item mb-30">
+                                        {newImages ? (
+                                          isImagesUploaded ? (
+                                            <p>
+                                              Images Uploaded, Ready to Create
+                                              Collection
+                                            </p>
+                                          ) : (
+                                            <p>Images Uploading...</p>
+                                          )
+                                        ) : (
+                                          <p>PNG,JPG,JPEG,SVG,WEBP</p>
+                                        )}
+
+                                        {newImages ? (
+                                          <></>
+                                        ) : (
+                                          <div className="custom-upload">
+                                            <div className="file-btn">
+                                              <i className="icofont-upload-alt"></i>
+                                              Add More Images
+                                            </div>
+
+                                            <input
+                                              type="file"
+                                              accept="image/*"
+                                              name="title"
+                                              onChange={(e) => {
+                                                uploadFiles(e);
+                                              }}
+                                              multiple
+                                              id="form-nftImage"
+                                            />
+                                          </div>
+                                        )}
+                                      </div>
+                                    </form>
+                                  </div>
+                                )}
+
                                 <div
-                                  className="tab-pane fade mentions-section show active"
+                                  className="tab-pane fade mentions-section show active mt-4"
                                   id="pills-mentions"
                                   role="tabpanel"
                                   aria-labelledby="pills-mentions-tab"
                                 >
                                   <div className="row justify-content-center gx-3 gy-2">
-                                    {collectionData ? (
-                                      collectionData.files.map((img, i) => {
+                                    {collectionImages && !imageDeleting ? (
+                                      collectionImages.map((img, i) => {
                                         return (
                                           <div
                                             className="col-lg-4 col-sm-6"
@@ -167,7 +267,22 @@ export default function SingleCollection() {
                                           >
                                             <div className="nft-item">
                                               <div className="nft-inner">
-                                                <div className="nft-item-bottom">
+                                                <div className="nft-item-bottom text-end">
+                                                  {editMode && (
+                                                    <button
+                                                      type="button"
+                                                      className="btn btn-danger mb-3"
+                                                      onClick={() =>
+                                                        editImage(img.fileName)
+                                                      }
+                                                    >
+                                                      Remove{" "}
+                                                      <span>
+                                                        <i className="icofont-trash"></i>
+                                                      </span>
+                                                    </button>
+                                                  )}
+
                                                   <div
                                                     className="nft-thumb"
                                                     style={{
@@ -176,13 +291,16 @@ export default function SingleCollection() {
                                                       cursor: "pointer",
                                                     }}
                                                     onClick={() => {
-                                                      let herfLink = `${img}`;
+                                                      let herfLink = `${img.url}`;
                                                       window.open(herfLink);
                                                     }}
                                                   >
                                                     <img
-                                                      src={`${img}`}
-                                                      style={{objectFit : "cover" , objectPosition:"top"}}
+                                                      src={`${img.url}`}
+                                                      style={{
+                                                        objectFit: "cover",
+                                                        objectPosition: "top",
+                                                      }}
                                                       alt="nft-img"
                                                     />
                                                   </div>

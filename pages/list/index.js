@@ -1,6 +1,7 @@
 // import { Wallet, Network, Chain } from "mintbase";
 import { useWallet } from "@mintbase-js/react";
 import { useState, useEffect, useRef } from "react";
+import fetchGraphQL from "../../packages/FetchGraphQL";
 import { NFTCard } from "./../../components/NFTCard";
 
 const ListPage = () => {
@@ -12,29 +13,15 @@ const ListPage = () => {
 
   const loadOwnedNFT = async () => {
     try {
-      async function fetchGraphQL(operationsDoc, operationName, variables) {
-        const qureyHttpLink =
-          process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
-            ? "https://interop-mainnet.hasura.app/v1/graphql"
-            : "https://interop-testnet.hasura.app/v1/graphql";
+      const contract_id = process.env.NEXT_PUBLIC_CONTRACT_ID;
 
-        const result = await fetch(qureyHttpLink, {
-          method: "POST",
-          body: JSON.stringify({
-            query: operationsDoc,
-            variables: variables,
-            operationName: operationName,
-          }),
-        });
-        return result.json();
-      }
-      const operations = (accountId, contract_id) => {
+      const TOKEN_QUERY = (accountId, contract_id) => {
         return `
         query ownedNFT {
           mb_views_nft_tokens(
             distinct_on: reference
-            where: {owner: {_eq: "${accountId}"}, _and: {burned_timestamp: {_is_null: true}}, minter: {_eq: "${accountId}"}, nft_contract_id: {_eq: "${contract_id}"}}
-            ) {
+            where: {minter: {_eq: "${accountId}"}, nft_contract_id: {_eq: "${contract_id}"}}
+          ) {
             nft_contract_id
             title
             description
@@ -43,17 +30,17 @@ const ListPage = () => {
             minted_timestamp
           }
         }
+        
       `;
       };
 
-      const contract_id = process.env.NEXT_PUBLIC_CONTRACT_ID;
-
       const returnedNftList = await fetchGraphQL(
-        operations(activeAccountId, contract_id),
+        TOKEN_QUERY(activeAccountId, contract_id),
         "ownedNFT",
         {}
       );
 
+      //This sorting method is used to sort by newly minted timpstamp
       const sortedArray = returnedNftList.data.mb_views_nft_tokens.sort(
         (a, b) => {
           return (
@@ -61,7 +48,6 @@ const ListPage = () => {
           );
         }
       );
-
       setNftList(sortedArray);
       setIsLoading(false);
     } catch (error) {
@@ -107,7 +93,6 @@ const ListPage = () => {
                   })
                 )}
               </div>
-          
             </div>
           </div>
         </div>

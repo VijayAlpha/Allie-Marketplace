@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import { execute, buy } from "@mintbase-js/sdk";
 import { utils } from "near-api-js";
+import fetchGraphQL from "../packages/FetchGraphQL";
 
 export const Buy = ({ meta }) => {
   const [nftData, setNFTData] = useState();
@@ -26,21 +27,6 @@ export const Buy = ({ meta }) => {
     );
   };
 
-  async function fetchGraphQL(operationsDoc, operationName, variables) {
-    const qureyHttpLink =
-      process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
-        ? "https://interop-mainnet.hasura.app/v1/graphql"
-        : "https://interop-testnet.hasura.app/v1/graphql";
-    const result = await fetch(qureyHttpLink, {
-      method: "POST",
-      body: JSON.stringify({
-        query: operationsDoc,
-        variables: variables,
-        operationName: operationName,
-      }),
-    });
-    return result.json();
-  }
   const TOKEN_QUERY = (metadata_id_) => {
     return `
           query checkNFT {

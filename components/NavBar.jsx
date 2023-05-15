@@ -33,7 +33,6 @@ export const NavBar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [setIsMobile, isMobile]);
 
-
   return (
     <header className="header">
       <div className="container-fluid">
@@ -64,13 +63,32 @@ export const NavBar = () => {
           <div className="header__menu ms-auto" style={toggleMenu()}>
             {activeAccountId !== process.env.NEXT_PUBLIC_OWNER ? (
               <ul className="header__nav mb-0">
-                <li className="header__nav-item" onClick={ () => {setToggle(false)}}>
-                  <Link href="/collection" className="header__nav-link" >
+                <li
+                  className="header__nav-item"
+                  onClick={() => {
+                    setToggle(false);
+                  }}
+                >
+                  <Link href="/collection" className="header__nav-link">
                     Collections
                   </Link>
                 </li>
-
-                <li className="header__nav-item"  onClick={ () => {setToggle(false)}}>
+                <li
+                  className="header__nav-item"
+                  onClick={() => {
+                    setToggle(false);
+                  }}
+                >
+                  <Link href="/owned" className="header__nav-link">
+                    Owned Collections
+                  </Link>
+                </li>
+                <li
+                  className="header__nav-item"
+                  onClick={() => {
+                    setToggle(false);
+                  }}
+                >
                   <Link href="/tipme" className="header__nav-link">
                     Tip me
                   </Link>
@@ -78,22 +96,42 @@ export const NavBar = () => {
               </ul>
             ) : (
               <ul className="header__nav mb-0">
-                <li className="header__nav-item"  onClick={ () => {setToggle(false)}}>
+                <li
+                  className="header__nav-item"
+                  onClick={() => {
+                    setToggle(false);
+                  }}
+                >
                   <Link href="/mint" className="header__nav-link">
                     Mint NFT
                   </Link>
                 </li>
-                <li className="header__nav-item" onClick={ () => {setToggle(false)}}>
+                <li
+                  className="header__nav-item"
+                  onClick={() => {
+                    setToggle(false);
+                  }}
+                >
                   <Link href="/list" className="header__nav-link">
                     List NFT
                   </Link>
                 </li>
-                <li className="header__nav-item"  onClick={ () => {setToggle(false)}}>
+                <li
+                  className="header__nav-item"
+                  onClick={() => {
+                    setToggle(false);
+                  }}
+                >
                   <Link href="/create" className="header__nav-link">
-                    Create Collection
+                    Create
                   </Link>
                 </li>
-                <li className="header__nav-item"  onClick={ () => {setToggle(false)}}>
+                <li
+                  className="header__nav-item"
+                  onClick={() => {
+                    setToggle(false);
+                  }}
+                >
                   <Link href="/collection" className="header__nav-link">
                     Collections
                   </Link>

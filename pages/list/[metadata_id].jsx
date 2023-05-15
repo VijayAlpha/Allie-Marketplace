@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@mintbase-js/react";
 import { depositStorage, execute, list, mint } from "@mintbase-js/sdk";
 import { utils } from "near-api-js";
+import fetchGraphQL from "../../packages/FetchGraphQL";
 
 const List = () => {
   const router = useRouter();
@@ -97,24 +98,6 @@ const List = () => {
   };
 
   useEffect(() => {
-    async function fetchGraphQL(operationsDoc, operationName, variables) {
-      const qureyHttpLink =
-        process.env.NEXT_PUBLIC_NEAR_NETWORK === "mainnet"
-          ? "https://interop-mainnet.hasura.app/v1/graphql"
-          : "https://interop-testnet.hasura.app/v1/graphql";
-
-      const result = await fetch(qureyHttpLink, {
-        method: "POST",
-        body: JSON.stringify({
-          query: operationsDoc,
-          variables: variables,
-          operationName: operationName,
-        }),
-      });
-
-      return await result.json();
-    }
-
     async function fetchCheckNFT() {
       const operations = (metadata_id) => {
         return `
@@ -221,7 +204,7 @@ const List = () => {
           <div className="page-header-content">
             <div className="page-header-inner">
               <div className="page-title">
-                <h2 >List For Sale</h2>
+                <h2>List For Sale</h2>
               </div>
             </div>
           </div>
@@ -275,7 +258,7 @@ const List = () => {
                         setListPrice(e.currentTarget.value);
                       }}
                     />
-                    <label htmlFor="floatingInput">Price of each Token</label>
+                    <label htmlFor="floatingInput">Price of each Token (NEAR)</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input
