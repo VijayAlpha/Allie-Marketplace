@@ -258,7 +258,7 @@ const List = () => {
                         setListPrice(e.currentTarget.value);
                       }}
                     />
-                    <label htmlFor="floatingInput">Price of each Token</label>
+                    <label htmlFor="floatingInput">Price of each Token (NEAR)</label>
                   </div>
                   <div className="form-floating mb-3">
                     <input

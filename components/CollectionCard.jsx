@@ -83,7 +83,10 @@ export const CollectionCard = ({ post }) => {
               <h4>{post.name}</h4>
               <div className="price-like d-flex justify-content-between align-items-center">
                 <p className="nft-price">
-                  Price: <span className="yellow-color">{priceNear}N</span>
+                  Price:{" "}
+                  <span className="yellow-color">
+                    {priceNear <= 0 ? "Sold out" : priceNear + " N"}
+                  </span>
                 </p>
               </div>
             </div>
