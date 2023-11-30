@@ -34,7 +34,7 @@ export default function Home() {
             <div className="header-shape">
               <span></span>
             </div>
-            <h3>NSFW Collections</h3>
+            <h3>Private Collections</h3>
           </div>
           <div className="section-wrapper">
             <div className="ex-drop-wrapper">

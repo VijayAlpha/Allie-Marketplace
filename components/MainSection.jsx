@@ -21,10 +21,10 @@ export const MainSection = ({ collection }) => {
                     <br />
                     Enjoy.
                   </span>
-                  The NSFW Content
+                  The Locked Content
                 </h1>
                 <p>
-                  Digital Marketplace For NSFW Content And Non-Fungible Tokens.
+                  Digital Marketplace For Locked Content And Non-Fungible Tokens.
                   Buy, Sell, And Discover Exclusive Digital Assets.
                 </p>
                 <div className="banner-btns d-flex flex-wrap">
